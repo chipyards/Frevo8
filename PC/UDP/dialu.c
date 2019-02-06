@@ -241,7 +241,7 @@ if ( retval < 0 )
 if ( retval == 0 )	// timout
    { irb->rxgot = 255; return; }
 
-retval = recv( udp_socket, irb->rxbuf, irb->rxcnt, 0 );
+retval = recv( udp_socket, (char *)irb->rxbuf, irb->rxcnt, 0 );
 if ( retval > 0 )
    { irb->rxgot = 0; return; }
 }
@@ -277,7 +277,7 @@ if ( retval < 0 )
 if ( retval == 0 )	// timout
    return 0;
 
-recv( udp_socket, irb->rxbuf, QIPILOT+4, 0 );
+recv( udp_socket, (char *)irb->rxbuf, QIPILOT+4, 0 );
 return 1;
 }
 
@@ -305,7 +305,7 @@ while ( irb->tenta )
 		 if ( dial_logfil != NULL )
 		    fprintf( dial_logfil, "  ~u~ flushed 1 message\n");
 		 }
-	got = send( udp_socket, irb->txbuf, irb->txcnt, 0 );
+	got = send( udp_socket, (char *)irb->txbuf, irb->txcnt, 0 );
 	if   ( got > 0 )
 	     irb->txgot = 0;
 	else { irb->txgot = irb->rxgot = 254; irb->tenta = 1; } // pas la peine d'insister

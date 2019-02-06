@@ -37,7 +37,7 @@ Definir PASS_USB pour passerelle USB, sinon c'est UDP
 #endif
 
 
-void gasp( char *fmt, ... )  /* fatal error handling */
+void gasp( const char *fmt, ... )  /* fatal error handling */
 {
   va_list  argptr;
   fprintf( stderr, "\nSTOP : " );

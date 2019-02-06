@@ -26,7 +26,7 @@ i2c_udp_mast.o : i2c_udp_mast.c ${HEADERS}
 	gcc -Wall -c -O3 i2c_udp_mast.c
 
 dialu.o : dialu.c ${HEADERS}
-	gcc -Wall -c -O3 dialu.c
+	gcc -Wall -c -O3 -Wno-misleading-indentation dialu.c
 
 diali.o : ../diali.c ${HEADERS}
 	gcc -Wall -c -O3 ../diali.c

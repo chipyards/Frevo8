@@ -8,6 +8,7 @@
 #include "../ipilot.h"
 #include "diali.h"
 #include "fpilot.h"
+#include "UDP/i2c_udp_mast.h"
 
 
 void gasp( char *fmt, ... );  /* fatal error handling */
