@@ -1,0 +1,81 @@
+# Makefile pour GTK2 sous MinGW (fake fpilot_fake)
+
+# directories
+GTKBASE= C:/Appli/GTK2
+
+# listes
+OBJS=  fpilot_fake.o \
+       crc32.o process.o xmlpb.o dirlist.o modpop2.o modadj.o catalog.o rview.o textgui.o artgui.o plot.o appli.o
+
+HEADERS=  ../fpilot.h \
+          ../crc32.h ../process.h ../xmlpb.h ../dirlist.h modpop2.h modadj.h catalog.h rview.h glostru.h textgui.h artgui.h plot.h
+
+LIBS= -lws2_32 -L$(GTKBASE)/lib \
+-lgtk-win32-2.0 -lgdk-win32-2.0 -lgdk_pixbuf-2.0 \
+-lgobject-2.0 -lglib-2.0 \
+-lgmodule-2.0 -lpangowin32-1.0 -lpango-1.0 \
+-lpangocairo-1.0 -lcairo -latk-1.0
+# -liconv <-- supprime depuis passage de gtk 2.8 a gtk 2.12 sous win2k
+
+# libs selon pkg-config --libs gtk+-2.0
+# -LC:/Appli/GTK2/lib -lgtk-win32-2.0 -lgdk-win32-2.0 -latk-1.0 -lgdk_pixbuf-2.0 \
+# -lpangowin32-1.0 -lgdi32 -lpangocairo-1.0 -lpango-1.0 -lcairo -lgobject-2.0 \
+# -lgmodule-2.0 -lglib-2.0 -lintl  
+
+# options
+INCS= -mms-bitfields -isystem $(GTKBASE)/include -isystem $(GTKBASE)/include/gtk-2.0 \
+-isystem $(GTKBASE)/lib/gtk-2.0/include -isystem $(GTKBASE)/include/glib-2.0 \
+-isystem $(GTKBASE)/lib/glib-2.0/include -isystem $(GTKBASE)/include/pango-1.0 \
+-isystem $(GTKBASE)/include/cairo -isystem $(GTKBASE)/include/atk-1.0
+
+# options selon pkg-config --cflags gtk+-2.0
+# -mms-bitfields -IC:/Appli/GTK2/include/gtk-2.0 -IC:/Appli/GTK2/lib/gtk-2.0/include \
+# -IC:/Appli/GTK2/include/atk-1.0 -IC:/Appli/GTK2/include/cairo -IC:/Appli/GTK2/include/pango-1.0 \
+# -IC:/Appli/GTK2/include/glib-2.0 -IC:/Appli/GTK2/lib/glib-2.0/include -IC:/Appli/GTK2/include/libpng12  
+
+# cibles
+
+ALL : $(OBJS) 
+	g++ -o fakemin.exe $(OBJS) $(LIBS) 
+
+clean : 
+	del *.o
+
+fpilot_fake.o : ../fpilot_fake.c ${HEADERS}
+	gcc -Wall -c -O3 ../fpilot_fake.c
+
+crc32.o : ../crc32.c ${HEADERS}
+	gcc -Wall -c -O3 ../crc32.c
+
+process.o : ../process.cpp  ${HEADERS}
+	g++ -Wall -c -O3 ../process.cpp
+
+xmlpb.o : ../xmlpb.cpp ${HEADERS}
+	g++ -Wall -Wno-uninitialized -c -O3 ../xmlpb.cpp
+
+dirlist.o : ../dirlist.cpp  ${HEADERS}
+	g++ -Wall -c -O3 ../dirlist.cpp
+
+modpop2.o : modpop2.c ${HEADERS}
+	gcc -Wall $(INCS) -c -O3 modpop2.c
+
+modadj.o : modadj.c ${HEADERS}
+	gcc -Wall $(INCS) -c -O3 modadj.c
+
+catalog.o : catalog.cpp  ${HEADERS}
+	g++ -Wall $(INCS) -c -O3 catalog.cpp
+
+rview.o : rview.cpp  ${HEADERS}
+	g++ -Wall $(INCS) -c -O3 rview.cpp
+
+textgui.o : textgui.cpp  ${HEADERS}
+	g++ -Wall $(INCS) -c -O3 textgui.cpp
+
+artgui.o : artgui.cpp  ${HEADERS}
+	g++ -Wall $(INCS) -c -O3 artgui.cpp
+
+plot.o : plot.cpp  ${HEADERS}
+	g++ -Wall $(INCS) -c -O3 plot.cpp
+
+appli.o : appli.cpp ${HEADERS}
+	g++ -Wall $(INCS) -c -O3 appli.cpp

@@ -1,0 +1,120 @@
+utilisation code source PIC 18F452 / Frevo8.2
+
+section ROM				BOOT	POOT	PROC	PASS	LCDB
+
+vecto_scn	vecto_cfg.asm		X	X	X	X	X
+jln_lib1	i2csla3_int.asm		X	X	X	X	X
+		fix_var.c		X	X	X	X	X
+jln_lib1	flash.c			X	X	X	X	X
+jln_lib1	flash_drv.asm		X	X	X	X	X
+finpr_scn	vect2.asm		X	-	X	-	-
+		BOOT\boot.c		X	-	-	-	-
+
+finpr_scn	PASS\vect2.asm		-	X2	-	X2	X2
+		PASS\fix_var2.c		-	X	-	X	X
+jln_lib2	PASS\asix.c		-	X	-	X	X
+jln_lib2	PASS\ethernet.c		-	X	-	X	X
+jln_lib2	PASS\ipsum.asm		-	X	-	X	X
+finp2_scn	PASS\vect3.asm		-	X	-	X	X
+jln_lib2	PASS\flusk.c		-	X	-	X	X
+		POOT\poot.c		-	X	-	-	-
+
+jln_lib3	tmr0_uart_int.asm	-	-	-	X	X
+jln_lib3	tmr0_uart.c		-	-	-	X	X
+
+jln_lib3	PROC\tmr0_rs485_int.asm	-	-	X	-	-
+jln_lib3	PROC\tmr0_rs485.c	-	-	X	-	-
+jln_lib3	PROC\omron.c		-	-	X	-	-
+jln_lib3	i2cmast_soft.c		-	-	X	X	-
+jln_lib3	PROC\i2cmast_soft_drv.asm -	-	X	X	-
+jln_lib3	PROC\tmr1.c		-	-	X	-	-
+jln_lib3	PROC\recipe.c		-	-	X	-	-
+jln_txt4	PROC\defpack.c		-	-	X	-	-
+jln_lib3	PROC\proc.c		-	-	X	-	-
+
+jln_lib3	PASS\mii.c		-	-	-	X	X
+jln_lib3	PASS\pass.c		-	-	-	X	-
+
+jln_lib3	LCDB\tmr1.c		-	-	-	-	X2
+jln_lib3	LCDB\kbd.asm		-	-	-	-	X
+jln_lib3	LCDB\xlcd.c		-	-	-	-	X
+jln_lib3	LCDB\rtui.c		-	-	-	-	X
+jln_lib3	LCDB\onew.c		-	-	-	-	X
+jln_lib4	LCDB\lcdb.c		-	-	-	-	X
+jln_lib4	LCDB\genRC6.asm		-	-	-	-	X
+
+
+Notes :
+- 'X2' denote un code source qui existe en 2 endroits avec le meme nom
+  et quelques des differences de contenu (mais role similaire)
+- il y a 2 ou 3 couches de soft,
+	- couche 1 (principalement jln_lib1) : bootloader I2C (BOOT)
+	- couche 2 (principalement jln_lib2) : bootloader UDP (POOT)
+		   (principalement jln_lib3) : appli (PROC)
+	- couche 3 (principalement jln_lib3) : appli (PASS ou LCDB)
+  pour chaque couche on recompile les couches precedentes mais elles ne
+  seront pas flashees --> contraintes (helas) :
+	- on doit toujours utiliser le meme compilateur !
+	- l'ordre de linkage est important (fichie .mcp fait a la main)
+- boot.c contient seulement un code dummy destine a etre recouvert,
+  le bootloader I2C est dans flash.c
+- poot.c contient seulement un code dummy destine a etre recouvert,
+  le bootloader UDP est dans flusk.c
+- en plus ethernet.c contient un petit bout de code dans la section ipnum_scn
+  pour adresse IP et fin adresse MAC, en memoire haute
+- attribution memoire (simplifie)
+			ALL, except	PROC
+	vecto_scn	0000-001F	0000-001F
+	jln_lib1	0020-02FF	0020-02FF
+	finpr_scn	0300-0347	0300-0347
+	jln_lib2	0348-0EBF	-
+	finp2_scn	0EC0-0F07	-
+	(libre)		0F08-2FFF	0348-1FFF
+	jln_lib3	3000-3FBF	2000-7CFF
+	ipnum_scn	3FC0-3FFF	-
+	jln_txt4			7D00-7FFF
+	jln_lib4	5000-6FFF	-
+
+OLD utilisation code source PIC 18F452 / --> Frevo8.1
+
+section ROM				BOOT	POOT	PROC	PASS	LCDB
+
+vecto_scn	vecto_cfg.asm		X	X	X	X	X
+jln_lib1	i2csla3_int.asm		X	X	X	X	X
+		fix_var.c		X	X	X	X	X
+jln_lib1	flash.c			X	X	X	X	X
+jln_lib1	flash_drv.asm		X	X	X	X	X
+finpr_scn	vect2.asm		X	-	X	-	-
+		BOOT\boot.c		X	-	-	-	-
+
+finpr_scn	PASS\vect2.asm		-	X2	-	X2	X2
+jln_lib2	tmr0_int.asm		-	X	-	X	X
+		PASS\fix_var2.c		-	X	-	X	X
+jln_lib2	PASS\asix.c		-	X	-	X	X
+jln_lib2	PASS\ethernet.c		-	X	-	X	X
+jln_lib2	PASS\ipsum.asm		-	X	-	X	X
+finp2_scn	PASS\vect3.asm		-	X	-	X	X
+jln_lib2	PASS\flusk.c		-	X	-	X	X
+		POOT\poot.c		-	X	-	-	-
+
+jln_lib3	PROC\tmr0_rs485_int.asm	-	-	X	-	-
+jln_lib3	PROC\tmr0_rs485.c	-	-	X	-	-
+jln_lib3	PROC\omron.c		-	-	X	-	-
+jln_lib3	i2cmast_soft.c		-	-	X	X	-
+jln_lib3	PROC\i2cmast_soft_drv.asm -	-	X	X	-
+jln_lib3	PROC\tmr1.c		-	-	X	-	-
+jln_lib3	PROC\recipe.c		-	-	X	-	-
+jln_txt4	PROC\defpack.c		-	-	X	-	-
+jln_lib3	PROC\proc.c		-	-	X	-	-
+
+jln_lib3	tmr0.c			-	-	-	X	X
+jln_lib3	PASS\mii.c		-	-	-	X	X
+jln_lib3	PASS\pass.c		-	-	-	X	-
+
+jln_lib3	LCDB\tmr1.c		-	-	-	-	X2
+jln_lib3	LCDB\kbd.asm		-	-	-	-	X
+jln_lib3	LCDB\xlcd.c		-	-	-	-	X
+jln_lib3	LCDB\rtui.c		-	-	-	-	X
+jln_lib3	LCDB\onew.c		-	-	-	-	X
+jln_lib4	LCDB\lcdb.c		-	-	-	-	X
+jln_lib4	LCDB\genRC6.asm		-	-	-	-	X

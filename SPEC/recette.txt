@@ -1,0 +1,221 @@
+Frevo8.1
+
+================================================================ cour 11 ==== 87 col ==
+RECETTE CHEZ AUTOMATE
+La recette chargee en RAM depuis ROM ou passerelle utilise un codage differentiel :
+chaque step herite de certains parametres du precedent DANS LE TEMPS
+--> possibles surprises en cas de rupture de sequence.
+
+- sequence :
+	- le step 0 est fige et n'est pas decrit dans la recette
+	- saut de step : peut etre :
+		- implicite (N+1)
+		- explicite inconditionnel
+		- explicite associe a un check
+		- cause par la commande IPILOT PSTEP
+	- chaque check cause un saut a un step explicite qui peut etre :
+		- 0 (abort)
+		- le step suivant dans la sequence (acceleration)
+		- un step d'alarme
+	- exception sur saut :
+		- si step n'existe pas, faire rien (depuis Frevo 7.9b)
+		  (anterieurement : step zero)
+		- mais du coup la recette boucle sur le dernier step (ce qui n'est pas
+		  grave s'il est en pause)
+- duree :
+	- la duree peut ne pas etre encodee dans la recette. Alors l'automate met une
+	  duree par defaut de zero et un flag pause.
+	  (Si une duree est encodee, le flag pause n'est pas mis)
+- delai de grace
+	- est toujours encode dans la recette, une valeur par defaut est donnee par le
+	  compilateur xml (0 depuis Frevo 8.0)
+- exceptions a la regle d'heritage :
+	- la duree n'est pas heritee - un step sans duree est en pause
+	  et sa duree potentielle (si le superviseur leve la pause) est 0
+	- donner une valeur SV a un podget reinitialise les limites (+- 12.5 % de SV)
+	  independamment du step precedent
+	- tout saut annule les flags des podgets en check et en rampe
+	  (N.B. avant Frevo 8.1g, les flags checks min et max etaient herites !)
+	- vannes jamais heritees, mais toutes fermees si omises dans le nouveau step
+	  (depuis Frevo 7.9b)
+- attente d'une valeur cible :
+	- faire un step sans pause, avec une duree longue
+	- utiliser le check pour continuer la recette (alors dans ce cas le check
+	  ne denonce pas une erreur, au contraire)
+	- si la duree est atteinte, ce sera au step suivant de faire un check
+	  pour detecter eventuel echec
+- fin de recette : saut au step zero sauf si dernier step en pause
+- rampes :
+	- SV est la valeur initiale, la valeur finale est SVmi ou SVma
+	- ne commencent q'apres le delai de grace deldg
+	- pas de check de PV (sur le podget concerne) pendant la rampe
+	  mais check PV possible sur les autres podgets
+	- une rampe sans SV demarre a la valeur courante de SV (pas de PV), ainsi
+	  avec deux steps de rampes en sens opposes on peut arriver a la valeur desiree
+	  "au plus vite"
+	- s'il y a plusieurs rampes concurrentes, la premiere qui atteint ou depasse la
+	  limite met fin au step, les autres valeurs restant ou elles sont.
+- chrono :
+	- le chrono (transmis au superviseur) s'arrete en cas de pause
+	- un step initialement en pause peut faire des checks, a condition d'avoir
+	  un delai de grace nul
+	- un step initialement en pause ne peut pas executer de rampe
+	- le superviseur peut forcer le chrono (cde PCHRON) pour avancer dans le step
+	  si on depasse la duree du step, le residu est impute au(x) step suivant(s)
+- commande IPILOT PSTEP pour forcer le saut a un step arbitraire
+	- si on est deja dans le step : reinitialisation chrono
+	- si le step n'existe pas : step zero
+- commande IPILOT PMANU controle les flags du step :
+	- flag PAUSE ==> simple pause
+	- flag MANU  ==> pause + autorisation action IPILOT sur vannes, MFCs, TEMs
+		- on peut passer en MANU dans n'importe quel step
+		- lorsqu'on desactive MANU, la recette reprend - les vannes sont
+		  remises dans l'etat du step mais les MFCs et TEMs sont stables
+		  jusqu'au prochain step (sauf cas de rampe)
+	- flag ROOT  ==> pause + autorisation ecriture RAM et acces transparent RS485
+		- il faut etre en step 0 pour activer le flag ROOT
+		- le flag ROOT interdit action PSTEP ou bouton START
+  N.B. les flags ne sont pas dans la recette - mais un step qui n'a pas de duree
+  est mis en pause, sinon flags nuls
+- parano
+	- les vannes sont remises a jour
+		- a chaque seconde sauf en MANU - de la parano pure
+	- les DACs sont remis a jour
+		- 3 fois (voir NEWSV dans recipe.h) a 1 s. d'intervalle a chaque new SV
+		- 1 fois en cas de rampe (cf check_ppod() dans recipe.c )
+	- les OMRONs sont remis a jour
+		- tant qu'ils ne rendent pas RV == SV, a 1.68 s d'intervalle, sauf
+		  au reset automate, alors SV est copie de RV
+		- tant que l'ecart n'atteint pas 10 degres (MINDIFT), en cas de rampe
+- cas d'absence ou non reponse
+	DAC : 
+		- en run, aucun effet - sera detectee seulement par check PV
+		  pour eviter le gaspillage de CPU, les DACs non actionnes par la
+		  recette ne sont pas interroges en I2C
+		- en manuel, retour code erreur IPILOT NAKI2C
+	OMRON :
+		- On va gaspiller un peu de CPU (IRQ driven) a envoyer des requetes
+		- on va voir RV et PV nuls
+- valeurs analog : il y a 10 bits (ADC), 12 bits (DAC), 16 bits (Frequ)
+	- dans l'automate on unifie tout a 16 bits justifies a gauche, ce qui permet
+	  des increments fractionnaires pour les rampes
+	- exception : reponse a la cde PFULL ou dans un but de compression les valeurs
+	  SV et PV sont re-tronquees a 12 bits sauf Frequ.
+	- Attention : changement par rapport aux versions anterieures : les commandes
+	  IPILOT DAC et TCONS prennent 16 bits justifies a gauche
+	- emission vers DAC : la fonction sendDAC effectue le decalage >> 4
+	- capture ADC : ADC du PIC effectue la justif. a gauche
+	- emission vers OMRON : la fonction setSV effectue le decalage >> 4
+	- reception OMRON : les fonctions getSV et getPV effectuent le decalage >> 4
+- CRC : un crc32 semblable a celui de zlib et zip est calcule sur la recette comprimee
+	- calcul toujours en background ( 1 tink/bit ==> max 630 ms avec 18F452 )
+	  les bits suivants sont dans la RAM de l'automate :
+	- bit CRC_READY : indique quand le calcul est termine
+	  si l'automate recoit la commande PCRC alors que ce bit est 0
+	  le calcul demarre
+	- bit CRC_AUTOR : autorise les sauts hors du step 0
+		- mis a 1 explicitement par le superviseur (cde PCRC)
+		- mis a 0 implicitement lors du chargement d'une recette (SYSDBG)
+	  Note : si ce bit passe a zero en cours de recette, le prochain saut sera
+	  un abort, mais ceci ne peut arriver pour le moment car on ne peut charger
+	  de recette que si on a mis le flag ROOT, qui ne peut s'activer que si
+	  recette est arretee.
+	
+- 4 modules optionnels : (par #ifdef dans proc.c )
+	- LEDS_RUN_PAUSE	Leds sur sorties electrovannes pour feedback visuel
+	- BOUTONS_ANALOG	boutons avec resistances sur adc canal 4
+	- AUDIOAudio sur sortie electrovanne
+	- SECU_SIH4		Limitation pression et interlock vannes (A COMPLETER)
+
+=======================================================================================
+RECETTE XML
+
+- step
+	- tout step doit avoir un numero entre 1 et 255 inclus
+	- l'action manuelle "Start" cause l'execution du step 1
+	- un step peut avoir une duree en s. Sa duree peut etre ecourtee par un check
+	  ou prolongee par une mise en pause manuelle.
+	- un step sans duree specifiee se mettra en pause de lui-meme, jusqu'a action
+	  manuelle "Cont". Alors le step suivant (implicite ou explicite) sera execute.
+	- le delai de grace pour les checks prend une valeur 0 par defaut s'il est omis
+
+- Valeurs de consigne "SV", "SVmi", "SVma", "SVinc", "SVdec"
+	- une valeur decimale eventuellement fractionnaire
+	- une lettre codant l'unite de mesure (precedee d'exactement 1 espace) :
+		d : degre ou direct (aussi defaut)
+			degre dans le cas d'un regu de temperature
+			direct dans le cas d'un DAC : echelle de 0 a 4095 (12 bits)
+		v : volts : echelle de 0.0 a 5.0
+		% : pourcent : echelle de 0.0 a 100.0
+		u : unite utilisateur (selon fours.xml) : echelle de 0.0 a "fs"
+		f : frequ (utilise pour Baratron et flamme) : echelle de 0 a "fs"
+	- les arrondis suivants sont effectues silencieusement :
+		- temperature : (d) au degre,
+		  sauf increments de rampes au 1/16 de degre soit 0.0625 degre
+		- consigne MFC (v, % ou u) au 1/4095 de la pleine echelle (12 bits)
+		- pression, flamme (f) au 1/65535 de la pleine echelle (16 bits)
+
+- si l'attribut texte d'un element manque, string vide sauf "--" pour les noms de
+  podgets dans (four.xml ??)
+- si l'attribut int d'un element manque, valeur zero
+- check verifie que chaque step :
+	soit a un successeur n+1
+	soit a un saut inconditionnel valide
+	soit est en pause (alors il bouclera si on fait cont)
+- check de coherence des rampes : montee avec SVinc et SVma, descente avec SVdec et SVmi TODO
+- check des sauts de checks et rampes
+	omission du saut detectee a partir de 8.1n (avant, saut a zero)
+	manque detection saut d'un step sur lui-meme
+
+=======================================================================================
+Usage des echelles :
+- artgui utilise la methode modget::pcu2stream pour les affichages :
+	- le type d'echelle courante du GUI pour les MFC (Volts, % ou user)
+	- le type 'd' pour les temperatures
+	- le type 'f' pour FRE (depuis 8.1d, avant ignorait fs ==> incoherence avec recette) 
+- rview (visu recette) utilise la methode modget::pcu2stream
+	- le type d'echelle courante du GUI pour les MFC (Volts, % ou user)
+	- le type 'd' pour les temperatures
+	- le type 'f' pour FRE ('u' jusqu'a 8.1c, ce qui causait une minuscule erreur)
+
+N.B. la difference entre 'u' et 'f' : full scale est 65520 (4095*16) pour 'u', 65535 pour 'f'
+N.B. les valeurs de l'automate pour le canal V/F "FRE" ne sont pas en Hz, on doit appliquer
+un facteur 10000000/33554432, ce qui equivaud a FS 65535 <==> 19530.96 Hz
+(la mesure serait faite sur 3.355 s ? en fait 33554432 c'est 2**25 )
+
+=======================================================================================
+Traitement recette XML
+- dans tous les cas le traitement se fait en 3 etapes
+	recipe::load_xml()	donne stat = -2 si erreur, verifie :
+		syntaxe
+		DTD (elements et attributs acceptables)
+		concordance numero four
+		presence attributs requis : numero de step, num ou nom licite de podget
+		validite numero de steps (non dupliques)
+		validite valeur analog (via modget::txt2pcu() )
+		validite option check ou rampe (via la map four::epod::flags[])
+	recipe::check()		donne stat = -2 si erreur, verifie :
+		existence destination des sauts, implicites ou explicites
+	recipe::make_pack()	ne verifie rien, calcule taille (non verifiee) et crc 
+- cette sequence est appliquee par 5 codes :
+	- four::scan_rec() pour chaque fichier xml du dir
+		travaille sur une recipe temporaire
+		copie les infos (tronquees) dans un vector de recipe_summary
+	- four::autosync() pour la recette dont le crc concorde avec la RAM du four
+		lit les crc dans le vector de recipe_summary
+		recharge la bonne recette dans four::recette
+	- choose_call() du GUI, apres retour de catalog_recettes() qui a propose la
+	  liste deja creee par four::scan_rec()
+		verifie enfin la taille du pack
+		uploade la recette si ok
+	- edi_but_call() du GUI catalog_recettes() qui produit un dump hexa avec
+	  commentaires (via recipe::dump_pack() )
+	- compilu() de CLI qui selon option :
+		verifie la taille du pack et uploade la recette si ok
+		produit un dump hexa avec commentaires (via recipe::dump_pack() )
+Notes :
+	- on a les memes checks dans tous les cas, sauf la taille qui n'est verifiee
+	  qu'au moment d'uploader (avec PIC18F452, la limite est 3 * 256 = 768)
+	- recipe::dump_pack() detecte les erreurs de codage qui ne doivent pas exister
+	  sauf bug.
+	  Il marche meme avec recette trop grosse, ce qui permet de voir ou degraisser

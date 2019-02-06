@@ -1,0 +1,28 @@
+# pour le test des conversions dans process.cpp
+
+OBJS=  xmlpb.o dirlist.o crc32.o process.o test_conv.o
+
+HEADERS=  ../crc32.h ../process.h ../xmlpb.h ../dirlist.h
+
+# cibles
+
+ALL : $(OBJS) 
+	g++ -o test_conv.exe -lm $(OBJS)
+
+clean : 
+	rm *.o
+
+crc32.o : ../crc32.c ${HEADERS}
+	gcc -Wall -c -O3 ../crc32.c
+
+process.o : ../process.cpp  ${HEADERS}
+	g++ -Wall -c -O3 ../process.cpp
+
+xmlpb.o : ../xmlpb.cpp ${HEADERS}
+	g++ -Wall -Wno-uninitialized -c -O3 ../xmlpb.cpp
+
+dirlist.o : ../dirlist.cpp  ${HEADERS}
+	g++ -Wall -c -O3 ../dirlist.cpp
+
+test_conv.o : test_conv.cpp ${HEADERS}
+	g++ -Wall -c -O3 test_conv.cpp

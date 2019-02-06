@@ -1,0 +1,230 @@
+Tube 7, "Tube 4.3 : Four LPCVD Poly/LTO", fichier depot_v2.xml
+depot Poly v2 - 30 mn reg. vide mini
+pack de 37 steps, 684 bytes, CRC=606a9bc0
+00 01 00  -------- STEP   1 -------------------------------
+01 ff ff  duree 65535 s.
+51 04 00  TEM 0 SVmi     4 -->    0
+52 c0 14  TEM 0 SVma  5312 -->  332
+53 60 02  TEM 0 rampe montante, step to go 2
+61 04 00  TEM 1 SVmi     4 -->    0
+62 40 13  TEM 1 SVma  4928 -->  308
+63 60 03  TEM 1 rampe montante, step to go 3
+71 04 00  TEM 2 SVmi     4 -->    0
+72 10 16  TEM 2 SVma  5648 -->  353
+73 60 04  TEM 2 rampe montante, step to go 4
+00 02 00  -------- STEP   2 -------------------------------
+01 ff ff  duree 65535 s.
+50 c0 14  TEM 0 SV    5312 -->  332
+61 04 00  TEM 1 SVmi     4 -->    0
+62 40 13  TEM 1 SVma  4928 -->  308
+63 60 05  TEM 1 rampe montante, step to go 5
+71 04 00  TEM 2 SVmi     4 -->    0
+72 10 16  TEM 2 SVma  5648 -->  353
+73 60 06  TEM 2 rampe montante, step to go 6
+00 03 00  -------- STEP   3 -------------------------------
+01 ff ff  duree 65535 s.
+51 04 00  TEM 0 SVmi     4 -->    0
+52 c0 14  TEM 0 SVma  5312 -->  332
+53 60 05  TEM 0 rampe montante, step to go 5
+60 40 13  TEM 1 SV    4928 -->  308
+71 04 00  TEM 2 SVmi     4 -->    0
+72 10 16  TEM 2 SVma  5648 -->  353
+73 60 07  TEM 2 rampe montante, step to go 7
+00 04 00  -------- STEP   4 -------------------------------
+01 ff ff  duree 65535 s.
+51 04 00  TEM 0 SVmi     4 -->    0
+52 c0 14  TEM 0 SVma  5312 -->  332
+53 60 06  TEM 0 rampe montante, step to go 6
+61 04 00  TEM 1 SVmi     4 -->    0
+62 40 13  TEM 1 SVma  4928 -->  308
+63 60 07  TEM 1 rampe montante, step to go 7
+70 10 16  TEM 2 SV    5648 -->  353
+00 05 00  -------- STEP   5 -------------------------------
+01 ff ff  duree 65535 s.
+50 c0 14  TEM 0 SV    5312 -->  332
+60 40 13  TEM 1 SV    4928 -->  308
+71 04 00  TEM 2 SVmi     4 -->    0
+72 10 16  TEM 2 SVma  5648 -->  353
+73 60 08  TEM 2 rampe montante, step to go 8
+00 06 00  -------- STEP   6 -------------------------------
+01 ff ff  duree 65535 s.
+50 c0 14  TEM 0 SV    5312 -->  332
+61 04 00  TEM 1 SVmi     4 -->    0
+62 40 13  TEM 1 SVma  4928 -->  308
+63 60 08  TEM 1 rampe montante, step to go 8
+70 10 16  TEM 2 SV    5648 -->  353
+00 07 00  -------- STEP   7 -------------------------------
+01 ff ff  duree 65535 s.
+51 04 00  TEM 0 SVmi     4 -->    0
+52 c0 14  TEM 0 SVma  5312 -->  332
+53 60 08  TEM 0 rampe montante, step to go 8
+60 40 13  TEM 1 SV    4928 -->  308
+70 10 16  TEM 2 SV    5648 -->  353
+00 08 64  -------- STEP   8 ------ delai de grace = 100 ---
+01 78 00  duree 120 s.
+03 0a 00  step to go 10
+50 c0 14  TEM 0 SV    5312 -->  332
+53 c0 96  TEM 0 min check, max check, step to go 150
+60 40 13  TEM 1 SV    4928 -->  308
+63 c0 96  TEM 1 min check, max check, step to go 150
+70 10 16  TEM 2 SV    5648 -->  353
+73 c0 96  TEM 2 min check, max check, step to go 150
+00 0a 00  -------- STEP  10 -------------------------------
+01 b4 00  duree 180 s.
+02 08 08  vannes 0808
+10 c0 cc  MFC 0 SV   52416 --> 3276 (80.0%)
+20 c0 cc  MFC 1 SV   52416 --> 3276 (80.0%)
+00 0b 00  -------- STEP  11 -------------------------------
+01 f0 00  duree 240 s.
+02 08 08  vannes 0808
+10 f0 28  MFC 0 SV   10480 -->  655 (16.0%)
+20 f0 28  MFC 1 SV   10480 -->  655 (16.0%)
+00 0c 00  -------- STEP  12 -------------------------------
+02 04 00  vannes 0004
+10 00 00  MFC 0 SV       0 -->    0 (0.0%)
+20 00 00  MFC 1 SV       0 -->    0 (0.0%)
+00 0d 0a  -------- STEP  13 ------ delai de grace =  10 ---
+01 b0 04  duree 1200 s.
+02 14 00  vannes 0014
+03 68 00  step to go 104
+81 49 9d  FRE   SVmi 40265 --> 2516
+83 80 0e  FRE   min check, step to go 14
+00 0e 0a  -------- STEP  14 ------ delai de grace =  10 ---
+01 b0 04  duree 1200 s.
+02 34 00  vannes 0034
+03 69 00  step to go 105
+50 e0 15  TEM 0 SV    5600 -->  350
+60 50 14  TEM 1 SV    5200 -->  325
+70 00 17  TEM 2 SV    5888 -->  368
+81 86 00  FRE   SVmi   134 -->    8
+83 80 0f  FRE   min check, step to go 15
+00 0f 21  -------- STEP  15 ------ delai de grace =  33 ---
+01 78 00  duree 120 s.
+03 14 00  step to go 20
+50 10 18  TEM 0 SV    6160 -->  385
+60 70 15  TEM 1 SV    5488 -->  343
+70 10 18  TEM 2 SV    6160 -->  385
+82 0c 01  FRE   SVma   268 -->   16
+83 40 6b  FRE   max check, step to go 107
+00 14 00  -------- STEP  20 -------------------------------
+01 ff ff  duree 65535 s.
+02 30 08  vannes 0830
+20 30 33  MFC 1 SV   13104 -->  819 (20.0%)
+51 04 00  TEM 0 SVmi     4 -->    0
+52 90 24  TEM 0 SVma  9360 -->  585
+53 60 15  TEM 0 rampe montante, step to go 21
+61 04 00  TEM 1 SVmi     4 -->    0
+62 f0 21  TEM 1 SVma  8688 -->  543
+63 60 15  TEM 1 rampe montante, step to go 21
+71 04 00  TEM 2 SVmi     4 -->    0
+72 90 24  TEM 2 SVma  9360 -->  585
+73 60 15  TEM 2 rampe montante, step to go 21
+00 15 dc  -------- STEP  21 ------ delai de grace = 220 ---
+01 58 02  duree 600 s.
+02 34 08  vannes 0834
+03 1e 00  step to go 30
+20 30 33  MFC 1 SV   13104 -->  819 (20.0%)
+50 90 24  TEM 0 SV    9360 -->  585
+53 c0 96  TEM 0 min check, max check, step to go 150
+60 f0 21  TEM 1 SV    8688 -->  543
+63 c0 96  TEM 1 min check, max check, step to go 150
+70 90 24  TEM 2 SV    9360 -->  585
+73 c0 96  TEM 2 min check, max check, step to go 150
+81 9f 02  FRE   SVmi   671 -->   41
+82 a9 13  FRE   SVma  5033 -->  314
+83 c0 6c  FRE   min check, max check, step to go 108
+00 1e 00  -------- STEP  30 -------------------------------
+01 1e 00  duree 30 s.
+02 06 06  vannes 0606
+20 60 66  MFC 1 SV   26208 --> 1638 (40.0%)
+00 1f 3c  -------- STEP  31 ------ delai de grace =  60 ---
+01 5a 00  duree 90 s.
+02 36 24  vannes 2436
+20 60 66  MFC 1 SV   26208 --> 1638 (40.0%)
+30 90 19  MFC 2 SV    6544 -->  409 (10.0%)
+33 c0 6e  MFC 2 min check, max check, step to go 110
+00 20 28  -------- STEP  32 ------ delai de grace =  40 ---
+01 3c 00  duree 60 s.
+02 3e 24  vannes 243e
+10 80 00  MFC 0 SV     128 -->    8 (0.2%)
+20 60 66  MFC 1 SV   26208 --> 1638 (40.0%)
+30 30 0a  MFC 2 SV    2608 -->  163 (4.0%)
+82 8e 06  FRE   SVma  1678 -->  104
+83 40 6d  FRE   max check, step to go 109
+00 21 28  -------- STEP  33 ------ delai de grace =  40 ---
+01 3c 00  duree 60 s.
+02 3e 24  vannes 243e
+20 60 66  MFC 1 SV   26208 --> 1638 (40.0%)
+30 00 00  MFC 2 SV       0 -->    0 (0.0%)
+32 10 05  MFC 2 SVma  1296 -->   81 (2.0%)
+33 40 6f  MFC 2 max check, step to go 111
+82 ef 03  FRE   SVma  1007 -->   62
+83 40 6d  FRE   max check, step to go 109
+00 22 00  -------- STEP  34 -------------------------------
+01 58 02  duree 600 s.
+02 3e 60  vannes 603e
+30 30 0a  MFC 2 SV    2608 -->  163 (4.0%)
+31 80 00  MFC 2 SVmi   128 -->    8 (0.2%)
+32 80 2b  MFC 2 SVma 11136 -->  696 (17.0%)
+33 60 23  MFC 2 rampe montante, step to go 35
+00 23 3c  -------- STEP  35 ------ delai de grace =  60 ---
+01 08 07  duree 1800 s.
+02 3e 60  vannes 603e
+03 28 00  step to go 40
+30 80 2b  MFC 2 SV   11136 -->  696 (17.0%)
+33 c0 79  MFC 2 min check, max check, step to go 121
+82 ef 03  FRE   SVma  1007 -->   62
+83 40 78  FRE   max check, step to go 120
+00 28 00  -------- STEP  40 -------------------------------
+01 3c 00  duree 60 s.
+02 3e 20  vannes 203e
+30 80 2b  MFC 2 SV   11136 -->  696 (17.0%)
+50 c0 14  TEM 0 SV    5312 -->  332
+60 40 13  TEM 1 SV    4928 -->  308
+70 10 16  TEM 2 SV    5648 -->  353
+00 29 00  -------- STEP  41 -------------------------------
+01 3c 00  duree 60 s.
+02 36 24  vannes 2436
+00 2a 00  -------- STEP  42 -------------------------------
+01 78 00  duree 120 s.
+02 34 00  vannes 0034
+00 2b 00  -------- STEP  43 -------------------------------
+01 10 0e  duree 3600 s.
+02 34 08  vannes 0834
+20 60 66  MFC 1 SV   26208 --> 1638 (40.0%)
+61 00 14  TEM 1 SVmi  5120 -->  320
+63 80 2c  TEM 1 min check, step to go 44
+00 2c 00  -------- STEP  44 -------------------------------
+02 34 08  vannes 0834
+03 0a 00  step to go 10
+20 90 19  MFC 1 SV    6544 -->  409 (10.0%)
+00 68 00  -------- STEP 104 -------------------------------
+02 00 80  vannes 8000
+03 00 00  step to go 0
+00 69 00  -------- STEP 105 -------------------------------
+02 00 80  vannes 8000
+03 00 00  step to go 0
+00 6b 00  -------- STEP 107 -------------------------------
+02 00 80  vannes 8000
+03 00 00  step to go 0
+00 6c 00  -------- STEP 108 -------------------------------
+02 00 80  vannes 8000
+03 00 00  step to go 0
+00 6d 00  -------- STEP 109 -------------------------------
+02 00 80  vannes 8000
+03 00 00  step to go 0
+00 6e 00  -------- STEP 110 -------------------------------
+02 00 80  vannes 8000
+03 28 00  step to go 40
+00 6f 00  -------- STEP 111 -------------------------------
+02 00 80  vannes 8000
+03 28 00  step to go 40
+00 78 00  -------- STEP 120 -------------------------------
+02 00 80  vannes 8000
+03 28 00  step to go 40
+00 79 00  -------- STEP 121 -------------------------------
+02 00 80  vannes 8000
+03 28 00  step to go 40
+00 96 00  -------- STEP 150 -------------------------------
+02 00 80  vannes 8000
+03 00 00  step to go 0

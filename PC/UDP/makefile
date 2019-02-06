@@ -1,0 +1,59 @@
+OBJS=  cli.o i2c_udp_mast.o dialu.o diali.o fpilot.o crc32.o \
+	   cli_bytes.o cli_ibase.o cli_iproc.o cli_flash.o cli_onew.o cli_rs485.o \
+	   process.o dirlist.o xmlpb.o
+HEADERS=  i2c_udp_mast.h ../fpilot.h ../crc32.h ../irb.h dialu.h ../diali.h \
+../cli_ibase.h ../cli_rs485.h ../cli_bytes.h ../cli_iproc.h ../cli_flash.h  ../cli_onew.h \
+../xmlpb.h ../dirlist.h ../process.h
+  
+# cibles
+
+ALL : $(OBJS) 
+	g++ -o f8udp $(OBJS)
+
+clean : 
+	rm *.o
+
+cli.o : ../cli.c ${HEADERS}
+	gcc -Wall -c -O3 ../cli.c
+
+i2c_udp_mast.o : i2c_udp_mast.c ${HEADERS}
+	gcc -Wall -c -O3 i2c_udp_mast.c
+
+dialu.o : dialu.c ${HEADERS}
+	gcc -Wall -c -O3 dialu.c
+
+diali.o : ../diali.c ${HEADERS}
+	gcc -Wall -c -O3 ../diali.c
+
+fpilot.o : ../fpilot.c ${HEADERS}
+	gcc -Wall -c -O3 ../fpilot.c
+
+crc32.o : ../crc32.c ${HEADERS}
+	gcc -Wall -c -O3 ../crc32.c
+
+cli_bytes.o : ../cli_bytes.c ${HEADERS}
+	gcc -Wall -c -O3 ../cli_bytes.c
+
+cli_iproc.o : ../cli_iproc.cpp ${HEADERS}
+	gcc -Wall -c -O3 ../cli_iproc.cpp
+
+cli_ibase.o : ../cli_ibase.c ${HEADERS}
+	gcc -Wall -c -O3 ../cli_ibase.c
+
+cli_flash.o : ../cli_flash.c ${HEADERS}
+	gcc -Wall -Wno-uninitialized -c -O3 ../cli_flash.c
+
+cli_onew.o : ../cli_onew.c ${HEADERS}
+	gcc -Wall -c -O3 ../cli_onew.c
+
+cli_rs485.o : ../cli_rs485.c ${HEADERS}
+	gcc -Wall -c -O3 ../cli_rs485.c
+
+process.o : ../process.cpp  ${HEADERS}
+	g++ -Wall -Wno-uninitialized -c -O3 ../process.cpp
+
+xmlpb.o : ../xmlpb.cpp ${HEADERS}
+	g++ -Wall -Wno-uninitialized -c -O3 ../xmlpb.cpp
+
+dirlist.o : ../dirlist.cpp ${HEADERS}
+	g++ -Wall -c -O3 ../dirlist.cpp

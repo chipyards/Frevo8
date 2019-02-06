@@ -1,0 +1,96 @@
+Commandes OMRON en ascii (quelques exemples, avec adresse 1)
+
+===================== READ VARIABLE =================
+
+Read SV :  cmd 0101  type C1, var. adr 3
+
+		5    4   2 4   2 4    total 21 bytes 
+		adr--    ty    bi    
+		     cmd-  var-  num-
+		010000101C10003000001
+
+Read PV :  cmd 0101  type C0, var. adr 0 (ou 1 pour status)
+
+		5    4   2 4   2 4    total 21 bytes 
+		adr--    ty    bi    
+		     cmd-  var-  num-
+		010000101C00000000001
+
+reponse :
+		4   2 4   4   8       total 22 bytes
+		adr-  cmd-    val--hex
+		    ok    ok--
+		0100000101000000000xxx
+
+Read Status :  cmd 0101  type C0, var. adr 1
+
+		     cmd-  var-  num-
+		010000101C00001000001
+
+reponse :
+		4   2 4   4   8       total 22 bytes
+		adr-  cmd-    val--hex
+		    ok    ok--
+		0100000101000002000100
+		0100000101000002100100
+			       ||  |
+	  comm. writing CWR ___/|  \_____ out1
+				|
+			1 : write mode RAM
+			2 : RAM is dirty
+
+=================== WRITE VARIABLE =================
+
+SET SV :   cmd 0102  type C1, var. adr 3
+
+                5    4   2 4   2 4   8       total 29 bytes 
+		adr--    ty    bi    val--hex
+		     cmd-  var-  num-
+		010000102C1000300000100000xxx
+
+reponse :
+		4   2 4   4   total 14 bytes
+		adr-  cmd-    
+		    ok    ok--
+		01000001020000
+
+================= READ ATTRIBUTE ====================
+
+		5    4   total 9 bytes 
+		adr--        
+		     cmd-
+		010000503
+
+reponse :
+		4   2 4   4   10        4   total 28 bytes
+		adr-  cmd-    model-----
+		    ok    ok--          buf-
+		01000005030000e5an-R3MT 0028
+
+================= OPERATION INSTR ===================
+
+   op = 01 pour "run/stop", val 01 pour stop, 00 pour run
+   op = 04 pour "backup",   val 01 pour RAM, 00 pour EEPROM
+
+		5    4   2 2 total 13 bytes 
+		adr--    op    
+		     cmd-  v-
+		0100030050401
+
+reponse :
+		4   2 4   4   total 14 bytes
+		adr-  cmd-    
+		    ok    ok--
+	ok	01000030050000
+	err.	01000F30051002
+
+--------------- notes sur la capacite de transport -----
+
+- OMRON overhead = 3 bytes (STX, ETX, BCC)
+- RS485 buffer sur firmware Frevo7 : 32 bytes
+Donc charge utile limitee a 29 bytes (Set SV est a la limite)
+(le dummy byte ajoute en fin de transmission est hors-buffer)
+
+- I2C overhead pour requete RS485R = 2 (opcode, CHK)
+- I2C overhead pour reponse RS485T = 3 (opcode, longueur, CHK)
+Donc I2C ne degrade pas la capacite de 29 bytes.

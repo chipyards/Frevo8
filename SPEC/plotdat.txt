@@ -1,0 +1,37 @@
+frevo 8.0y : systeme de memorisation des courbes : fichier binaire plotdat.bin
+
+Creation :
+- a chaque seconde, la reponse de l'automate a la commande PFULL (30 bytes)
+  est stockee a l'etat brut dans un buffer circulaire (ou 30 zeros si echec dialogue)
+  (fonction get_status() de fpilot.c)
+- toutes les 60s, le fichier de courbes est ouvert
+  pour y ecrire 1808 bytes (106 kbyte/h, 2.5 Mbyte/j, 907 Mbyte/an) :
+	- le numero du four (4 bytes !)
+	- le temps unix (4 bytes)
+	- les 60 paquets de 30 bytes
+  puis le fichier est referme.
+  (fonction plot_status() de appli.cpp, appelee peu apres get_status())
+- nom du fichier : forme <plotdir>/<locdir>/run_2008_10_21_12h45m25.bin
+  (fonction plot_new() de appli.cpp)
+- creation fichier automatique a chaque depart recette (arrivee au step 1),
+  terminaison a chaque arrivee au step 0
+  (N.B. le fichier est deja ferme, il est termine lorsque son nom est retire de l'usage)
+
+Condition d'ecriture :
+- le processus d'ecriture est effectue a condition que glo->ptube->recette.logname soit non vide
+- ce logname est cree ( fonction plot_new() ) chaque fois que :
+	- on arrive au step 1 de n'importe quel autre
+	- on quitte le step 0 pour n'importe quel autre (8.1o)
+	- on demarre le superviseur alors que l'automate est sur un step different de zero (8.1o)
+- ce logname est detruit (fonction plot_stop() ) chaque fois que :
+	- on arrive au step zero de n'importe quel autre
+
+Exploitation :
+- sur requete de l'utilisateur, le fichier binaire est converti en un fichier texte
+  d'une ligne par seconde, mis dans le meme dir
+  (fonction plot_text_view() de plot.cpp )
+
+Recette
+- recette inseree en texte au debut du fichier, terminee par un 0x7F
+  Pour compatibilite avec l'ancien systeme, le prog d'exploitation doit supporter l'absence
+  de recette (alors le .bin commence par 2 bytes nuls, MSBs du numero de four)
