@@ -9,7 +9,7 @@ HEADERS=  ../UDP/i2c_udp_mast.h ../UDP/dialu.h ../diali.h ../fpilot.h \
 # cibles
 
 ALL : $(OBJS) 
-	g++ -o gui80 `pkg-config --libs gtk+-2.0` -lm $(OBJS)
+	g++ -o gui80 $(OBJS) `pkg-config --libs gtk+-2.0` -lm
 
 clean : 
 	rm *.o

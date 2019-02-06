@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <time.h>
 #include "../ipilot.h"
 #include "diali.h"
 #include "fpilot.h"
@@ -17,6 +18,14 @@ using namespace std;
 #include "process.h"
 
 extern "C" void gasp( char *fmt, ... );  /* fatal error handling */
+
+static void mysleep( unsigned int seconds )
+{
+struct timespec ts;
+ts.tv_sec = (time_t)seconds;
+ts.tv_nsec = 0;
+nanosleep( &ts, NULL );
+}
 
 // static storage all in one
 extern four tube;
@@ -176,21 +185,21 @@ printf("step=%d, frequ=%7.1fHz (%d), t=%d\n",
 }
 
 #ifndef _WIN32
-static void siproc_poll( int period )
+static void siproc_poll( unsigned int period )
 {
 while(1)
    {
    show_secu();
-   sleep( period );
+   mysleep( period );
    }
 }
 
-static void iproc_poll( int period )
+static void iproc_poll( unsigned int period )
 {
 while(1)
    {
    emule_gui();
-   sleep( period );
+   mysleep( period );
    }
 }
 #endif
