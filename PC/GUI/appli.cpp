@@ -191,7 +191,7 @@ else {
 void display_status( glostru * glo )
 {
 char tbuf[256]; GdkColor rose;
-char * step_op_text; int mn, sec, dmn, dsec;
+const char * step_op_text; int mn, sec, dmn, dsec;
 static int old_step = 0;	// pour faire plot si au demarrage l'automate est sur un step != 0
 
 // cas de la perte de communication

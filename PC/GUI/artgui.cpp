@@ -852,7 +852,7 @@ for ( i = 0; i < recdir.dd.size(); i++ )
 	}
     }
 
-printf("lu %d images dans %s\n", glo->pix.size(), glo->ptube->pix_dir.c_str() );
+printf("lu %u images dans %s\n", (unsigned int)glo->pix.size(), glo->ptube->pix_dir.c_str() );
 
 // extraire image de fond */
 

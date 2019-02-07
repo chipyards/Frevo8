@@ -152,7 +152,7 @@ return(resu);
 
 extern GtkWindow * global_main_window;
 
-void gasp( char *fmt, ... )  /* fatal error handling */
+void gasp( const char *fmt, ... )  /* fatal error handling */
 {
 char tbuf[1024];
 va_list  argptr;

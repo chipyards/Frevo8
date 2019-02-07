@@ -4,7 +4,7 @@ extern "C" {
 
 /* fatal error handling */
   
-void gasp( char *fmt, ... );
+void gasp( const char *fmt, ... );
 
 /* popup dialog "modal" pour info ou exception
    il bloque tout le reste.

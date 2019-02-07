@@ -115,7 +115,7 @@ void step_data_call( GtkTreeViewColumn * tree_column,	// sert pas !
                      void              * glo )
 {
 lintype typ; int istep, ipod, ityp;
-gchar *text; char * cellback;
+gchar *text; const char * cellback;
 
 // recuperer les donnees dans les colonnes 0, 1 et 2 du modele
 // (pairs of column number and value return locations, terminated by -1)
@@ -150,15 +150,15 @@ void data_data_call( GtkTreeViewColumn * tree_column,	// sert pas !
 lintype typ; int istep, ipod, ival, ityp, pflags; epod * pepod; modget * fomod; 
 char scale; ostringstream obuf;
 rviewstru * glo = (rviewstru *)vglo;
-char * cellback="#C0C0C0";
-char * spBl ="<span background=\"#FFFFFF\" foreground=\"#000000\" >";
-char * spBlG="<span background=\"#FFFFFF\" foreground=\"#00AA33\" weight=\"bold\" >";	// vert
-char * spBlR="<span background=\"#FFFFFF\" foreground=\"#BB0000\" weight=\"bold\" >";	// rouge
-char * spBlB="<span background=\"#FFFFFF\" foreground=\"#0000BB\" weight=\"bold\" >";	// bleu
-char * spBlM="<span background=\"#FFFFFF\" foreground=\"#AA00AA\" weight=\"bold\" >";	// magenta
-char * spBlO="<span background=\"#FFFFFF\" foreground=\"#AA7700\" weight=\"bold\" >";	// orange
+const char * cellback="#C0C0C0";
+const char * spBl ="<span background=\"#FFFFFF\" foreground=\"#000000\" >";
+const char * spBlG="<span background=\"#FFFFFF\" foreground=\"#00AA33\" weight=\"bold\" >";	// vert
+const char * spBlR="<span background=\"#FFFFFF\" foreground=\"#BB0000\" weight=\"bold\" >";	// rouge
+const char * spBlB="<span background=\"#FFFFFF\" foreground=\"#0000BB\" weight=\"bold\" >";	// bleu
+const char * spBlM="<span background=\"#FFFFFF\" foreground=\"#AA00AA\" weight=\"bold\" >";	// magenta
+const char * spBlO="<span background=\"#FFFFFF\" foreground=\"#AA7700\" weight=\"bold\" >";	// orange
 
-char * sp0="</span>";
+const char * sp0="</span>";
 
 // recuperer les donnees dans les colonnes 0, 1 et 2 du modele
 gtk_tree_model_get( tree_model, iter, 0, &ityp, 1, &istep, 2, &ipod, -1 );

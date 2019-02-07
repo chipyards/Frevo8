@@ -24,7 +24,7 @@ diali.o : ../diali.c ${HEADERS}
 	gcc -Wall -c -O3 ../diali.c
 
 fpilot.o : ../fpilot.c ${HEADERS}
-	gcc -Wall -c -O3 ../fpilot.c
+	gcc -Wall -c -O3 -fno-strict-aliasing ../fpilot.c
 
 crc32.o : ../crc32.c ${HEADERS}
 	gcc -Wall -c -O3 ../crc32.c
@@ -36,7 +36,7 @@ xmlpb.o : ../xmlpb.cpp ${HEADERS}
 	g++ -Wall -Wno-uninitialized -c -O3 ../xmlpb.cpp
 
 dirlist.o : ../dirlist.cpp  ${HEADERS}
-	g++ -Wall -c -O3 ../dirlist.cpp
+	g++ -Wall -Wno-unused-result -c -O3 ../dirlist.cpp
 
 modpop2.o : modpop2.c ${HEADERS}
 	gcc -Wall $(INCS) -c -O3 modpop2.c
@@ -45,7 +45,7 @@ modadj.o : modadj.c ${HEADERS}
 	gcc -Wall $(INCS) -c -O3 modadj.c
 
 catalog.o : catalog.cpp  ${HEADERS}
-	g++ -Wall $(INCS) -c -O3 catalog.cpp
+	g++ -Wall -Wno-unused-result $(INCS) -c -O3 catalog.cpp
 
 rview.o : rview.cpp  ${HEADERS}
 	g++ -Wall $(INCS) -c -O3 rview.cpp
@@ -57,7 +57,7 @@ artgui.o : artgui.cpp  ${HEADERS}
 	g++ -Wall $(INCS) -c -O3 artgui.cpp
 
 plot.o : plot.cpp  ${HEADERS}
-	g++ -Wall $(INCS) -c -O3 plot.cpp
+	g++ -Wall -Wno-unused-result $(INCS) -c -O3 -fno-strict-aliasing plot.cpp
 
 appli.o : appli.cpp ${HEADERS}
 	g++ -Wall $(INCS) -c -O3 appli.cpp

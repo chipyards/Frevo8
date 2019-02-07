@@ -20,7 +20,7 @@ using namespace std;
 #include "dirlist.h"
 #include "crc32.h"
 
-extern "C" void gasp( char *fmt, ... );  /* fatal error handling */
+extern "C" void gasp( const char *fmt, ... );  /* fatal error handling */
 
 
 // static storage all in one
