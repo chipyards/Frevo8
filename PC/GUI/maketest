@@ -19,7 +19,7 @@ process.o : ../process.cpp  ${HEADERS}
 	g++ -Wall -c -O3 ../process.cpp
 
 xmlpb.o : ../xmlpb.cpp ${HEADERS}
-	g++ -Wall -Wno-uninitialized -c -O3 ../xmlpb.cpp
+	g++ -Wall -c -O3 ../xmlpb.cpp
 
 dirlist.o : ../dirlist.cpp  ${HEADERS}
 	g++ -Wall -c -O3 ../dirlist.cpp

@@ -17,7 +17,7 @@ using namespace std;
 #include "frevo_dtd.h"
 #include "process.h"
 
-extern "C" void gasp( char *fmt, ... );  /* fatal error handling */
+extern "C" void gasp( const char *fmt, ... );  /* fatal error handling */
 
 static void mysleep( unsigned int seconds )
 {
