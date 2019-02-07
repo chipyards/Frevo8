@@ -10,6 +10,7 @@
 #include <time.h>
 #include <math.h>
 #include <sys/stat.h>
+#include <locale.h>
 
 #include "modpop2.h"
 #include "../../ipilot.h"
@@ -850,6 +851,10 @@ glostru theglo;
 #define glo (&theglo)
 
 gtk_init(&argc,&argv);
+
+// problemo : gtk_init peut d'autorite configurer les libs en french,
+// alors certaines fonctions de glibc remplacent le point decimal par 1 virgule !!
+setlocale( LC_ALL, "C" );       // kill the frog, AFTER gtk_init
 
 glo->ptube = &tube;
 
