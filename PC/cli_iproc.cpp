@@ -152,17 +152,13 @@ if   ( dialogue_get_acces() == 'm' )
      {
      printf("  a : allumer\n");
      printf("  s : afficher status automate secu\n");
-#ifndef _WIN32
      printf("  S : afficher status automate secu en boucle\n");
-#endif
      }
 else {
      printf("  F : afficher status process Frevo 6+\n");
      printf("  f : afficher frequence canal Baratron Frevo 7.5+\n");
      printf("  g : afficher process style GUI 7.8\n");
-#ifndef _WIN32
      printf("  G : afficher process style GUI 7.8 en boucle\n");
-#endif
      printf("  c : lire CRC\n");
      printf("  a : autoriser CRC\n");
      printf("  + : avancer chrono de 10 s\n");
@@ -184,7 +180,6 @@ printf("step=%d, frequ=%7.1fHz (%d), t=%d\n",
 	sbuf[0], freq, sbuf[1], sbuf[2] );
 }
 
-#ifndef _WIN32
 static void siproc_poll( unsigned int period )
 {
 while(1)
@@ -202,7 +197,6 @@ while(1)
    mysleep( period );
    }
 }
-#endif
 
 static void siproc_ui()
 {
@@ -216,9 +210,7 @@ while ( ! fin )
      {
      case 'a' : secu_set_param( 0, 1 );		break;
      case 's' :	show_secu();			break;
-#ifndef _WIN32
      case 'S' :	siproc_poll( 2 );		break;
-#endif
      case ' ' : iproc_usage();			break;
      case 'q' : fin++;				break;
      default  :					break;
@@ -271,9 +263,7 @@ while ( ! fin )
 			sf.temp[i].pv, sf.temp[i].pv, ((double)sf.temp[i].pv)/16.0  );
 		}				break;
      case 'g' :	emule_gui();			break;
-#ifndef _WIN32
      case 'G' :	iproc_poll( 2 );		break;
-#endif
      case 'f' : {
 		status_full sf; double freq;
 		get_status( &sf );
