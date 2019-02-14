@@ -1,0 +1,76 @@
+<recette four="7" titre="test chauffe four LPCVD">
+	
+<step n="1" duree="65535" titre="montée a 308">
+	(noter l'absence de SV) inc = 0.1875 --> 11.5 deg/mn, 0.25 -> 15 deg/mn. 
+	<tem n="S" SVinc="0.25 d" SVma="332 d" rampe="montee" saut="2" />
+	<tem n="C" SVinc="0.25 d" SVma="308 d" rampe="montee" saut="3" />
+	<tem n="H" SVinc="0.25 d" SVma="353 d" rampe="montee" saut="4" />
+</step>
+<step n="2" duree="65535" titre="montée C, H">
+	<tem n="S" SV="332 d" />
+	<tem n="C" SVinc="0.25 d" SVma="308 d" rampe="montee" saut="5" />
+	<tem n="H" SVinc="0.25 d" SVma="353 d" rampe="montee" saut="6" />
+</step>
+<step n="3" duree="65535" titre="montée S, H">
+	<tem n="S" SVinc="0.25 d" SVma="332 d" rampe="montee" saut="5" />
+	<tem n="C" SV="308 d" />
+	<tem n="H" SVinc="0.25 d" SVma="353 d" rampe="montee" saut="7" />
+</step>
+<step n="4" duree="65535" titre="montée S, C">
+	<tem n="S" SVinc="0.25 d" SVma="332 d" rampe="montee" saut="6" />
+	<tem n="C" SVinc="0.25 d" SVma="308 d" rampe="montee" saut="7" />
+	<tem n="H" SV="353 d" />
+</step>
+<step n="5" duree="65535" titre="montée H">
+	<tem n="S" SV="332 d" />
+	<tem n="C" SV="308 d" />
+	<tem n="H" SVinc="0.25 d" SVma="353 d" rampe="montee" saut="8" />
+</step>
+<step n="6" duree="65535" titre="montée C">
+	<tem n="S" SV="332 d" />
+	<tem n="C" SVinc="0.25 d" SVma="308 d" rampe="montee" saut="8" />
+	<tem n="H" SV="353 d" />
+</step>
+<step n="7" duree="65535" titre="montée S">
+	<tem n="S" SVinc="0.25 d" SVma="332 d" rampe="montee" saut="8" />
+	<tem n="C" SV="308 d" />
+	<tem n="H" SV="353 d" />
+</step>
+<step n="8" duree="120" deldg="100" titre="verif temperature 308" saut="14" >
+	ce step sert pour le cas ou on serait parti d'une température supérieure
+	<tem n="S" SV="332 d" check="minmax" saut="150" />
+	<tem n="C" SV="308 d" check="minmax" saut="150" />
+	<tem n="H" SV="353 d" check="minmax" saut="150" />
+</step>
+	
+<step n="14" deldg="10" duree="120" titre="faux pompage" >
+	on chauffe deja un peu
+	<tem n="S" SV="350 d" />
+	<tem n="C" SV="325 d" />
+	<tem n="H" SV="368 d" />
+</step>
+<step n="15" deldg="33" duree="120" titre="test vide" saut="20" >
+	on chauffe encore un peu
+	<tem n="S" SV="385 d" />
+	<tem n="C" SV="343 d" />
+	<tem n="H" SV="385 d" />
+</step>
+	
+<step n="20" duree="65535" titre="montée a 543">
+	<tem n="S" SVinc="0.25 d" SVma="585 d" rampe="montee" saut="21" />
+	<tem n="C" SVinc="0.25 d" SVma="543 d" rampe="montee" saut="21" />
+	<tem n="H" SVinc="0.25 d" SVma="585 d" rampe="montee" saut="21" />
+</step>
+
+<step n="21" duree="240" deldg="220" titre="stabilisation temperature a 543" saut="0" >
+	<mfc n="N2|Ar" SV="1.0 u" />
+	<tem n="S" SV="585 d" check="minmax" saut="150" />
+	<tem n="C" SV="543 d" check="minmax" saut="150" />
+	<tem n="H" SV="585 d" check="minmax" saut="150" />
+</step>
+
+<step n="150" titre="temperature incorrecte" saut="0" >
+	<vanne n="15" />
+</step>
+
+</recette>

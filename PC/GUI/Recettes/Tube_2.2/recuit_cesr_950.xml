@@ -1,0 +1,98 @@
+<recette four="4" titre="recuit cesr 600-950">
+	<step n="1" duree="30" deldg="20" titre="verif temperature 600">
+		ce step fixe définitivement la température
+		<tem n="H" SV="600 d" check="minmax" saut="126" />
+		<tem n="C" SV="600 d" check="minmax" saut="126" />
+		<tem n="S" SV="600 d" check="minmax" saut="126" />
+	</step>
+	<step n="2" deldg="0" titre="chargement sous azote" saut="10">
+		<vanne n="N2|Ar" /> <vanne n="F. pur" />
+		<mfc n="N2|Ar" SV="3.0 u" />
+	</step>
+	<step n="10" duree="3600" deldg="2" titre="montée premiere etape (850)" saut="200">
+		objectif : 850 degres , en 2000s par rampe à 0.125 degres/s
+		(noter l'absence de SV)
+		<tem n="H" SVinc="0.125 d" SVma="850 d" rampe="montee" saut="11" />
+		<tem n="C" SVinc="0.125 d" SVma="850 d" rampe="montee" saut="11" />
+		<tem n="S" SVinc="0.125 d" SVma="850 d" rampe="montee" saut="11" />
+		<vanne n="N2|Ar" /> <vanne n="F. pur" />
+		<mfc n="N2|Ar" SV="2.0 u" />
+	</step>
+	<step n="11" duree="3600" deldg="2" titre="montée seconde etape (950)" saut="200">
+		objectif : 950 degres , en 1600s par rampe à 0.0625 degres/s
+		(noter l'absence de SV)
+		<tem n="H" SVinc="0.0625 d" SVma="950 d" rampe="montee" saut="20" />
+		<tem n="C" SVinc="0.0625 d" SVma="950 d" rampe="montee" saut="20" />
+		<tem n="S" SVinc="0.0625 d" SVma="950 d" rampe="montee" saut="20" />
+		<vanne n="N2|Ar" /> <vanne n="F. pur" />
+		<mfc n="N2|Ar" SV="1.5 u" />
+	</step>
+	<step n="20" duree="1800" deldg="120" titre="recuit 30mn a 950" saut="30">
+		<tem n="H" SV="950 d" check="minmax" saut="129"/>
+		<tem n="C" SV="950 d" check="minmax" saut="129"/>
+		<tem n="S" SV="950 d" check="minmax" saut="129"/>
+		<vanne n="N2|Ar" /> <vanne n="F. pur" />
+		<mfc n="N2|Ar" SV="1.5 u" />
+	</step>
+	<step n="30" deldg="2" duree="2000" titre="refroidissement etape 1 (850)" saut="200">
+		duree prevue 1600s
+		<tem n="H" SVdec="0.0625 d" SVmi="850 d" rampe="descente" saut="31" />
+		<tem n="C" SVdec="0.0625 d" SVmi="850 d" rampe="descente" saut="31" />
+		<tem n="S" SVdec="0.0625 d" SVmi="850 d" rampe="descente" saut="31" />
+		<vanne n="N2|Ar" /> <vanne n="F. pur" />
+		<mfc n="N2|Ar" SV="1.5 u" />
+	</step>
+	<step n="31" deldg="2" duree="800" titre="refroidissement palier 1 (850)">
+		<tem n="H" SV="850 d" />
+		<tem n="C" SV="850 d" />
+		<tem n="S" SV="850 d" />
+		<vanne n="N2|Ar" /> <vanne n="F. pur" />
+		<mfc n="N2|Ar" SV="1.5 u" />
+	</step>
+	<step n="32" deldg="2" duree="2000" titre="refroidissement etape 2 (750)" saut="200">
+		duree prevue 1600s
+		<tem n="H" SVdec="0.0625 d" SVmi="750 d" rampe="descente" saut="33" />
+		<tem n="C" SVdec="0.0625 d" SVmi="750 d" rampe="descente" saut="33" />
+		<tem n="S" SVdec="0.0625 d" SVmi="750 d" rampe="descente" saut="33" />
+		<vanne n="N2|Ar" /> <vanne n="F. pur" />
+		<mfc n="N2|Ar" SV="1.5 u" />
+	</step>
+	<step n="33" deldg="2" duree="800" titre="refroidissement palier 2 (750)">
+		<tem n="H" SV="750 d" />
+		<tem n="C" SV="750 d" />
+		<tem n="S" SV="750 d" />
+		<vanne n="N2|Ar" /> <vanne n="F. pur" />
+		<mfc n="N2|Ar" SV="1.5 u" />
+	</step>
+	<step n="34" deldg="2" duree="3600" titre="refroidissement etape 3 (600)" saut="200">
+		duree prevue 2400s
+		<tem n="H" SVdec="0.0625 d" SVmi="600 d" rampe="descente" saut="35" />
+		<tem n="C" SVdec="0.0625 d" SVmi="600 d" rampe="descente" saut="35" />
+		<tem n="S" SVdec="0.0625 d" SVmi="600 d" rampe="descente" saut="35" />
+		<vanne n="N2|Ar" /> <vanne n="F. pur" />
+		<mfc n="N2|Ar" SV="1.5 u" />
+	</step>
+
+
+	<step n="35" deldg="0" titre="dechargement sous azote">
+		<vanne n="N2|Ar" /> <vanne n="(FIN)" />
+		<mfc n="N2|Ar" SV="0.5 u" />
+		<tem n="H" SV="600 d" />
+		<tem n="C" SV="600 d" />
+		<tem n="S" SV="600 d" />
+	</step>
+	
+	<step n="126" deldg="0" titre="température de départ incorrecte" saut="1" >
+		vanne 15 reservée pour sonnerie
+		<vanne n="15" />
+	</step>
+	<step n="129" deldg="0" titre="température de recuit incorrecte" saut="0" >
+		vanne 15 reservée pour sonnerie
+		<vanne n="15" />
+	</step>
+	<step n="200" deldg="0" titre="echec rampe (limite duree)" saut="0" >
+		vanne 15 reservée pour sonnerie
+		<vanne n="15" />
+	</step>
+	
+</recette>

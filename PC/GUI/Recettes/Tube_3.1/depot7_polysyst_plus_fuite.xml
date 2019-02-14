@@ -1,0 +1,222 @@
+<recette four="5" titre="depot LTO v7 - 60 mn reg. vide 8%" >
+	- meilleur test baratron au step 21
+	- mise sous pression du mfc N2 des la stab, pour eviter la bouffee qui destabilise l'automate securite
+	- reduit delai de grace de la rampe soft start
+	- reduit temperatures de 10 degres suite fermeture buffet
+	- debits SiH4 et O2 de 10%
+	
+	<step n="1" duree="120" titre="mise a l'air rapide">
+		<vanne n="Rempl. N2" /> <vanne n="Reg. vide" /> <vanne n="Ferm. Purges" />
+		<mfc n="N2" SV="1.0 u" />
+	</step>
+	<step n="2" titre="mise a l'air lente">
+		<vanne n="Reg. vide" /> <vanne n="Ferm. Purges" />
+		<mfc n="N2" SV="0.2 u" />
+	</step>
+	<step n="3" titre="chargement">
+		<vanne n="Bal. pmp" /> <vanne n="Reg. vide" /> <vanne n="Ferm. Purges" />
+		<mfc n="N2" SV="0.2 u" />
+		<fre SVmi="7500.0 f" check="min" saut="112" />
+	</step>
+	<step n="4" deldg="10" duree="300" titre="prepompage" saut="104" >
+		<vanne n="Pre Pomp" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+		<fre SVmi="7000.0 f" check="min" saut="14" />
+	</step>
+	<step n="14" deldg="10" duree="300" titre="pompage" saut="105">
+		<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+		<tem n="S" SV="375 d" />
+		<tem n="C" SV="350 d" />
+		<tem n="H" SV="320 d" />
+		<fre SVmi="44.0 f" check="min" saut="15" />
+	</step>
+	<step n="15" deldg="33" duree="120" titre="test vide" saut="21" >
+		<vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+		<fre SVma="94.0 f" check="max" saut="106" />
+	</step>
+	
+	
+<step n="21" duree="1200" deldg="120" titre="stabilisation temp. a 420 ARMER SECURITE" >
+	du gaz pour la convection, on verifie la pression pas trop forte
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Ar tube" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+	<vanne n="Reg. vide" />
+	<mfc n="N2" SV="0.0 %" />
+	<mfc n="Ar" SV="0.1 u" />
+	<tem n="S" SV="375 d" check="minmax" saut="150" />
+	<tem n="C" SV="350 d" check="minmax" saut="150" />
+	<tem n="H" SV="320 d" check="minmax" saut="150" />
+	<fre SVma="1000.0 f" SVmi="150.0 f" check="minmax" saut="107" />
+</step>
+
+<step n="22" duree="300" deldg="5" titre="Vidage argon" saut="108" >
+	on enleve l'argon pour verifier la baisse de pression
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+	<vanne n="Reg. vide" />
+	<mfc n="N2" SV="0.0 %" />
+	<mfc n="Ar" SV="0.0 u" />
+	<fre SVmi="90.0 f" check="min" saut="23" />
+</step>
+
+<step n="23" duree="120" deldg="40" titre="purge/test MFC SiH4" >
+	on met un peu de N2 pour eviter remontee de pollution dans le tube
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> 
+	<vanne n="SiH4 ev." /> <vanne n="purge SiH4" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+	<vanne n="Reg. vide" />
+	<mfc n="N2" SV="10.0 %" />
+	<mfc n="SiH4" SV="20.0 %" check="minmax" saut="120" />
+</step>
+
+<step n="24" duree="80" deldg="40" titre="purge SiH4 / test O2" >
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> 
+	<vanne n="SiH4 ev." /> <vanne n="purge SiH4" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+	<vanne n="O2 ev." /> 
+	<vanne n="Reg. vide" />
+	<mfc n="N2" SV="5.0 %" />
+	<mfc n="SiH4" SV="5.0 %" />
+	<mfc n="O2" SV="20.0 %" check="minmax" saut="121" />
+</step>
+
+<step n="25" duree="60" deldg="30" titre="reduction debits SiH4 et O2" >
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" />
+	<vanne n="SiH4 ev." /> <vanne n="purge SiH4" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+	<vanne n="O2 ev." /> 
+	<vanne n="Reg. vide" />
+	<mfc n="N2" SV="5.0 %" />
+	<mfc n="SiH4" SV="0.0 %" SVmi="2.0 %" check="min" saut="26" />
+	<mfc n="O2" SV="0.0 %" />
+</step>
+
+<step n="26" duree="120" deldg="60" titre="Regu vide + admission oxygene ARMER SECURITE" >
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+	<vanne n="SiH4 ev." /> <vanne n="purge SiH4" />
+	<vanne n="O2 tube" />  <vanne n="Reg. vide" />
+	<mfc n="N2" SV="5.0 %" />
+	<mfc n="SiH4" SV="0.0 %" />
+	<mfc n="O2" SV="5.0 %" />
+	<fre SVma="500.0 f" check="max" saut="109" />
+</step>
+
+<step n="27" duree="4" titre="fermeture N2 purge" >
+	pour eviter remontee SiH4 vers N2...
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+	<vanne n="SiH4 tube" />
+	<vanne n="O2 tube" />   <vanne n="Reg. vide" />
+	<mfc n="N2" SV="5.0 %" />
+	<mfc n="SiH4" SV="0.0 %" />
+	<mfc n="O2" SV="5.0 %" />
+</step>
+
+<step n="28" duree="120" deldg="5" titre="soft start" >
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+	<vanne n="SiH4 tube" /> <vanne n="SiH4 src" />
+	<vanne n="O2 tube" />   <vanne n="Reg. vide" />
+	<mfc n="N2" SV="6.0 %" />
+	<mfc n="SiH4" SV="0.0 %" SVinc="0.2 %" SVma="10 %" rampe="montee" saut="29"/>
+	<mfc n="O2" SV="10.0 %" />
+</step>
+
+<step n="29" duree="3600" deldg="60" titre="depot" >
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+	<vanne n="SiH4 tube" /> <vanne n="SiH4 src" />
+	<vanne n="O2 tube" />   <vanne n="Reg. vide" />
+	<mfc n="N2" SV="8.0 %" />
+	<mfc n="SiH4" SV="10.0 %" SVmi="5 %" SVma="15 %" check="minmax" saut="122"/>
+	<mfc n="O2"   SV="10.0 %" SVmi="5 %" SVma="15 %" check="minmax" saut="123"/>/>
+	<fre SVma="800.0 f" check="max" saut="110" />
+</step>
+
+<step n="30" duree="60" deldg="20" titre="fermeture SiH4" >
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+	<vanne n="SiH4 tube" />
+	<vanne n="O2 tube" /> 
+	<mfc n="SiH4" SV="10.0 %"/>
+	<mfc n="O2"   SV="5.0 %"/>
+</step>
+
+<step n="31" duree="120" deldg="20" titre="fermeture O2" >
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+	<mfc n="SiH4" SV="0.0 %"/>
+	<mfc n="O2"   SV="0.0 %"/>
+	<fre SVmi="40.0 f" check="min" saut="32" />
+</step>
+
+<step n="32" duree="120" deldg="20" titre="balayage Ar" >
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Ar tube" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+	<mfc n="Ar" SV="0.2 u" />
+</step>
+
+<step n="33" duree="120" deldg="20" titre="Vidage argon" saut="111" >
+	on enleve l'argon pour laisser le tube sous vide le temps de purger les MFC
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+	<mfc n="Ar" SV="0.0 u" />
+	<fre SVmi="44.0 f" check="min" saut="34" />
+</step>
+
+<step n="34" duree="60" deldg="30" titre="purge MFC SiH4" >
+	Les vannes de vide sont fermees pour ne pas polluer le tube
+	<vanne n="SiH4 ev." /> <vanne n="purge SiH4" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+	<mfc n="SiH4" SV="100.0 %" />
+</step>
+
+<step n="35" duree="60" deldg="30" titre="fin purge SiH4" >
+	<vanne n="SiH4 ev." /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+	<mfc n="SiH4" SV="100.0 %" SVmi="5.0 %" check="min" saut="36"  />
+</step>
+
+<step n="36" titre="attente dechargement sous vide" saut="1" > 
+	PAUSE - on laisse un filet d'azote pour la securite
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Reg. vide" /> <vanne n="Ferm. Purges" />
+	<mfc n="N2" SV="10 %" />
+	<mfc n="SiH4" SV="0.0 %"/>
+</step>
+
+
+<!-- Les steps d'alarme de pression -->
+<step n="104" titre="echec pré-pompage" saut="0" >
+	<vanne n="15" /> <vanne n="Ferm. Purges" />
+</step>
+<step n="105" titre="echec pompage" saut="0" >
+	<vanne n="15" /> <vanne n="Ferm. Purges" />
+</step>
+<step n="106" titre="echec test etancheite" saut="0" >
+	<vanne n="15" /> <vanne n="Ferm. Purges" />
+</step>
+<step n="107" titre="pression incorrecte avec Ar" saut="0" >
+	<vanne n="15" /> <vanne n="Ferm. Purges" />
+</step>
+<step n="108" titre="echec pompage apres Ar" saut="0" >
+	<vanne n="15" /> <vanne n="Ferm. Purges" />
+</step>
+<step n="109" titre="exces pression sous O2" saut="36" >
+	<vanne n="15" /> <vanne n="Ferm. Purges" />
+</step>
+<step n="110" titre="exces pression pendant depot" saut="36" >
+	<vanne n="15" /> <vanne n="Ferm. Purges" />
+</step>
+<step n="111" titre="echec pompage final" saut="36" >
+	<vanne n="15" /> <vanne n="Ferm. Purges" />
+</step>
+<step n="112" titre="lecture pression trop basse" saut="0" >
+	<vanne n="15" /> <vanne n="Ferm. Purges" />
+</step>
+
+
+<!-- Les steps d'alarme de debits -->
+<step n="120" titre="echec test MFC SiH4" saut="0" >
+	<vanne n="15" /> <vanne n="Ferm. Purges" />
+</step>
+<step n="121" titre="echec test MFC O2" saut="0" >
+	<vanne n="15" /> <vanne n="Ferm. Purges" />
+</step>
+<step n="122" titre="erreur debit SiH4" saut="36" >
+	<vanne n="15" /> <vanne n="Ferm. Purges" />
+</step>
+<step n="123" titre="erreur debit O2" saut="36" >
+	<vanne n="15" /> <vanne n="Ferm. Purges" />
+</step>
+
+
+<step n="150" titre="temperature incorrecte" saut="36" >
+	<vanne n="15" /> <vanne n="Ferm. Purges" />
+</step>
+
+</recette>

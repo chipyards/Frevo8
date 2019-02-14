@@ -1,0 +1,13 @@
+<recette four="5" titre="test pause">
+	
+	<step n="1" titre="step 1">
+		<vanne n="Ferm. Purges" />
+	</step>
+	<step n="2" titre="step 2">
+		<vanne n="Ferm. Purges" />
+	</step>
+	<step n="3" titre="step 3" saut="0" >
+		<vanne n="Ferm. Purges" />
+	</step>
+
+</recette>

@@ -1,0 +1,59 @@
+<recette four="3" titre="oxydation de grille (sèche)">
+	
+	<step n="1" duree="65535" deldg="2" titre="montée a 1100">
+		ce step aura sa durée ajustée au temps nécessaire pour atteindre la temperature
+		demandée, 1100 degres , par rampe à 0.25 degres/s
+		(noter l'absence de SV)
+		<tem n="H" SVinc="0.25 d" SVma="1100 d" rampe="montee" saut="2" />
+		<tem n="C" SVinc="0.25 d" SVma="1100 d" rampe="montee" saut="2" />
+		<tem n="S" SVinc="0.25 d" SVma="1100 d" rampe="montee" saut="2" />
+	</step>
+	<step n="2" duree="30" deldg="20" titre="verif temperature 1100">
+		ce step fixe définitivement la température
+		<tem n="H" SV="1100 d" check="minmax" saut="150" />
+		<tem n="C" SV="1100 d" check="minmax" saut="150" />
+		<tem n="S" SV="1100 d" check="minmax" saut="150" />
+	</step>
+	<step n="3" deldg="0" titre="attente chargement sous azote">
+		<vanne n="N2|Ar" /> <vanne n="F. pur" />
+		<mfc n="N2|Ar" SV="0.8 u" />
+	</step>
+	<step n="4" deldg="0" titre="chargement sous argon">
+		<vanne n="N2|Ar" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" />
+		<mfc n="N2|Ar" SV="1.0 u" />
+	</step>
+	<step n="5" deldg="30" duree="1200" titre="oxydation O2 pur" >
+		<vanne n="O2" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" />
+		<mfc n="N2|Ar" SV="0 u" />
+		<mfc n="O2" SV="2.0 u" check="minmax" saut="105" />
+	</step>
+	<step n="6" deldg="30" duree="600" titre="purge tube avec Ar" >
+		<vanne n="N2|Ar" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" />
+		<mfc n="O2" SV="0 u" />
+		<mfc n="N2|Ar" SV="2.0 u" check="minmax" saut="103" />
+	</step>
+	<step n="7" deldg="0" titre="dechargement (sonnerie)">
+		<vanne n="N2|Ar" /> <vanne n="Sel. Ar" /> <vanne n="15" /> <vanne n="(FIN)" />
+		<mfc n="N2|Ar" SV="1.5 u" />
+	</step>
+	<step n="8" deldg="0" duree="1800" titre="dechargement (30mn d'argon)" saut="0" >
+		<vanne n="N2|Ar" /> <vanne n="Sel. Ar" /> <vanne n="(FIN)" />
+		<mfc n="N2|Ar" SV="1.0 u" />
+	</step>
+
+<!-- Les steps d'alarme -->
+	
+<step n="103" deldg="0" titre="manque gaz Ar" saut="8" >
+		on est ici parceque peut etre le gaz manque
+		<vanne n="N2|Ar" /> <vanne n="Sel. Ar" /> <vanne n="15" />
+	</step>
+	<step n="105" deldg="0" titre="manque gaz O2" saut="5" >
+		on est ici parceque peut etre le gaz manque
+		<vanne n="O2" /> <vanne n="F. pur" /> <vanne n="15" />
+	</step>
+	<step n="150" deldg="0" titre="température incorrecte" saut="3" >
+		vanne 15 reservée pour sonnerie
+		<vanne n="15" />
+	</step>
+
+</recette>

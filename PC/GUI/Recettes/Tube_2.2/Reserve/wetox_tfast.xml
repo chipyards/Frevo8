@@ -1,0 +1,130 @@
+<recette four="4" titre="oxydation humide">
+	<step n="1" duree="65535" deldg="2" titre="montée a 1100">
+		ce step aura sa durée ajustée au temps nécessaire pour atteindre la temperature
+		demandée, 1100 degres , par rampe à 0.25 degres/s
+		(noter l'absence de SV)
+		<tem n="H" SVinc="0.25 d" SVma="1100 d" rampe="montee" saut="2" />
+		<tem n="C" SVinc="0.25 d" SVma="1100 d" rampe="montee" saut="2" />
+		<tem n="S" SVinc="0.25 d" SVma="1100 d" rampe="montee" saut="2" />
+	</step>
+	<step n="2" duree="30" deldg="20" titre="verif temperature 1100">
+		ce step fixe définitivement la température
+		<tem n="H" SV="1100 d" check="minmax" saut="150" />
+		<tem n="C" SV="1100 d" check="minmax" saut="150" />
+		<tem n="S" SV="1100 d" check="minmax" saut="150" />
+	</step>
+	<step n="3" deldg="0" titre="chargement sous argon">
+		<vanne n="N2|Ar" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" /> <vanne n="Torche" />
+		<mfc n="N2|Ar" SV="1.0 u" />
+	</step>
+	<step n="4" deldg="30" titre="stab oxygène, vérif visuelle MFC H2">
+		<vanne n="O2" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" /> <vanne n="Torche" />
+		<mfc n="O2" SV="1.5 u" />
+		<mfc n="H2" SV="0.5 u" />
+	</step>
+	<step n="5" deldg="30" titre="fermeture MFC H2, armez sécurité SVP">
+		<vanne n="O2" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" /> <vanne n="Torche" />
+		<mfc n="H2" SV="0.0 u" />
+	</step>
+	<step n="6" deldg="0" duree="1" titre="fermeture purge H2" >
+		Pour ne pas envoyer de H2 dans la ligne Ar
+		<vanne n="O2" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" /> <vanne n="Torche" />
+		<vanne n="F.Pu. H2" />
+	</step>
+	<step n="7" deldg="5" duree="80" titre="rampe allumage H2 (sauter à 8 si ok)" saut="8" >
+		il faut sauter manuellement au step 8 si la flamme est allumee
+		<vanne n="O2" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" /> <vanne n="Torche" />
+		<vanne n="F.Pu. H2" /> <vanne n="H2" />
+		<mfc n="O2" SV="1.5 u" />
+		duree nominale de la rampe : 1.1 / 0.05 = 22 s, ce qui est moins que la duree
+		nominale du step ==> si operateur ne fait rien , saut en 105
+		<mfc n="H2" SV="0.0 u" SVinc="0.05 u" SVma="1.1 u" saut="105" rampe="montee" />
+	</step>
+	<step n="8" deldg="0" duree="80" titre="suite rampe allumage H2" >
+		<vanne n="O2" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" /> <vanne n="Torche" />
+		<vanne n="F.Pu. H2" /> <vanne n="H2" />
+		<mfc n="O2" SV="1.5 u" />
+		<mfc n="H2" SVinc="0.05 u" SVma="1.5 u" saut="9" rampe="montee" />
+	</step>	
+	<step n="9" deldg="30" duree="30" titre="stab petite flamme, VERIFIEZ BOUCHON !" >
+		check sur le debit H2 - detecte action eventuelle de la securite
+		<vanne n="O2" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" /> <vanne n="Torche" />
+		<vanne n="F.Pu. H2" /> <vanne n="H2" />
+		<mfc n="O2" SV="1.5 u" />
+		<mfc n="H2" SV="1.5 u" SVmi="1.2" saut="106" check="min" />
+	</step>
+	<step n="10" deldg="0" duree="60" titre="rampe flamme, H2 VERIFIEZ BOUCHON !" saut="20" >
+		<vanne n="O2" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" /> <vanne n="Torche" />
+		<vanne n="F.Pu. H2" /> <vanne n="H2" />
+		<mfc n="O2" SV="1.5 u" />
+		<mfc n="H2" SV="1.5 u" SVinc="0.025 u" SVma="2.3 u" saut="20" rampe="montee" />
+	</step>
+	
+	<step n="20" deldg="10" duree="2100" titre="oxydation H2O 35 mn" >
+		<vanne n="O2" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" /> <vanne n="Torche" />
+		<vanne n="F.Pu. H2" /> <vanne n="H2" />
+		<mfc n="O2" SV="1.5 u" />
+		<mfc n="H2" SV="2.3 u" SVmi="2.0" saut="106" check="min" />
+	</step>
+	<step n="21" deldg="0" duree="2" titre="fermer H2" >
+		Pour ne pas envoyer de H2 dans la ligne Ar
+		<vanne n="O2" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" /> <vanne n="Torche" />
+		<vanne n="F.Pu. H2" />
+		<mfc n="O2" SV="1.8 u" />
+		<mfc n="H2" SV="0.0" />
+	</step>
+	<step n="22" deldg="30" duree="600" titre="oxydation O2" >
+		<vanne n="O2" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" />
+		<mfc n="O2" SV="2.25 u" />
+	</step>
+	<step n="23" deldg="30" duree="1200" titre="oxydation O2, économiseur" >
+		<vanne n="O2" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" />
+		<mfc n="O2" SV="1.5 u" />
+	</step>
+	<step n="24" deldg="30" duree="300" titre="purge tube avec Ar" >
+		<vanne n="N2|Ar" /> <vanne n="Sel. Ar" />
+		<mfc n="N2|Ar" SV="2.0 u" />
+	</step>
+	<step n="25" deldg="0" duree="300" titre="decharge" >
+		<vanne n="N2|Ar" /> <vanne n="Sel. Ar" /> <vanne n="(FIN)" />
+		<mfc n="N2|Ar" SV="1.0 u" />
+	</step>
+	<step n="26" deldg="2" duree="1000" titre="refroidissement lent sous argon">
+		<vanne n="N2|Ar" /> <vanne n="Sel. Ar" /> <vanne n="(FIN)" />
+		<mfc n="N2|Ar" SV="0.5 u" />
+		<tem n="H" SVdec="0.25 d" SVmi="950 d" rampe="descente" saut="27" />
+		<tem n="C" SVdec="0.25 d" SVmi="950 d" rampe="descente" saut="27" />
+		<tem n="S" SVdec="0.25 d" SVmi="950 d" rampe="descente" saut="27" />
+	</step>
+	<step n="27" deldg="0" titre="refroidissement final sous azote">
+		<vanne n="N2|Ar" /> <vanne n="(FIN)" />
+		<mfc n="N2|Ar" SV="0.5 u" />
+		<tem n="H" SV="600 d" />
+		<tem n="C" SV="600 d" />
+		<tem n="S" SV="600 d" />
+	</step>
+	
+	
+	<step n="105" deldg="0" titre="echec allumage H2 (cont pour recommencer)" saut="4" >
+		on est ici parcequ'on a pas saute au 8
+		<vanne n="O2" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" /> <vanne n="Torche" />
+		<vanne n="F.Pu. H2" />
+		<mfc n="H2" SV="0.0 u" />
+	</step>
+	<step n="106" deldg="0" titre="manque gaz H2" saut="4" >
+		on est ici parceque peut etre le gaz a ete coupe
+		<vanne n="O2" /> <vanne n="F. pur" /> <vanne n="Sel. Ar" /> <vanne n="Torche" />
+		<vanne n="F.Pu. H2" />
+		<mfc n="H2" SV="0.0 u" />
+	</step>
+	<step n="150" deldg="0" titre="température incorrecte" saut="3" >
+		vanne 15 reservée pour sonnerie
+		<vanne n="15" />
+	</step>
+	
+<!--	
+	<step n="1" deldg="0" titre="chargement sous argon">
+		<vanne n="" /> <vanne n="" /> <vanne n="Torche" />
+	</step>
+-->
+</recette>

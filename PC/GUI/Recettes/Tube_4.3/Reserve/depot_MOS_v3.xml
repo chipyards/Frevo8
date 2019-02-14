@@ -1,0 +1,212 @@
+<recette four="7" titre="depot Poly v3 - 30 mn reg. vide mini" >
+Cette recette effectue une pause pour armement manuel de l'automate securite
+	
+<step n="1" duree="65535" titre="montée a 308">
+	(noter l'absence de SV) inc = 0.1875 --> 11.5 deg/mn, 0.25 -> 15 deg/mn. 
+	<tem n="S" SVinc="0.25 d" SVma="332 d" rampe="montee" saut="2" />
+	<tem n="C" SVinc="0.25 d" SVma="308 d" rampe="montee" saut="3" />
+	<tem n="H" SVinc="0.25 d" SVma="353 d" rampe="montee" saut="4" />
+</step>
+<step n="2" duree="65535" titre="montée C, H">
+	<tem n="S" SV="332 d" />
+	<tem n="C" SVinc="0.25 d" SVma="308 d" rampe="montee" saut="5" />
+	<tem n="H" SVinc="0.25 d" SVma="353 d" rampe="montee" saut="6" />
+</step>
+<step n="3" duree="65535" titre="montée S, H">
+	<tem n="S" SVinc="0.25 d" SVma="332 d" rampe="montee" saut="5" />
+	<tem n="C" SV="308 d" />
+	<tem n="H" SVinc="0.25 d" SVma="353 d" rampe="montee" saut="7" />
+</step>
+<step n="4" duree="65535" titre="montée S, C">
+	<tem n="S" SVinc="0.25 d" SVma="332 d" rampe="montee" saut="6" />
+	<tem n="C" SVinc="0.25 d" SVma="308 d" rampe="montee" saut="7" />
+	<tem n="H" SV="353 d" />
+</step>
+<step n="5" duree="65535" titre="montée H">
+	<tem n="S" SV="332 d" />
+	<tem n="C" SV="308 d" />
+	<tem n="H" SVinc="0.25 d" SVma="353 d" rampe="montee" saut="8" />
+</step>
+<step n="6" duree="65535" titre="montée C">
+	<tem n="S" SV="332 d" />
+	<tem n="C" SVinc="0.25 d" SVma="308 d" rampe="montee" saut="8" />
+	<tem n="H" SV="353 d" />
+</step>
+<step n="7" duree="65535" titre="montée S">
+	<tem n="S" SVinc="0.25 d" SVma="332 d" rampe="montee" saut="8" />
+	<tem n="C" SV="308 d" />
+	<tem n="H" SV="353 d" />
+</step>
+<step n="8" duree="120" deldg="100" titre="verif temperature 308" saut="10" >
+	<tem n="S" SV="332 d" check="minmax" saut="150" />
+	<tem n="C" SV="308 d" check="minmax" saut="150" />
+	<tem n="H" SV="353 d" check="minmax" saut="150" />
+</step>
+	
+<step n="10" duree="180" titre="mise a l'air rapide">
+	<vanne n="N2|Ar" /> <vanne n="Reg. vide" />
+	<mfc n="N2|Ar" SV="4.0 u" />
+	<mfc n="Reg. vide" SV="4.0 u" />
+</step>
+<step n="11" duree="240" titre="mise a l'air lente">
+	<vanne n="N2|Ar" /> <vanne n="Reg. vide" />
+	<mfc n="N2|Ar" SV="0.8 u" />
+	<mfc n="Reg. vide" SV="0.8 u" />
+</step>
+<step n="12" titre="chargement">
+	<vanne n="Bal. pmp" />
+	<mfc n="N2|Ar" SV="0.0 u" />
+	<mfc n="Reg. vide" SV="0.0 u" />
+</step>
+<step n="13" deldg="10" duree="1200" titre="prepompage" saut="104" >
+	<vanne n="Bal. pmp" /> <vanne n="Pre Pomp" />
+	<fre SVmi="12000.0 f" check="min" saut="14" />
+</step>
+<step n="14" deldg="10" duree="1200" titre="pompage" saut="105">
+	on chauffe deja un peu
+	<vanne n="Bal. pmp" /> <vanne n="Pre Pomp" /> <vanne n="V. Vide" />
+	<tem n="S" SV="350 d" />
+	<tem n="C" SV="325 d" />
+	<tem n="H" SV="368 d" />
+	<fre SVmi="40.0 f" check="min" saut="15" />
+</step>
+<step n="15" deldg="33" duree="120" titre="test vide" saut="20" >
+	on chauffe encore un peu
+	<tem n="S" SV="385 d" />
+	<tem n="C" SV="343 d" />
+	<tem n="H" SV="385 d" />
+	<fre SVma="80.0 f" check="max" saut="107" />
+</step>
+	
+<step n="20" duree="65535" titre="montée a 543">
+	on met de l'azote pour la convection
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="N2|Ar" />
+	<mfc n="N2|Ar" SV="1.0 u" />
+	<tem n="S" SVinc="0.25 d" SVma="585 d" rampe="montee" saut="21" />
+	<tem n="C" SVinc="0.25 d" SVma="543 d" rampe="montee" saut="21" />
+	<tem n="H" SVinc="0.25 d" SVma="585 d" rampe="montee" saut="21" />
+</step>
+<step n="21" duree="600" deldg="220" titre="stabilisation temperature a 543" saut="30" >
+	on verifie que la pression n'est pas trop forte, et que le Baratron repond bien
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="N2|Ar" /> <vanne n="Bal. pmp" />
+	<mfc n="N2|Ar" SV="1.0 u" />
+	<tem n="S" SV="585 d" check="minmax" saut="150" />
+	<tem n="C" SV="543 d" check="minmax" saut="150" />
+	<tem n="H" SV="585 d" check="minmax" saut="150" />
+	<fre SVmi="200.0 f" SVma="1500.0 f" check="minmax" saut="108" />
+</step>
+<step n="30" duree="30" titre="argonisation du MFC SiH4">
+	on arrete de pomper le tube pour ouvrir l'event
+	<vanne n="Sel. Ar" /> <vanne n="SiH4 Event" /> <vanne n="Purge" /> <vanne n="Bal. pmp" /> 
+	<mfc n="N2|Ar" SV="2.0 u" />
+</step>
+<step n="31" duree="90" deldg="60" titre="test du MFC SiH4">
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" />
+	<vanne n="Sel. Ar" /> <vanne n="Purge" /> <vanne n="SiH4 tube" /> <vanne n="Bal. pmp" /> 
+	<mfc n="Reg. vide" SV="0.0 u" />
+	<mfc n="SiH4" SV="0.5 v" check="minmax" saut="110" />
+</step>
+<step n="32" duree="120" deldg="20" titre="rampe regu vide" >
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Reg. vide" />
+	<vanne n="Sel. Ar" /> <vanne n="Purge" /> <vanne n="SiH4 tube" /> <vanne n="Bal. pmp" /> 
+	<mfc n="Reg. vide" SV="0.0 u" SVinc="0.005 u" SVma="0.01 u" rampe="montee" saut="33"/>
+	<mfc n="SiH4" SV="0.2 v" />
+</step>
+
+<step n="33" duree="60" deldg="30" titre="verif regu vide" saut="50" >
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Reg. vide" />
+	<vanne n="Sel. Ar" /> <vanne n="Purge" /> <vanne n="SiH4 tube" /> <vanne n="Bal. pmp" /> 
+	<mfc n="Reg. vide" SV="0.01 u"/>
+	<mfc n="SiH4" SV="0.2 v" />
+	<fre SVma="800.0 f" check="max" saut="109" />
+</step>
+
+<step n="50" titre="PAUSE regu vide ARMER SECURITE SVP" >
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Reg. vide" />
+	<vanne n="Sel. Ar" /> <vanne n="Purge" /> <vanne n="SiH4 tube" /> <vanne n="Bal. pmp" /> 
+	<mfc n="Reg. vide" SV="0.01 u"/>
+	<mfc n="SiH4" SV="0.1 v" />
+</step>
+
+<step n="51" duree="30" deldg="10" titre="fermeture du MFC SiH4" > 
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Reg. vide" />
+	<vanne n="Sel. Ar" /> <vanne n="Purge" /> <vanne n="SiH4 tube" /> <vanne n="Bal. pmp" /> 
+	<mfc n="N2|Ar" SV="2.0 u" />
+	<mfc n="SiH4" SV="0.1 v" SVma="0.2 v" check="max" saut="111" />
+	<fre SVma="300.0 f" check="max" saut="109" />
+</step>
+<step n="52" duree="600" deldg="20" titre="soft start MFC SiH4" > 
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Reg. vide" />
+	<vanne n="Sel. Ar" /> <vanne n="SiH4 src" /> <vanne n="SiH4 tube" /> <vanne n="Bal. pmp" /> 
+	<mfc n="SiH4" SV="0.1 v" SVinc="0.01 v" SVma="0.85 v" rampe="montee" saut="53" />
+</step>
+<step n="53" duree="1800" deldg="60" titre="depot avec SiH4" saut="60" > 
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Reg. vide" />
+	<vanne n="Sel. Ar" /> <vanne n="SiH4 src" /> <vanne n="SiH4 tube" /> <vanne n="Bal. pmp" /> 
+	<mfc n="SiH4" SV="0.85 v" check="minmax" saut="121" />
+	<fre SVma="600.0 f" check="max" saut="120" />
+</step>
+<step n="60" duree="60" titre="fermeture SiH4, baisse temperature" >
+	on laisse le MFC SiH4 ouvert pour le purger, mais sans check
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Reg. vide" />
+	<vanne n="Sel. Ar" /> <vanne n="SiH4 tube" /> <vanne n="Bal. pmp" /> 
+	<tem n="S" SV="332 d" />
+	<tem n="C" SV="308 d" />
+	<tem n="H" SV="353 d" />
+	<mfc n="SiH4" SV="0.85 v" />
+</step>
+<step n="61" duree="60" titre="lavage a l'argon du MFC SiH4" > 
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" />
+	<vanne n="Sel. Ar" /> <vanne n="Purge" /> <vanne n="SiH4 tube" /> <vanne n="Bal. pmp" />
+</step>
+<step n="62" duree="120" titre="vide intermediaire" > 
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" />
+	<vanne n="Bal. pmp" />
+</step>
+<step n="63" duree="3600" titre="refroidissement" > 
+	on met de l'azote pour la convection
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="N2|Ar" />
+	<vanne n="Bal. pmp" />
+	<mfc n="N2|Ar" SV="2.0 u" />
+	<tem n="C" SVmi="320 d" check="min" saut="64" />
+</step>
+<step n="64" titre="attente dechargement sous vide" saut="10" > 
+	on laisse l'azote pour la securite
+	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="N2|Ar" />
+	<vanne n="Bal. pmp" />
+	<mfc n="N2|Ar" SV="0.5 u" />
+</step>
+
+<!-- Les steps d'alarme -->
+<step n="104" titre="echec pré-pompage" saut="0" >
+	<vanne n="15" />
+</step>
+<step n="105" titre="echec pompage" saut="0" >
+	<vanne n="15" />
+</step>
+<step n="107" titre="echec test vide initial" saut="0" >
+	<vanne n="15" />
+</step>
+<step n="108" titre="echec test vide avec N2" saut="0" >
+	<vanne n="15" />
+</step>
+<step n="109" titre="echec test vide avec regu" saut="0" >
+	<vanne n="15" />
+</step>
+<step n="110" titre="echec test MFC SiH4" saut="60" >
+	<vanne n="15" />
+</step>
+<step n="111" titre="echec fermeture MFC SiH4" saut="60" >
+	<vanne n="15" />
+</step>
+<step n="120" titre="erreur pression pendant le depot" saut="60" >
+	<vanne n="15" />
+</step>
+<step n="121" titre="erreur debit MFC SiH4" saut="60" >
+	<vanne n="15" />
+</step>
+<step n="150" titre="temperature incorrecte" saut="0" >
+	<vanne n="15" />
+</step>
+
+</recette>

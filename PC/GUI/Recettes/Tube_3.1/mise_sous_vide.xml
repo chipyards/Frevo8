@@ -1,0 +1,28 @@
+<recette four="5" titre="mise sous vide four LPCVD">
+	
+	<step n="1" deldg="40" duree="1200" titre="prepompage" saut="104" >
+		<vanne n="Pre Pomp" /> <vanne n="Ferm. Purges" />
+		<fre SVmi="7000.0 f" check="min" saut="2" />
+	</step>
+	<step n="2" deldg="10" duree="1200" titre="pompage" saut="105">
+		<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Ferm. Purges" />
+		<fre SVmi="44.0 f" check="min" saut="3" />
+	</step>
+	<step n="3" deldg="33" duree="120" titre="test vide" saut="0" >
+		<vanne n="Ferm. Purges" />
+		<fre SVma="94.0 f" check="max" saut="107" />
+	</step>
+
+<!-- Les steps d'alarme -->
+	
+	<step n="104" deldg="0" titre="echec pré-pompage" saut="1" >
+		<vanne n="15" /> <vanne n="Ferm. Purges" />
+	</step>
+	<step n="105" deldg="0" titre="echec pompage" saut="1" >
+		<vanne n="15" /> <vanne n="Ferm. Purges" />
+	</step>
+	<step n="107" deldg="0" titre="echec test vide" saut="1" >
+		<vanne n="15" /> <vanne n="Ferm. Purges" />
+	</step>
+
+</recette>

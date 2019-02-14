@@ -1,0 +1,16 @@
+<recette four="5" titre="mise à l'air four LPCVD">
+	
+	<step n="1" duree="180" titre="mise a l'air rapide">
+		<vanne n="Rempl. N2" /> <vanne n="Reg. vide" /> <vanne n="Ferm. Purges" />
+		<mfc n="N2" SV="1.0 u" />
+	</step>
+	<step n="2" titre="mise a l'air lente">
+		<vanne n="Reg. vide" /> <vanne n="Ferm. Purges" />
+		<mfc n="N2" SV="0.2 u" />
+	</step>
+	<step n="3" titre="chargement">
+		<vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
+		<mfc n="N2" SV="0.0 u" />
+	</step>
+
+</recette>
