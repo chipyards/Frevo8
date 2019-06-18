@@ -18,10 +18,10 @@ i2c_udp_mast.o : ../UDP/i2c_udp_mast.c ${HEADERS}
 	gcc -Wall -c -O3 ../UDP/i2c_udp_mast.c
 
 dialu.o : ../UDP/dialu.c ${HEADERS}
-	gcc -Wall -c -O3 ../UDP/dialu.c
+	gcc -Wall -Wno-misleading-indentation -c -O3 ../UDP/dialu.c
 
 diali.o : ../diali.c ${HEADERS}
-	gcc -Wall -c -O3 ../diali.c
+	gcc -Wall -Wno-misleading-indentation -c -O3 ../diali.c
 
 fpilot.o : ../fpilot.c ${HEADERS}
 	gcc -Wall -c -O3 -fno-strict-aliasing ../fpilot.c
@@ -33,7 +33,7 @@ process.o : ../process.cpp  ${HEADERS}
 	g++ -Wall -c -O3 ../process.cpp
 
 xmlpb.o : ../xmlpb.cpp ${HEADERS}
-	g++ -Wall -c -O3 ../xmlpb.cpp
+	g++ -Wall -Wno-misleading-indentation -c -O3 ../xmlpb.cpp
 
 dirlist.o : ../dirlist.cpp  ${HEADERS}
 	g++ -Wall -Wno-unused-result -c -O3 ../dirlist.cpp

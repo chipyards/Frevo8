@@ -137,7 +137,7 @@ char lbuf[MAX_PATH];
 int first;
 direlem curelem;
 
-sprintf( lbuf, "%s%c*.*", dirpath, SLASH );
+snprintf( lbuf, sizeof(lbuf), "%s%c*.*", dirpath, SLASH );
 
 #ifdef DEBOG
    printf("enter FindFirstFile w %s\n", lbuf );
@@ -188,8 +188,8 @@ void dirdata::scan( const char *dirpath )
 DIR *ledir;
 struct dirent * lentree;
 struct stat statbuf;
-char lbuf[NAMLEN];
-direlem curelem;
+char lbuf[NAMLEN+8];	// this +8 is just to avoid a warning, otherwise gcc protests
+direlem curelem;	// about a snprintf arg which is already NAMLEN bytes long ! 
 
 strcpy( lbuf, dirpath );
 if ( lbuf[strlen(dirpath)-1] == SLASH )
@@ -245,7 +245,7 @@ if ( dd.size() == 0 ) return;
 unsigned int i;
 for ( i = 0; i < dd.size(); i++ )
     {
-    sprintf( lbuf, "%s%c%s", dirpath, SLASH, dd[i].name );
+    snprintf( lbuf, sizeof(lbuf), "%s%c%s", dirpath, SLASH, dd[i].name );
     if   ( stat( lbuf, &statbuf ) ) 
          dd[i].type = 'U';
     else switch( statbuf.st_mode & S_IFMT )

@@ -22,10 +22,10 @@ i2c_udp_mast.o : i2c_udp_mast.c ${HEADERS}
 	gcc -Wall -c -O3 i2c_udp_mast.c
 
 dialu.o : dialu.c ${HEADERS}
-	gcc -Wall -c -O3 dialu.c
+	gcc -Wall -c -O3 -Wno-misleading-indentation dialu.c
 
 diali.o : ../diali.c ${HEADERS}
-	gcc -Wall -c -O3 ../diali.c
+	gcc -Wall -c -O3 -Wno-misleading-indentation ../diali.c
 
 fpilot.o : ../fpilot.c ${HEADERS}
 	gcc -Wall -c -O3 -fno-strict-aliasing ../fpilot.c
@@ -43,7 +43,7 @@ cli_ibase.o : ../cli_ibase.c ${HEADERS}
 	gcc -Wall -c -O3 ../cli_ibase.c
 
 cli_flash.o : ../cli_flash.c ${HEADERS}
-	gcc -Wall -Wno-unused-result -c -O3 ../cli_flash.c
+	gcc -Wall -Wno-unused-result -Wno-misleading-indentation -c -O3 ../cli_flash.c
 
 cli_onew.o : ../cli_onew.c ${HEADERS}
 	gcc -Wall -c -O3 ../cli_onew.c
@@ -55,7 +55,7 @@ process.o : ../process.cpp  ${HEADERS}
 	g++ -Wall -c -O3 ../process.cpp
 
 xmlpb.o : ../xmlpb.cpp ${HEADERS}
-	g++ -Wall -c -O3 ../xmlpb.cpp
+	g++ -Wall -Wno-misleading-indentation -c -O3 ../xmlpb.cpp
 
 dirlist.o : ../dirlist.cpp ${HEADERS}
 	g++ -Wall -Wno-unused-result -c -O3 ../dirlist.cpp
