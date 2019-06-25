@@ -695,7 +695,7 @@ for ( istep = 1; istep < 256; istep ++ )
 void recipe::make_pack()
 {
 int istep, i, ipod; epod * pepod;
-int adr = 3;
+int adr = 3; qstep = 0;
 for ( istep = 1; istep < 256; istep ++ )
     if	( step[istep].existe )
 	{
