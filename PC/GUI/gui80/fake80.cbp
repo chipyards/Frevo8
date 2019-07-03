@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="fake80" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../fake80" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="ramcode" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="../fake80" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O3" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-mms-bitfields -Wno-deprecated-declarations -Wno-misleading-indentation" />
+			<Add directory="F:/Appli/msys64/mingw32/include" />
+			<Add directory="F:/Appli/msys64/mingw32/include/atk-1.0" />
+			<Add directory="F:/Appli/msys64/mingw32/include/cairo" />
+			<Add directory="F:/Appli/msys64/mingw32/include/gdk-pixbuf-2.0" />
+			<Add directory="F:/Appli/msys64/mingw32/include/glib-2.0" />
+			<Add directory="F:/Appli/msys64/mingw32/include/gtk-2.0" />
+			<Add directory="F:/Appli/msys64/mingw32/include/pango-1.0" />
+			<Add directory="F:/Appli/msys64/mingw32/lib/glib-2.0/include" />
+			<Add directory="F:/Appli/msys64/mingw32/lib/gtk-2.0/include" />
+		</Compiler>
+		<Linker>
+			<Add library="cairo" />
+			<Add library="gdk-win32-2.0" />
+			<Add library="gdk_pixbuf-2.0" />
+			<Add library="glib-2.0" />
+			<Add library="gobject-2.0" />
+			<Add library="gtk-win32-2.0" />
+			<Add library="pango-1.0" />
+			<Add directory="F:/Appli/msys64/mingw32/lib" />
+		</Linker>
+		<Unit filename="../../fpilot_fake.c" />
+		<Unit filename="../../crc32.c" />
+		<Unit filename="../../process.cpp" /> 
+		<Unit filename="../../xmlpb.cpp" />
+		<Unit filename="../../dirlist.cpp" />
+		<Unit filename="../modpop2.c" />
+		<Unit filename="../modadj.c" />
+		<Unit filename="../catalog.cpp" />
+		<Unit filename="../rview.cpp" />
+		<Unit filename="../textgui.cpp" /> 
+		<Unit filename="../artgui.cpp" /> 
+		<Unit filename="../plot.cpp" /> 
+		<Unit filename="../appli.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

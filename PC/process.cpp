@@ -31,9 +31,9 @@ DTD_recette recipe::dtd;
 
 
 // methodes du tube 'four' ------------------------------------- //
-void four::load_xml()
+void four::load_xml( const char * fourpath )
 {
-xmlobj fourxml("fours.xml", &dtd );
+xmlobj fourxml( fourpath, &dtd );
 if ( !(fourxml.is) )
    gasp("echec ouverture fichier %s", fourxml.filepath );
 
@@ -137,7 +137,7 @@ while ( ( status = fourxml.step() ) )
 	if ( ( elem->tag == string("four") ) && ( bonfour == 1 ) )
 	   bonfour = 2;
 	break;
-    case -1983 : 
+    case -1983 :
 	gasp("%s ligne %d : element non supporte", fourxml.filepath, (fourxml.curlin+1) );
 	break;
     case -1984 :
@@ -258,7 +258,7 @@ int four::get_ipod( int i )	// rend l'indice d'un podget dans son tableau specif
 int ipod;
 if ( ( i < 0 ) || ( i >= (int)ppod.size() ) )
    gasp("internal erreur #2008 i = %d", i );
-ipod = get_ipod( ppod[i] ); 
+ipod = get_ipod( ppod[i] );
 return( ipod );
 }
 
@@ -316,7 +316,7 @@ return(-1);
 // les seuls cas ou les LSBs sont utiles sont les types 'd' (pour les increments de rampe) et 'f' (V2F)
 // ce calcul rend equiprobable les 4096 codes pour les valeurs d'entree
 // prises sur l'intervalle [0,fs[,
-// cependant la valeur fs est marginale et necessite un if 
+// cependant la valeur fs est marginale et necessite un if
 int modget::uiu2pcu( double sv, char type='d' )
 {
 int retval = (int)sv;	// reponse par defaut (utile ??)
@@ -438,7 +438,7 @@ load_xml( fullpath );
 	3	dans vannes
 	3	dans podget MFC, TEM ou FRE
  */
-	
+
 void recipe::load_xml( string fullpath )
 {
 int istep=0; int ipod; epod * pepod; modget * ppod;
@@ -474,7 +474,7 @@ while ( ( status = recxml.step() ) )
 	if ( recxml.stac.size() == 1 )
 	   {
 	   if ( elem->tag != string("recette") )
-	      { errtxt("recette attendue"); return; } 
+	      { errtxt("recette attendue"); return; }
            if ( atoi(elem->attr[string("four")].c_str() ) != ptube->ifou )
 	      { errtxt("recette n'est pas pour ce tube"); return; }
 	   titre = elem->attr[string("titre")];
@@ -779,7 +779,7 @@ stat = 1;
    reference : la fonction sauter() de PIC/PROC/recipe.c
    recipe.h et aussi process.h pour la definition des flags MICEN, MACEN
    et RAMPEN et de leurs combinaisons
- */ 
+ */
 void recipe::dump_pack()
 {
 ostringstream odum;
@@ -937,7 +937,7 @@ int ssplit1( vector <string> * splut, string strin, char deli )
 {
 unsigned int pos, cnt; string part;
 
-pos = 0; cnt = 0; 
+pos = 0; cnt = 0;
 while ( pos < strin.size() )
    {
    if   ( strin[pos] == deli )
@@ -951,7 +951,7 @@ while ( pos < strin.size() )
 	}
    else part += strin[pos];
    pos++;
-   } 
+   }
 if ( part.size() )
    {
    splut->push_back( part );

@@ -43,12 +43,12 @@ gtk_label_set_text( (GtkLabel *)(cat->lmain), lbuf );
 /* il faut intercepter le delete event pour que si l'utilisateur
    ferme la fenetre on revienne sans engendrer de destroy signal.
    A cet effet ce callback doit rendre TRUE ( gtk_main_quit() ne le fait pas)
- */  
+ */
 static gint delete_call( GtkWidget *widget,
                   GdkEvent  *event, gpointer   data )
 {
 gtk_main_quit();
-return (TRUE); 
+return (TRUE);
 }
 
 
@@ -64,7 +64,7 @@ fill_list( cat );
 static void cwd_but_call( GtkWidget *widget, catastru * cat )
 {
 GtkWidget *dialog;
-GtkFileFilter *filter;
+//GtkFileFilter *filter;
 
 dialog = gtk_file_chooser_dialog_new ("Choix d'un repertoire de recettes",
 				      GTK_WINDOW(cat->wmain),
@@ -73,10 +73,10 @@ dialog = gtk_file_chooser_dialog_new ("Choix d'un repertoire de recettes",
 				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 				      NULL);
 
-filter = gtk_file_filter_new();
-gtk_file_filter_add_pattern( filter, "*.xml" );
+//filter = gtk_file_filter_new();
+//gtk_file_filter_add_pattern( filter, "*.xml" );
 
-gtk_file_chooser_set_filter ( GTK_FILE_CHOOSER (dialog), filter );
+//gtk_file_chooser_set_filter ( GTK_FILE_CHOOSER (dialog), filter );
 
 if ( cat->ptube->xml_dir.size() )
    gtk_file_chooser_set_current_folder( GTK_FILE_CHOOSER (dialog),
@@ -281,7 +281,7 @@ curcol = gtk_tree_view_column_new();
 gtk_tree_view_column_set_title( curcol, " Fichier " );
 gtk_tree_view_column_pack_start( curcol, renderer, TRUE );
 gtk_tree_view_column_set_cell_data_func( curcol, renderer,
-                                         file_data_call, 
+                                         file_data_call,
                                          (gpointer)cat, NULL );
 gtk_tree_view_column_set_resizable( curcol, TRUE );
 gtk_tree_view_append_column( (GtkTreeView*)curwidg, curcol );
@@ -292,7 +292,7 @@ curcol = gtk_tree_view_column_new();
 gtk_tree_view_column_set_title( curcol, "Steps" );
 gtk_tree_view_column_pack_start( curcol, renderer, TRUE );
 gtk_tree_view_column_set_cell_data_func( curcol, renderer,
-                                         qstep_data_call, 
+                                         qstep_data_call,
                                          (gpointer)cat, NULL );
 gtk_tree_view_column_set_resizable( curcol, TRUE );
 gtk_tree_view_append_column( (GtkTreeView*)curwidg, curcol );
@@ -303,7 +303,7 @@ curcol = gtk_tree_view_column_new();
 gtk_tree_view_column_set_title( curcol, " Intitule " );
 gtk_tree_view_column_pack_start( curcol, renderer, TRUE );
 gtk_tree_view_column_set_cell_data_func( curcol, renderer,
-                                         titre_data_call, 
+                                         titre_data_call,
                                          (gpointer)cat, NULL );
 gtk_tree_view_column_set_resizable( curcol, TRUE );
 gtk_tree_view_append_column( (GtkTreeView*)curwidg, curcol );
@@ -314,7 +314,7 @@ curcol = gtk_tree_view_column_new();
 gtk_tree_view_column_set_title( curcol, " Bytes " );
 gtk_tree_view_column_pack_start( curcol, renderer, TRUE );
 gtk_tree_view_column_set_cell_data_func( curcol, renderer,
-                                         bytes_data_call, 
+                                         bytes_data_call,
                                          (gpointer)cat, NULL );
 gtk_tree_view_column_set_resizable( curcol, TRUE );
 gtk_tree_view_append_column( (GtkTreeView*)curwidg, curcol );

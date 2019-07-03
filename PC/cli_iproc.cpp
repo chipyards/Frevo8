@@ -21,10 +21,14 @@ extern "C" void gasp( const char *fmt, ... );  /* fatal error handling */
 
 static void mysleep( unsigned int seconds )
 {
+#ifdef OLD_SLEEP
+sleep( seconds );
+#else 
 struct timespec ts;
 ts.tv_sec = (time_t)seconds;
 ts.tv_nsec = 0;
 nanosleep( &ts, NULL );
+#endif
 }
 
 // static storage all in one
@@ -135,7 +139,7 @@ printf("\n");
 extern "C" void bridge_initfour( int ifou )
 {
 tube.ifou = ifou;
-tube.load_xml();
+tube.load_xml("fours.xml");
 }
 
 extern "C" unsigned char * bridge_get_destIP()

@@ -30,7 +30,7 @@ void init();	// pas de constructeur, utiliser init()
 #define QPRE 3	// nombre de presets de temperature
 #define QVAN 16
 
-/* un step dans le recette 
+/* un step dans le recette
    N.B le numero de step est son indice dans le tableau
  */
 class etape {
@@ -96,7 +96,7 @@ recipe( four * montube ) : ptube(montube) { init(); };
 void init();
 // version short filename, cherche dans le repertoire de recettes du tube
 void load_xml();
-// version fullpath, il faut quand meme renseigner le membre filename 
+// version fullpath, il faut quand meme renseigner le membre filename
 void load_xml( string fullpath );
 void check();
 void make_pack();
@@ -225,7 +225,7 @@ virtual void dump( void ) {
 
 /* la machine */
 
-// bits des flags d'epod 
+// bits des flags d'epod
 #define MICEN	0x80	// mini check enable
 #define MACEN	0x40	// max check enable
 #define RAMPEN	0x20	// ramp enable
@@ -285,12 +285,12 @@ void dump( void ) {	// dump des parametres des podgets (lus du xml)
   for ( i = 0; i < ppod.size(); i++ )
       ppod[i]->dump();
   }
-void load_xml();	// initialisation par lecture fours.xml
-void scan_rec();	// mise a jour reclist selon contenu xml_dir
+void load_xml( const char * fourpath );	// initialisation par lecture fours.xml
+void scan_rec();			// mise a jour reclist selon contenu xml_dir
 void autosync( unsigned int crc );	// identifie la recette chargee dans l'automate
 int whichspot( int x, int y );		// identifie le hot-spot ( rend index sur ppod[] )
-int get_ipod( int i );	// rend l'indice d'un podget dans son tableau specifique
-			// en fonction de son indice dans ppod[]
+int get_ipod( int i );		// rend l'indice d'un podget dans son tableau specifique
+				// en fonction de son indice dans ppod[]
 int get_ipod( podget * pp );	// rend l'indice d'un podget dans son tableau specifique
 				// en fonction de son pointeur
 };

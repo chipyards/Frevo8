@@ -454,7 +454,7 @@ show_manu( 0, glo );
 void pause_call( GtkWidget *widget, glostru * glo )
 {
 set_manu( PAUSE );
-// show_pause( 1, glo ); sera fait par display_status() 
+// show_pause( 1, glo ); sera fait par display_status()
 }
 
 void cont_call( GtkWidget *widget, glostru * glo )
@@ -526,7 +526,7 @@ else {
 		"une recette est en cours d'execution", GTK_WINDOW(glo->wmain) );
 	return;
 	}
-   
+
      // compilons la recette en detail (N.B. methode load_xml appelle methode init)
      if ( (unsigned int)i >= glo->ptube->reclist.size() )
 	return;
@@ -842,7 +842,7 @@ gtk_widget_show_all ( glo->wmain );
 
 void usage( char * moi )
 {
-gasp("usage : %s numero_de_four_selon_fours.xml {-t|-s}", moi );
+gasp("usage : %s &lt;fours.xml> &lt;numero_de_four> {-t|-s}", moi );
 }
 
 int main( int argc, char *argv[] )
@@ -858,30 +858,29 @@ setlocale( LC_ALL, "C" );       // kill the frog, AFTER gtk_init
 
 glo->ptube = &tube;
 
-if   ( argc >= 2 )
-     glo->ptube->ifou = atoi( argv[1] );
-else usage( argv[0] );
+if   	( argc < 3 )
+	usage( argv[0] );
 
-// configurer le superviseur
-glo->ptube->load_xml();
+// lire les donnees de config
+glo->ptube->ifou = atoi( argv[2] );
+glo->ptube->load_xml( argv[1] );
 glo->ptube->scan_rec();
 
-// flags pour options d'affichage irrevocables
+// options
 glo->show.txt = 0; glo->show.scroll = 0;
-if   ( argc >= 3 )
-     if ( argv[2][0] == '-' )
+
+for	( int iopt = 3; iopt < argc; ++iopt )
 	{
-	switch( argv[2][1] )
-	   {
-	   case 't' : glo->show.txt = 1; break;
-	   case 's' : glo->show.scroll = 1; break;
-	   }
-	if ( argv[2][1] )
-	   switch( argv[2][2] )
+	if	( argv[iopt][0] == '-' )
 		{
-		case 't' : glo->show.txt = 1; break;
-		case 's' : glo->show.scroll = 1; break;
+		switch	( argv[iopt][1] )
+			{
+			case 't' : glo->show.txt = 1; break;	// option d'affichage irrevocable
+			case 's' : glo->show.scroll = 1; break;	// option d'affichage irrevocable
+			default : usage( argv[0] );
+			}
 		}
+	else	usage( argv[0] );
 	}
 
 glo->show.txt_temp = 0;
@@ -896,7 +895,7 @@ glo->show.auto_secu = 0;
 if ( glo->ptube->auto_secu.size() > 1 )
    {
    if ( glo->ptube->auto_secu[0] == 'm' )
-      glo->ptube->magic_step = atoi( glo->ptube->auto_secu.c_str() + 1 ); 
+      glo->ptube->magic_step = atoi( glo->ptube->auto_secu.c_str() + 1 );
    printf("Automate securite = %s, magic step %d\n", glo->ptube->auto_secu.c_str(), glo->ptube->magic_step );
    glo->show.auto_secu = 1;
    }
