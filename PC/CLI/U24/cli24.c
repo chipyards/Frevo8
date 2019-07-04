@@ -5,7 +5,7 @@
 #include "../../../version.h"
 #include "../../../mpar.h"
 #include "../../../ipilot.h"
-#include "../dialu.h"
+#include "../../UDP/dialu.h"
 #include "../../irb.h"
 #include "../../diali.h"
 #include "flash24.h"

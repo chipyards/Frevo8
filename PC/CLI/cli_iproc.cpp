@@ -4,32 +4,20 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#include <time.h>
-#include "../ipilot.h"
-#include "diali.h"
-#include "fpilot.h"
-#include "crc32.h"
+//#include <time.h>
+#include "../../ipilot.h"
+#include "../diali.h"
+#include "../fpilot.h"
+#include "../crc32.h"
 #include "cli_iproc.h"
 #include <fstream>
 #include <string>
 using namespace std;
-#include "xmlpb.h"
-#include "frevo_dtd.h"
-#include "process.h"
+#include "../xmlpb.h"
+#include "../frevo_dtd.h"
+#include "../process.h"
 
 extern "C" void gasp( const char *fmt, ... );  /* fatal error handling */
-
-static void mysleep( unsigned int seconds )
-{
-#ifdef OLD_SLEEP
-sleep( seconds );
-#else 
-struct timespec ts;
-ts.tv_sec = (time_t)seconds;
-ts.tv_nsec = 0;
-nanosleep( &ts, NULL );
-#endif
-}
 
 // static storage all in one
 extern four tube;
@@ -44,7 +32,6 @@ if ( fump == NULL )
 fputs( tube.recette.dump.c_str(), fump );
 fclose(fump);
 }
-
 
 void compilu( int upflag )
 {
@@ -184,24 +171,6 @@ printf("step=%d, frequ=%7.1fHz (%d), t=%d\n",
 	sbuf[0], freq, sbuf[1], sbuf[2] );
 }
 
-static void siproc_poll( unsigned int period )
-{
-while(1)
-   {
-   show_secu();
-   mysleep( period );
-   }
-}
-
-static void iproc_poll( unsigned int period )
-{
-while(1)
-   {
-   emule_gui();
-   mysleep( period );
-   }
-}
-
 static void siproc_ui()
 {
 char locar; int fin;
@@ -214,7 +183,6 @@ while ( ! fin )
      {
      case 'a' : secu_set_param( 0, 1 );		break;
      case 's' :	show_secu();			break;
-     case 'S' :	siproc_poll( 2 );		break;
      case ' ' : iproc_usage();			break;
      case 'q' : fin++;				break;
      default  :					break;
@@ -267,7 +235,6 @@ while ( ! fin )
 			sf.temp[i].pv, sf.temp[i].pv, ((double)sf.temp[i].pv)/16.0  );
 		}				break;
      case 'g' :	emule_gui();			break;
-     case 'G' :	iproc_poll( 2 );		break;
      case 'f' : {
 		status_full sf; double freq;
 		get_status( &sf );

@@ -6,9 +6,9 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <ctype.h>
-#include "../ipilot.h"
-#include "../version.h"
-#include "diali.h"
+#include "../../ipilot.h"
+#include "../../version.h"
+#include "../diali.h"
 
 #include "cli_bytes.h"
 #include "cli_ibase.h"
@@ -17,9 +17,9 @@
 #include "cli_onew.h"
 #include "cli_rs485.h"
 
-#include "UDP/i2c_udp_mast.h"
-#include "UDP/dialu.h"
-#include "UDP/U24/cli24.h"
+#include "../UDP/i2c_udp_mast.h"
+#include "../UDP/dialu.h"
+#include "U24/cli24.h"
 
 
 void gasp( const char *fmt, ... )  /* fatal error handling */

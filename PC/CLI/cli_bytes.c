@@ -6,14 +6,14 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-#include "../ipilot.h"
-#include "diali.h"
+#include "../../ipilot.h"
+#include "../diali.h"
 
 #ifdef PASS_USB
 #include "USB/i2c_usb_mast.h"
 #else
-#include "UDP/i2c_udp_mast.h"
-#include "UDP/dialu.h"
+#include "../UDP/i2c_udp_mast.h"
+#include "../UDP/dialu.h"
 unsigned char * destIP;
 #endif
 

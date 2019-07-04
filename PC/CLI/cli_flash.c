@@ -10,8 +10,8 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <stdarg.h>
-#include "../ipilot.h"
-#include "diali.h"
+#include "../../ipilot.h"
+#include "../diali.h"
 
 
 void gasp( char *fmt, ... );  /* fatal error handling */
