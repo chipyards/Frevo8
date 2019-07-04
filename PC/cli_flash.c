@@ -48,24 +48,24 @@ void gasp( char *fmt, ... );  /* fatal error handling */
 
 #define QZON 100
 
-unsigned char b_to_pic[QDATB];		/* programme pour le PIC, en bytes */
-unsigned char b_from_pic[QDATB];	/* programme lu du PIC, en bytes */
+static unsigned char b_to_pic[QDATB];		/* programme pour le PIC, en bytes */
+static unsigned char b_from_pic[QDATB];	/* programme lu du PIC, en bytes */
 
 #define USHORT unsigned short
 
-USHORT *w_to_pic   = (USHORT*)b_to_pic;		/* programme pour le PIC, en words*/
-USHORT *w_from_pic = (USHORT*)b_from_pic;	/* programme lu du PIC, en words */
+static USHORT *w_to_pic   = (USHORT*)b_to_pic;		/* programme pour le PIC, en words*/
+static USHORT *w_from_pic = (USHORT*)b_from_pic;	/* programme lu du PIC, en words */
 
 typedef struct {	/* adresses debut et fin de zone */
 int a1;			/* (inclus) */
 int a2;			/* (exclu) */
 } zone;
 
-zone zoneb[QZON];	/* table des zones (adresses de bytes) */
+static zone zoneb[QZON];	/* table des zones (adresses de bytes) */
 
-int qzon;		/* nombre de zones valides dans w_to_pic */
-int curpage;		/* page de 64 k bytes selon format INHX32 */
-int nextadr;		/* adresse prochaine donne, utilisee pour 
+static int qzon;		/* nombre de zones valides dans w_to_pic */
+static int curpage;		/* page de 64 k bytes selon format INHX32 */
+static int nextadr;		/* adresse prochaine donne, utilisee pour 
 			   detection des discontinuites */
 
 /* decodage du format .hex INHX32
@@ -104,9 +104,9 @@ typedef struct _INTEL_HEX_RECORD
 } INTEL_HEX_RECORD;
 
 
-void lec_hex_rec( INTEL_HEX_RECORD * prec );
+static void lec_hex_rec( INTEL_HEX_RECORD * prec );
 
-int hex2i ( char ascii ) /* CONVERSION  1 char ASCII hexa -> int */
+static int hex2i ( char ascii ) /* CONVERSION  1 char ASCII hexa -> int */
 {
 if ( ('0' <= ascii) && (ascii <= '9') )
    return( ascii - '0' );
@@ -118,7 +118,7 @@ gasp("illegal hex char %02x", ascii );
 return(-1);
 }
 
-void lec_hex_file( char *fnam )
+static void lec_hex_file( char *fnam )
 {
 char car;
 int etat,	/* etape active */
@@ -240,7 +240,7 @@ while(1);
    - copie les donnees dans b_to_pic[] sous forme de bytes
  */
 
-void lec_hex_rec( INTEL_HEX_RECORD * prec )
+static void lec_hex_rec( INTEL_HEX_RECORD * prec )
 {
 static int curadr;
 int i;
@@ -286,7 +286,7 @@ if ( ( prec->Type == 0 ) && ( curpage == 0 ) )
    - les frontieres de zones sont arrondies aux multiples de N
    - les trous sont bouches avec des FF
  */
-void prep_zones()
+static void prep_zones()
 {
 int N, iz, jz, a, r;
 N = 64;
@@ -362,7 +362,7 @@ if ( qzon >= 2 )
 */
 }
 
-void verif( int a1, int a2 )   /* comparaison en memoire */
+static void verif( int a1, int a2 )   /* comparaison en memoire */
 {
 int adr, errcnt;
 errcnt = 0;
@@ -385,7 +385,7 @@ else printf("comparaison OK\n" );
    ( to contient des uns a des endroits ou from a deja des zeros ) 
  - rend 1 sinon <==> prog possible
  */
-int comp_bits( int from, int to )
+static int comp_bits( int from, int to )
 {
 int x;
 if ( from == to ) return(0);

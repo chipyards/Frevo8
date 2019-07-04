@@ -180,7 +180,7 @@ void openUDP()
 {
 int retval;
 printf("connecting to %d.%d.%d.%d port %d\n", destIP[0], destIP[1], destIP[2], destIP[3], destport );
-
+fflush(stdout);
 #ifdef WIN32
 retval = WSAStartup( 0x0202, &wsastruct );	// 0202 = version
 if ( retval )

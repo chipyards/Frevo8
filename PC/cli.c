@@ -1,18 +1,4 @@
-/* Frevo7 : flashage + debug du PIC 18F452
-
-Code commun commun pour I2C/USB I2C/UDP et UDP
-L'executable n'est pas commun a cause des incompatibilites systeme.
-
- I2C via USB
-	Win32 sous VC6
-
- I2C via UDP
- UDP direct
-	Win32 sous Cygwin
-	Linux Fedora
-
-Definir PASS_USB pour passerelle USB, sinon c'est UDP
-
+/* Frevo8 : flashage + debug, PIC 18F452 et PIC 24F
  */
 
 #include <stdio.h>
@@ -31,10 +17,9 @@ Definir PASS_USB pour passerelle USB, sinon c'est UDP
 #include "cli_onew.h"
 #include "cli_rs485.h"
 
-#ifndef PASS_USB
 #include "UDP/i2c_udp_mast.h"
 #include "UDP/dialu.h"
-#endif
+#include "UDP/U24/cli24.h"
 
 
 void gasp( const char *fmt, ... )  /* fatal error handling */
@@ -90,7 +75,8 @@ while ( ! fin )
 void cli_usage()
 {
    printf("\n=== acces %s ===\n", dialogue_get_acces_text() );
-   printf("  p : programmation PIC\n" );
+   printf("  1 : programmation PIC18F\n" );
+   printf("  2 : programmation PIC24F\n" );
    printf("-----\n");
    printf("  b : dialogue niveau bytes\n" );
    printf("  i : debug base IPILOT\n");
@@ -114,7 +100,8 @@ while ( ! fin )
    locar = getchar();
    switch( locar )
      {
-     case 'p' : prog_ui(nom);	cli_usage();	break;
+     case '1' : prog_ui(nom);	cli_usage();	break;
+     case '2' : mpar_ui(nom);	cli_usage();	break;
      case 'b' : bytes_ui();	cli_usage();	break;
      case 'i' : ibase_ui();	cli_usage();	break;
      case 'r' : iproc_ui();	cli_usage();	break;
@@ -135,9 +122,8 @@ while ( ! fin )
 
 void main_usage()
 {
-printf("\nSuperviseur CLI Frevo %d.%d%c (incluant programmeur PIC %s)\n",
-	VERSION, SUBVERS, BETAVER, "Flash 18Fxx2" );
-printf("  i : acces i2c via USB\n" );
+printf("\nSuperviseur CLI Frevo %d.%d%c (incluant programmeur PIC)\n",
+	VERSION, SUBVERS, BETAVER );
 printf("  p : acces i2c via passerelle UDP\n");
 printf("  m : acces MIDI (opto/uart) via passerelle UDP\n");
 printf("  u : acces UDP direct\n");
@@ -152,9 +138,7 @@ if ( argc < 2 )
    gasp("usage : %s numero_four_dans_xml {nom fichier hex}\n", argv[0] );
 
 bridge_initfour( atoi(argv[1]) );	// lecture fours.xml
-#ifndef PASS_USB
 dialugue_set_IP( bridge_get_destIP() );
-#endif
 
 if   ( argc >= 3 )
      nom = argv[2];
@@ -167,18 +151,10 @@ while ( ! fin )
    locar = getchar();
    switch( locar )
 	{
-#ifdef PASS_USB
-	case 'i' : dialogue_set_acces( locar );
-		   cli_ui( nom ); main_usage(); break;
-	case 'p' :
-	case 'u' : gasp("UDP non disponible sur cette version"); break;
-#else
-	case 'i' : gasp("USB non disponible sur cette version"); break;
 	case 'p' :
 	case 'u' :
 	case 'm' : dialogue_set_acces( locar );
 		   cli_ui( nom ); main_usage(); break;
-#endif
 	case ' ' : main_usage(); break;
 	case 'q' : fin++;
 	}

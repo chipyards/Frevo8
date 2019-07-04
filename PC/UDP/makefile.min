@@ -2,11 +2,11 @@
 
 OBJS=  cli.o i2c_udp_mast.o dialu.o diali.o fpilot.o crc32.o \
    cli_bytes.o cli_ibase.o cli_iproc.o cli_flash.o cli_onew.o cli_rs485.o \
-   process.o dirlist.o xmlpb.o
+   process.o dirlist.o xmlpb.o cli24.o crc32b.o flash24.o intelhex.o
 
 HEADERS=  i2c_udp_mast.h ../fpilot.h ../crc32.h ../irb.h dialu.h ../diali.h \
    ../cli_ibase.h ../cli_rs485.h ../cli_bytes.h ../cli_iproc.h ../cli_flash.h  ../cli_onew.h \
-   ../xmlpb.h ../dirlist.h ../process.h
+   ../xmlpb.h ../dirlist.h ../process.h U24/crc32b.h U24/flash24.h U24/intelhex.h
 
 LIBS= -lws2_32
 
@@ -63,3 +63,14 @@ xmlpb.o : ../xmlpb.cpp ${HEADERS}
 dirlist.o : ../dirlist.cpp ${HEADERS}
 	g++ -Wall -Wno-unused-result -c -O3 ../dirlist.cpp
 
+cli24.o : U24/cli24.c ${HEADERS}
+	gcc -Wall -c -O3 U24/cli24.c
+
+crc32b.o : U24/crc32b.c ${HEADERS}
+	gcc -Wall -c -O3 U24/crc32b.c
+
+flash24.o : U24/flash24.c ${HEADERS}
+	gcc -Wall -c -O3 U24/flash24.c
+
+intelhex.o : U24/intelhex.c ${HEADERS}
+	gcc -Wall -c -O3 U24/intelhex.c
