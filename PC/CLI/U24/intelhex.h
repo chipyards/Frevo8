@@ -30,8 +30,6 @@ chaque instruction :
 
 */
 
-#define PICTYPE "33F"
-
 // #define QRAWBYTES (176128)  /* capacite PIC 24HJ128GP en raw bytes */
 #define QRAWBYTES (88056)  /* capacite PIC 24FJ64GA002 en raw bytes */
 // #define QRAWBYTES (45056)  /* capacite PIC 33FJ32MC302 en raw bytes */

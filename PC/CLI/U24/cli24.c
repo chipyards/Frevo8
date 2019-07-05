@@ -53,10 +53,16 @@ while ( ! fin )
      case 'B' : remote_reset( );
 		break;
      case 'V' : {
-		char version[8];
+		char version[8]; char betaver, role;
 		if   ( read_version( version ) )
 		     printf(" echec dialogue\n");
-		printf("version PIC %s\n", version );
+		printf(" Ok version %c.%c", version[0], version[2] );
+		betaver = version[3];
+		role = version[4];
+		if ( role < ' ' ) role = '_';
+		if ( betaver < ' ' ) betaver = '_';
+		printf("%c, role %c\n", betaver, role );
+		// printf("version PIC %s\n", version );
 		} break;
      case 'T' : irb.txbuf[0] = SYSTIM;
 		irb.txcnt = 1; irb.rxcnt = 5;

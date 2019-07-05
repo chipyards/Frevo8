@@ -5,7 +5,7 @@ extern "C" {
 
 // fonctions permettant d'acceder a l'objet tube depuis le 'C'
 
-void bridge_initfour( int ifou );
+void bridge_initfour( const char * xmlpath, int ifou );
 
 unsigned char * bridge_get_destIP();
 

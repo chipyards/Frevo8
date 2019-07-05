@@ -123,10 +123,10 @@ printf("\n");
 
 // fonctions permettant d'acceder a l'objet tube depuis le 'C'
 
-extern "C" void bridge_initfour( int ifou )
+extern "C" void bridge_initfour( const char * xmlpath, int ifou )
 {
 tube.ifou = ifou;
-tube.load_xml("fours.xml");
+tube.load_xml(xmlpath);
 }
 
 extern "C" unsigned char * bridge_get_destIP()
@@ -143,13 +143,11 @@ if   ( dialogue_get_acces() == 'm' )
      {
      printf("  a : allumer\n");
      printf("  s : afficher status automate secu\n");
-     printf("  S : afficher status automate secu en boucle\n");
      }
 else {
      printf("  F : afficher status process Frevo 6+\n");
      printf("  f : afficher frequence canal Baratron Frevo 7.5+\n");
      printf("  g : afficher process style GUI 7.8\n");
-     printf("  G : afficher process style GUI 7.8 en boucle\n");
      printf("  c : lire CRC\n");
      printf("  a : autoriser CRC\n");
      printf("  + : avancer chrono de 10 s\n");

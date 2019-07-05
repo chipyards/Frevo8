@@ -12,10 +12,10 @@ void gasp( char *fmt, ... );  /* fatal error handling */
 void ibase_usage()
 {
    printf("\n=== acces %s ===\n", dialogue_get_acces_text() );
-   printf("  V : afficher version firmware Frevo 7+\n");
-   printf("  T : afficher system time Frevo\n");
+   printf("  V : afficher version firmware\n");
    printf("  q : quitter ce menu\n");
    printf("Services optionnels :\n");
+   printf("  T : afficher system time\n");
    printf("  iAAaaNN : lire NN bytes en RAM PIC a l'adresse hexa AAaa\n");
    printf("  oAAaaXXYYZZ : ecrire bytes X Y Z en RAM PIC a l'adresse AAaa\n\n");
 }
@@ -53,7 +53,7 @@ while ( ! fin )
 		     if   ( dial( &irb ) )
 			  { printf(" echec dialogue\n"); break;  }
 		     }
-		printf(" Ok Frevo %d.%d", irb.rxbuf[1], irb.rxbuf[2] );
+		printf(" Ok version %d.%d", irb.rxbuf[1], irb.rxbuf[2] );
 		if   ( dialogue_get_acces() == 'm' )
 		     {
 		     role = irb.rxbuf[4];
@@ -67,7 +67,7 @@ while ( ! fin )
 		     }
 		if ( role < ' ' ) role = '_';
 		if ( betaver < ' ' ) betaver = '_';
-		printf("%c, usage %c, reset flags %02X", betaver, role, reset_flags );
+		printf("%c, role %c, reset flags %02X", betaver, role, reset_flags );
 		if ( dialogue_get_acces() != 'm' )	// not for PIC24
 		   {
 		   if (   reset_flags & 0x80        ) printf(" Stack Overflow");

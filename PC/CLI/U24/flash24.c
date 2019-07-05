@@ -203,7 +203,7 @@ void test_hex_file( const char * majname )
 {
 if ( strcmp( filext(majname), ".hex" ) == 0 )
    {
-   printf("conversion hex->bin pour PIC %s\n", PICTYPE );
+   printf("conversion hex->bin pour PIC 24|33\n" );
    init_raw();
    lec_hex_file( majname );
    aff_param();
@@ -223,7 +223,7 @@ FILE *fp;
 
 if ( strcmp( filext(majname), ".hex" ) == 0 )
    {
-   printf("conversion hex->bin pour PIC %s\n", PICTYPE );
+   printf("conversion hex->bin pour PIC 24|33\n" );
    init_raw();
    lec_hex_file( majname );
    aff_param();
@@ -304,7 +304,7 @@ FILE *fp;
 
 if ( strcmp( filext(majname), ".hex" ) == 0 )
    {
-   printf("conversion hex->bin pour PIC %s\n", PICTYPE );
+   printf("conversion hex->bin pour PIC 24|33\n" );
    init_raw();
    lec_hex_file( majname );
    aff_param();
