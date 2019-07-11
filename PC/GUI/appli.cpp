@@ -336,28 +336,35 @@ gtk_widget_modify_base( glo->ere2, GTK_STATE_NORMAL, &rose );
 void display_sec_status( glostru * glo, int * sbuf )
 {
 char tbuf[256];
-if   ( sbuf[0] >= 0 )
-     {
-     double freq;
-     #define KF (10000000.0/33554432.0)
-     freq = KF * (double)sbuf[1];
-     sprintf( tbuf, "stat=%d, freq=%7.1fHz, t=%d",
-	      sbuf[0], freq, sbuf[2] );
-     }
-else sprintf( tbuf, "?!?" );
+if	( sbuf[0] >= 0 )
+	{
+	double freq;
+	#define KF (10000000.0/33554432.0)
+	freq = KF * (double)sbuf[1];
+	if	( ( sbuf[0] > 0 ) && ( sbuf[2] < 100 ) )
+		sprintf( tbuf, "stat=%d, freq=%7.1fHz, t=%d", sbuf[0], freq, sbuf[2] );
+	else if	( sbuf[3] > 0 )
+		sprintf( tbuf, "stat=%d, freq=%7.1fHz, flow sw=%d", sbuf[0], freq, sbuf[3] );
+	else	sprintf( tbuf, "stat=%d, freq=%7.1fHz", sbuf[0], freq );
+	}
+else	sprintf( tbuf, "?!?" );
 gtk_entry_set_text( GTK_ENTRY(glo->esec), tbuf );
 }
 
 /** ============================ call backs ======================= */
 
-gint close_event_call( GtkWidget *widget,
+gint close_X_event_call( GtkWidget *widget,
                         GdkEvent  *event,
                         gpointer   data )
-{ return(FALSE); }
+{
+// if	( confirmed )
+	gtk_main_quit();
+return (TRUE);
+}
 
 void quit_call( GtkWidget *widget, glostru * glo )
 {
-gtk_widget_destroy( glo->wmain );
+gtk_main_quit();
 }
 
 int idle_call( glostru * glo )
@@ -725,10 +732,12 @@ GtkWidget *curwidg;
 
 curwidg = gtk_window_new( GTK_WINDOW_TOPLEVEL );
 
-gtk_signal_connect( GTK_OBJECT(curwidg), "delete_event",
-                    GTK_SIGNAL_FUNC( close_event_call ), NULL );
-gtk_signal_connect( GTK_OBJECT(curwidg), "destroy",
-                    GTK_SIGNAL_FUNC( gtk_main_quit ), NULL );
+// pour garder le controle de la situation (bouton X du bandeau de la fenetre)
+g_signal_connect( GTK_OBJECT(curwidg), "delete_event",
+		  G_CALLBACK( close_X_event_call ), NULL );
+// juste pour le cas ou on aurait un gasp() qui destroy abruptment la fenetre principale
+g_signal_connect( GTK_OBJECT(curwidg), "destroy",
+		  G_CALLBACK( gtk_main_quit ), NULL );
 
 char lbuf[256];
 sprintf( lbuf, "%s (Frevo %d.%d%c)", glo->ptube->nom.c_str(), VERSION, SUBVERS, BETAVER );
@@ -777,10 +786,12 @@ GtkWidget *curwidg;
 
 curwidg = gtk_window_new( GTK_WINDOW_TOPLEVEL );
 
-gtk_signal_connect( GTK_OBJECT(curwidg), "delete_event",
-                    GTK_SIGNAL_FUNC( close_event_call ), NULL );
-gtk_signal_connect( GTK_OBJECT(curwidg), "destroy",
-                    GTK_SIGNAL_FUNC( gtk_main_quit ), NULL );
+// pour garder le controle de la situation (bouton X du bandeau de la fenetre)
+g_signal_connect( GTK_OBJECT(curwidg), "delete_event",
+		  G_CALLBACK( close_X_event_call ), NULL );
+// juste pour le cas ou on aurait un gasp() qui destroy abruptment la fenetre principale
+g_signal_connect( GTK_OBJECT(curwidg), "destroy",
+		  G_CALLBACK( gtk_main_quit ), NULL );
 
 char lbuf[256];
 sprintf( lbuf, "%s (Frevo %d.%d%c)", glo->ptube->nom.c_str(), VERSION, SUBVERS, BETAVER );
@@ -937,9 +948,11 @@ glo->old_flags = 0;
 // action
 
 // brancher la fonction idle, qui doit retourner TRUE
-gtk_timeout_add( 100, (GtkFunction)(idle_call), (gpointer)glo );
+glo->idle_id = g_timeout_add( 100, (GSourceFunc)(idle_call), (gpointer)glo );
+// cet id servira pour deconnecter l'idle_call : g_source_remove( glo->idle_id );
 
-gtk_main();
+gtk_main(); // on va rester dans cette fonction jusqu'a ce qu'une callback appelle gtk_main_quit();
+g_source_remove( glo->idle_id );
 
 end_pilot();
 return(0);

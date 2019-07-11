@@ -144,12 +144,14 @@ GtkWidget *     ere2;
 GtkWidget *     brvi;
 // GtkWidget *     brec;
 
+int         idle_id;	// id pour la fonction idle du timeout
+
 four *ptube;
 display_flags show;
 
-// inclure fpilot.h d'abord 
+// inclure fpilot.h d'abord
 status_full status;
-int old_flags; 
+int old_flags;
 
 } glostru;
 

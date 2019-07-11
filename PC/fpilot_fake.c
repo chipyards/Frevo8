@@ -1,4 +1,4 @@
-/* fonctions pour supervision 
+/* fonctions pour supervision
    Dialogue I2C/UDP
    une couche au dessus de dial() (diali.c)
    FAKE pour tester superviseur en l'absence de connexion automate
@@ -41,13 +41,13 @@ void init_pilot()
      s.vannes = 0;
      s.chrono = 0;
      s.flags = PAUSE;
-     s.mfc[0].sv = 13104; 
-     s.mfc[1].sv = 0; 
-     s.mfc[2].sv = 0; 
+     s.mfc[0].sv = 13104;
+     s.mfc[1].sv = 0;
+     s.mfc[2].sv = 0;
      s.mfc[3].sv = 0;
-     s.mfc[0].pv = 13000; 
-     s.mfc[1].pv = 0; 
-     s.mfc[2].pv = 0; 
+     s.mfc[0].pv = 13000;
+     s.mfc[1].pv = 0;
+     s.mfc[2].pv = 0;
      s.mfc[3].pv = 0;
      s.frequ = 3355;
      s.temp[0].pv = 0;
@@ -84,9 +84,9 @@ pstat->step   = irbdat[0];
 pstat->vannes = irbdat[1] | ( irbdat[2] << 8 );
 pstat->chrono = irbdat[3] | ( irbdat[4] << 8 );
 pstat->flags = irbdat[5];
-trip2pair( irbdat+6,  &(pstat->mfc[0]) ); 
-trip2pair( irbdat+9,  &(pstat->mfc[1]) ); 
-trip2pair( irbdat+12, &(pstat->mfc[2]) ); 
+trip2pair( irbdat+6,  &(pstat->mfc[0]) );
+trip2pair( irbdat+9,  &(pstat->mfc[1]) );
+trip2pair( irbdat+12, &(pstat->mfc[2]) );
 trip2pair( irbdat+15, &(pstat->mfc[3]) );
 // irbdat[18] est inutilise
 pstat->frequ = irbdat[19] | ( irbdat[20] << 8 );
@@ -101,7 +101,7 @@ int i;
 if ( s.qirbring >= 60 )
    s.qirbring = 0;
 // execution recette farfelue
-if ( ( s.flags == 0 ) && ( s.step != 0 ) ) 
+if ( ( s.flags == 0 ) && ( s.step != 0 ) )
    {
    s.chrono++;
    if   ( ( s.vannes & 0xFFFF ) == 0 )
@@ -188,7 +188,7 @@ s.crc_stat = CRC_READY;
 s.crc = 0;
 s.packlen = 0;
 *pstat = s;
-}			
+}
 
 void upload( int dest_adr, unsigned char * src_buf, int size )
 {
@@ -196,16 +196,20 @@ void upload( int dest_adr, unsigned char * src_buf, int size )
 
 /* ================== automate securite =============== */
 
+static int secu_fake_step = 0;
+
 void secu_set_param( int index, int val16 )
 {
+if	( index == 0 )
+	secu_fake_step = val16;
 if ( verbose )
    fprintf( logfile, "secu_set_param %d %d\n", index, val16 );
 }
 
 void secu_get_status( int * sstatus4 )
 {
-     sstatus4[0] = 0;
-     sstatus4[1] = 0;
-     sstatus4[2] = 0;
-     sstatus4[3] = 0;
+     sstatus4[0] = secu_fake_step;
+     sstatus4[1] = 2222;
+     sstatus4[2] = 11000;
+     sstatus4[3] = 1;
 }

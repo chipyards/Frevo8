@@ -48,7 +48,7 @@ if ( centered )
    }
 gdk_pixbuf_composite( sprite,		// src
 	glo->destpix,			// dest
-	x, y,				// dest_x,y, 
+	x, y,				// dest_x,y,
 	gdk_pixbuf_get_width(sprite),	// dest w
 	gdk_pixbuf_get_height(sprite),	// dest h
 	x, y,				// offset_x,y
@@ -110,13 +110,13 @@ for  ( iX = 0; iX < srcX->size(); iX++ )
 // graphisme gaz
 x = pp->gazx;
 y = pp->gazy;
-if   ( ( x ) && ( pp->sortie.gaz > ' ' ) && ( pp->sortie.debit > 0 ) ) 
+if   ( ( x ) && ( pp->sortie.gaz > ' ' ) && ( pp->sortie.debit > 0 ) )
      {
      obuf.str( string("") );	// vidage de l'ostringstream
      obuf << 'G' << tipo << ipod <<       pp->sortie.gaz
 				 << char( pp->sortie.debit + '0' );
      // cas particulier d'une vanne 3 voies "1 entree 2 sortie"
-     // le nom du graphisme a un suffixe _0 ou _1 selon position 
+     // le nom du graphisme a un suffixe _0 ou _1 selon position
      if	( ( tipo == 'V' ) && ( glo->pix.count( obuf.str() ) == 0 ) )
 	{
 	obuf.str( string("") );	// vidage de l'ostringstream
@@ -133,14 +133,14 @@ if   ( ( x ) && ( pp->sortie.gaz > ' ' ) && ( pp->sortie.debit > 0 ) )
 // mise a jour affichage a chaque seconde
 // en fait cette fonction met a jour separement :
 //	le pixbuf "destpix" sur lequel elle compose les sprites (vannes et gaz)
-//	les pango layouts dans lequels elle copie les textes 
+//	les pango layouts dans lequels elle copie les textes
 // ces elements seront copies sur la drawing area par la fonction expose_call()
 //
 void display_art_status( glostru * glo )
 {
 ostringstream obuf; int ivan, imfc, x, y;
 
-// mise a jour scale_type 
+// mise a jour scale_type
 if   ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON( glo->rsca[1]) ) )
      glo->show.scale_type = 'p';
 else if   ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON( glo->rsca[2]) ) )
@@ -154,7 +154,7 @@ gdk_pixbuf_copy_area( glo->backpix,		// src
 	gdk_pixbuf_get_width(glo->backpix),	// dest w
 	gdk_pixbuf_get_height(glo->backpix),	// dest h
 	glo->destpix,				// dest
-	0, 0					// dest_x,y, 
+	0, 0					// dest_x,y,
 	);
 
 // affichage gaz des vannes
@@ -239,7 +239,7 @@ for	( imfc = 0; imfc < QMFC; imfc++ )
 		level = 3;	else
 	     if ( diff <= ( 65472 / 8  ) )
 		level = 4;	else
-	     level = 5;	
+	     level = 5;
  	     obuf.str( string("") );	// vidage de l'ostringstream
 	     obuf << "M" << level;
 	     // printf("obuf 1 = %s\n", obuf.str().c_str() );
@@ -277,7 +277,7 @@ for	( ivan = 0; ivan < QVAN; ivan++ )
 	     }
 	}	// for ivan
 
-// affichage temperatures 
+// affichage temperatures
 for	( int item = 0; item < QTEM; item++ )
 	{
 	if   ( glo->ptube->tem[item].pang )
@@ -450,7 +450,7 @@ if ( ( glo->ispot >= 0 ) && ( event->button == 1 ) )
 				gtk_label_set_markup( GTK_LABEL(glo->lpva1), "Position 1" );
 				gtk_label_set_markup( GTK_LABEL(glo->lpva0), "Position 0" );
 				break;
-			default :	// 0 ou 2 : vanne ordinaire 
+			default :	// 0 ou 2 : vanne ordinaire
 				gtk_label_set_markup( GTK_LABEL(glo->lpva1), "Ouvrir" );
 				gtk_label_set_markup( GTK_LABEL(glo->lpva0), "Fermer" );
 				break;
@@ -528,7 +528,7 @@ if   ( glo->ispot != oldspot )	// changer curseur seulement si necessaire
      gdk_window_set_cursor( widget->window, newcur );
      if ( newcur )
 	gdk_cursor_unref(newcur); // eviter fuite memoire minuscule ?
-     oldspot = glo->ispot; 
+     oldspot = glo->ispot;
      }
 
 if   ( state & GDK_BUTTON1_MASK )
@@ -843,7 +843,7 @@ for ( i = 0; i < recdir.dd.size(); i++ )
 	{
 	pixext.append( fnam, fnam.size() - 4, 4 );
 	pixnam.append( fnam, 0, fnam.size() - 4 );
-	} 
+	}
     // printf("~~> %s <%s>\n", pixnam.c_str(), pixext.c_str() );
     if	( pixext == string(".png") )
 	{
@@ -910,8 +910,7 @@ if   ( ( glo->ptube->fre.y > 0 ) && ( glo->ptube->fre.pang == NULL ) )
      }
 
 /* dump des parametres extraits de fours.xml, pour verif */
-glo->ptube->dump();
-//*/
+// glo->ptube->dump();
 
 return( glo->darea );
 }

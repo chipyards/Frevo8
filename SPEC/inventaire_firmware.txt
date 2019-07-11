@@ -1,0 +1,23 @@
+Résumé des "roles" ou "usages" accompagant les numero de version sur les PICs :
+ 
+	B = Boot I2C
+	U = Boot UDP
+	P = Passerelle UDP
+	A = Automate
+	F = Automate Process avec entree V/F (LPCVD)
+	S = Automate Process avec V/F + SiH4 (securites specifiques depot Poly)
+	O = Automate Process avec V/F + SiH4 (pour tube LTO, version 8.0s)
+	E = Automate Securite pour Extorch
+	L = Automate Securite pour LPCVD
+	W = Automate Securite pour LPCVD avec balayage-pompe  (flow-switch)
+
+Historique des dernieres versions de Frevo 8.2 archivees (le myjob de 2010 ne donne pas le detail)
+C'est important pour PIC car contrairement au PC, on a un mix d'anciennes versions en service validees sur 8 ans !
+8.1g	plus recentes versions de PROC O, F, S
+8.2d	PASS supporte version avec BETAVER, paquets de taille variable pour cde UURW
+8.2e	SECU24 supporte LPCVD en plus de EXTORCH
+8.2f	PC only - class recipe supporte filename, finition systeme de log aka plot (classe steplog)
+8.2g	PC only - recette et class four supportent auto_secu et magic_step, auto-armement 
+8.2h	SECU24 supporte desarmement par commande MIDI SET_PARA comme armement
+sur github :
+8.2i	SECU24 supporte flow-switch pour tube 3.1

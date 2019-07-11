@@ -1,0 +1,30 @@
+<recette four="4" titre="chauffe 1100">
+	<step n="1" duree="65535" deldg="2" titre="montée a 1100">
+		ce step aura sa durée ajustée au temps nécessaire pour atteindre la temperature
+		demandée, 1100 degres , par rampe à 0.3 degres/s
+		(noter l'absence de SV)
+		<tem n="H" SVinc="0.3 d" SVma="1100 d" rampe="montee" saut="2" />
+		<tem n="C" SVinc="0.3 d" SVma="1100 d" rampe="montee" saut="2" />
+		<tem n="S" SVinc="0.3 d" SVma="1100 d" rampe="montee" saut="2" />
+	</step>
+	<step n="2" duree="30" deldg="20" titre="verif temperature 1100">
+		ce step fixe définitivement la température
+		<tem n="H" SV="1100 d" check="minmax" saut="150" />
+		<tem n="C" SV="1100 d" check="minmax" saut="150" />
+		<tem n="S" SV="1100 d" check="minmax" saut="150" />
+	</step>
+	<step n="3" deldg="0" titre="attente sous azote">
+		<vanne n="N2|Ar" /> <vanne n="F. pur" />
+		<mfc n="N2|Ar" SV="0.8 u" />
+	</step>
+	<step n="150" deldg="0" titre="température incorrecte" saut="3" >
+		vanne 15 reservée pour sonnerie
+		<vanne n="15" />
+	</step>
+	
+<!--	
+	<step n="1" deldg="0" titre="chargement sous argon">
+		<vanne n="" /> <vanne n="" /> <vanne n="Torche" />
+	</step>
+-->
+</recette>

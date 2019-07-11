@@ -377,7 +377,7 @@ gtk_scrolled_window_set_shadow_type( GTK_SCROLLED_WINDOW(curwidg),
 				     GTK_SHADOW_IN);
 gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW(curwidg),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-gtk_widget_set_usize( curwidg, 600, 400 );
+gtk_widget_set_usize( curwidg, 800, 400 );
 gtk_box_pack_start( GTK_BOX( cat->vmain ), curwidg, TRUE, TRUE, 0 );
 cat->wlis = curwidg;
 
