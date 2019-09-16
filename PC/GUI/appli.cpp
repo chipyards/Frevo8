@@ -53,9 +53,9 @@ extern "C" { GtkWindow * global_main_window; };
   est stockee a l'etat brut dans un buffer circulaire (ou 30 zeros si echec dialogue)
   (fonction get_status() de fpilot.c)
 - toutes les 60s, le fichier plot a condition qu'il existe est ouvert
-  pour y ecrire 1808 bytes (106 kbyte/h, 2.5 Mbyte/j, 907 Mbyte/an) :
+  pour y ecrire 1812 bytes (106 kbyte/h, 2.5 Mbyte/j, 907 Mbyte/an) :
 	- le numero du four (4 bytes !)
-	- le temps unix (4 bytes) a la cloture du bloc
+	- le temps unix (4 ou 8 bytes selon version) a la cloture du bloc
 	- les 60 paquets de 30 bytes
   puis le fichier est referme.
   c'est la presence d'un string logname dans la recette courante qui valide cette action

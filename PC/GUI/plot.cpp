@@ -27,6 +27,10 @@ using namespace std;
 // devra disparaitre
 #define KF (10000000/33554432.0)
 
+// system-dependant !! N.B. le 30 vient du format binaire de la reponse de l'automate a la requete PFULL
+#define PLOBUF_HEAD (sizeof(int)+sizeof(time_t))
+#define PLOBUF_SIZE (PLOBUF_HEAD+(60*30))
+
 // pre-scan du log, extraction recette et liste steps
 void runlog::pre_scan( string fullpath )
 {
@@ -35,7 +39,7 @@ unsigned int ifou, sec;
 steplog curstep;
 time_t block_time, cur_time = 0;
 status_full sf;
-unsigned char plobuf[4+4+(60*30)];
+unsigned char plobuf[PLOBUF_SIZE];
 char c;
 
 // lire la recette en memoire
@@ -72,7 +76,7 @@ while	( fread( plobuf, 1, sizeof(plobuf), plofil ) )
 	ifou = ((unsigned int *)plobuf)[0];
 	if  ( ifou != (unsigned int)recette.ptube->ifou )
 	    { errmess = "numero de four incorrect"; return;  }
-	block_time = ((time_t *)(plobuf+4))[0] - 60;	// date debut = date fin - 60
+	block_time = (*((time_t *)(plobuf+4))) - 60;	// date debut = date fin - 60
 	if  ( start_time == 0 )
 	    { start_time = block_time; cur_time = start_time;  }
 	if  ( cur_time != block_time )
@@ -95,7 +99,7 @@ while	( fread( plobuf, 1, sizeof(plobuf), plofil ) )
 	    }
 	for ( sec = 0; sec < 60; sec++ )
 	    {
-	    unpack_status( &sf, plobuf + 8 + 30*sec );
+	    unpack_status( &sf, plobuf + PLOBUF_HEAD + 30*sec );
 	    if  ( curstep.istep != sf.step )
 		{
 		// terminer et sauver le step en cours
@@ -188,7 +192,7 @@ void plot_text_view( glostru * glo, const char *plofilname, const char * resume 
    unsigned int ifou;
    struct tm *t; status_full sf;
    int sec, ivan, imfc, item, oldvan;
-   unsigned char plobuf[4+4+(60*30)];
+   unsigned char plobuf[PLOBUF_SIZE];
    char c;
 
    namelen = strlen(plofilname);
@@ -251,7 +255,7 @@ void plot_text_view( glostru * glo, const char *plofilname, const char * resume 
 	    oldvan = 0xFFFF;
 	    for ( sec = 0; sec < 60; sec++ )
 		{
-		unpack_status( &sf, plobuf + 8 + 30*sec );
+		unpack_status( &sf, plobuf + PLOBUF_HEAD + 30*sec );
 		fprintf( plotxt, "%3d", sf.step );
 		fprintf( plotxt, ( sf.flags & PAUSE )?"P":" ");	
 		fprintf( plotxt, ( sf.flags & MANU )?"M":" ");	
@@ -288,7 +292,7 @@ void plot_text_view( glostru * glo, const char *plofilname, const char * resume 
       #ifdef WIN32
       cmd = "c:\\appli\\wscite\\SciTE.exe " + string(plotxtname);
       #else
-      cmd = "kwrite " + string(plotxtname);
+      cmd = "gedit " + string(plotxtname);
       #endif
       system( cmd.c_str() );
       }

@@ -1,13 +1,13 @@
-frevo 8.0y : systeme de memorisation des courbes : fichier binaire plotdat.bin
+Depuis frevo 8.0y : systeme de memorisation des courbes : fichier binaire plotdat.bin
 
 Creation :
 - a chaque seconde, la reponse de l'automate a la commande PFULL (30 bytes)
   est stockee a l'etat brut dans un buffer circulaire (ou 30 zeros si echec dialogue)
   (fonction get_status() de fpilot.c)
 - toutes les 60s, le fichier de courbes est ouvert
-  pour y ecrire 1808 bytes (106 kbyte/h, 2.5 Mbyte/j, 907 Mbyte/an) :
+  pour y ecrire 1808 ou 1812 bytes (106 kbyte/h, 2.5 Mbyte/j, 907 Mbyte/an) :
 	- le numero du four (4 bytes !)
-	- le temps unix (4 bytes)
+	- le temps unix (4 bytes ou 8 bytes selon O.S.)
 	- les 60 paquets de 30 bytes
   puis le fichier est referme.
   (fonction plot_status() de appli.cpp, appelee peu apres get_status())
