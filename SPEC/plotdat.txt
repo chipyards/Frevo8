@@ -11,16 +11,22 @@ Creation :
 	- les 60 paquets de 30 bytes
   puis le fichier est referme.
   (fonction plot_status() de appli.cpp, appelee peu apres get_status())
-- nom du fichier : forme <plotdir>/<locdir>/run_2008_10_21_12h45m25.bin
-  (fonction plot_new() de appli.cpp)
+- nom du fichier :
+	3 elements <plotdir>/<locdir>/<logname>
+		<plotdir> : chemin abs t.q. /home/aime/DATA/log
+		<locdir>  : chemin du tube t.q. Tube_4.3
+		<logname> : timestamp du run t.q. run_2008_10_21_12h45m25.bin
+	Les 2 premiers elements sont concatenes dans glo->ptube->plot_dir (methode four::load_xml())
+	le dernier est dans glo->ptube->recette.logname (fonction plot_new() de appli.cpp)
 - creation fichier automatique a chaque depart recette (arrivee au step 1),
   terminaison a chaque arrivee au step 0
   (N.B. le fichier est deja ferme, il est termine lorsque son nom est retire de l'usage)
 
 Condition d'ecriture :
 - le processus d'ecriture est effectue a condition que glo->ptube->recette.logname soit non vide
+  et que le repertoire <plotdir>/<locdir> existe 
 - ce logname est cree ( fonction plot_new() ) chaque fois que :
-	- on arrive au step 1 de n'importe quel autre
+	- on arrive au step 1 depuis n'importe quel autre
 	- on quitte le step 0 pour n'importe quel autre (8.1o)
 	- on demarre le superviseur alors que l'automate est sur un step different de zero (8.1o)
 - ce logname est detruit (fonction plot_stop() ) chaque fois que :
