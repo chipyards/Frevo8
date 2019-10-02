@@ -502,6 +502,9 @@ while ( ( status = recxml.step() ) )
 	   s = elem->attr[string("saut")];
 	   if ( s.size() )
 	      step[istep].stogo = atoi(s.c_str());
+	   s = elem->attr[string("secustat")];
+	   if ( s.size() )
+	      step[istep].secstat = atoi(s.c_str());
 	   step[istep].titre = elem->attr[string("titre")];
 	   break;
 	   }
@@ -896,7 +899,7 @@ for ( ipod = 0; ipod < QMFC; ipod++ )
 for ( ipod = 0; ipod < QTEM; ipod++ )
     tem[ipod].init();
 fre.init();
-existe = 0; deldg = 0; duree = -1; vannes = 0; stogo = -1;
+existe = 0; deldg = 0; duree = -1; vannes = 0; stogo = -1, secstat = -1;
 }
 
 // methodes de l'etat du podget "epod"

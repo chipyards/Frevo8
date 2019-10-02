@@ -81,6 +81,7 @@ DTD_recette() {
   e.attrib["duree"] = 1;
   e.attrib["deldg"] = 1;
   e.attrib["saut"] = 1;
+  e.attrib["secustat"] = 1;
   elem["step"] = e;
   e.attrib.clear();
 

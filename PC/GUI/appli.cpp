@@ -235,14 +235,17 @@ if   ( glo->status.step != old_step )
      {
      if ( glo->status.step != 0 )
 	{
-	show_run( 1, glo );	// boutons start-stop
+	// boutons start-stop
+	show_run( 1, glo );
+	// nouveau fichier log si necessaire
 	if (
 	   ( ( glo->status.step == 1 ) || ( old_step == 0 ) ) &&
 	   ( glo->ptube->recette.stat == 4 )
 	   )
-	   plot_new( glo );	// nouveau fichier log
-	if ( ( glo->ptube->magic_step > 0 ) && ( glo->status.step == glo->ptube->magic_step ) )
-	   secu_set_param( 0, 1 );	// auto-armement automate secu
+	   plot_new( glo );
+	// auto-armement automate secu
+	if ( glo->ptube->recette.step[glo->status.step].secstat >= 0 )
+	   secu_set_param( 0, glo->ptube->recette.step[glo->status.step].secstat );	// auto-armement automate secu
 	}
      if ( glo->status.step == 0 )
 	{
@@ -710,7 +713,7 @@ gtk_box_pack_start( GTK_BOX( glo->hbut ), curwidg, TRUE, TRUE, 0 );
 glo->bsau = curwidg;
 
 /* simple bouton */
-curwidg = gtk_button_new_with_label (" >> ");
+curwidg = gtk_button_new_with_label (">> +10s");
 gtk_signal_connect( GTK_OBJECT(curwidg), "clicked",
                     GTK_SIGNAL_FUNC( fast_call ), (gpointer)glo );
 gtk_box_pack_start( GTK_BOX( glo->hbut ), curwidg, TRUE, TRUE, 0 );
@@ -903,12 +906,11 @@ if ( glo->ptube->fre.name != string("--") )
    glo->show.txt_aux = 1;
 
 glo->show.auto_secu = 0;
-if ( glo->ptube->auto_secu.size() > 1 )
+if ( glo->ptube->auto_secu.size() >= 1 )
    {
-   if ( glo->ptube->auto_secu[0] == 'm' )
-      glo->ptube->magic_step = atoi( glo->ptube->auto_secu.c_str() + 1 );
-   printf("Automate securite = %s, magic step %d\n", glo->ptube->auto_secu.c_str(), glo->ptube->magic_step );
    glo->show.auto_secu = 1;
+   if ( glo->ptube->auto_secu[0] == 'm' )
+      gasp("auto_secu=\"%s\" : magic step obsolete, non supporte\n", glo->ptube->auto_secu.c_str() );
    }
 
 dialugue_set_IP( glo->ptube->destIP );

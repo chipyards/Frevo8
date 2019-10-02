@@ -45,6 +45,7 @@ epod mfc[QMFC];	// etat des MFC
 epod tem[QTEM];	// etat des regus de temperature
 epod fre;	// frequencemetre
 string titre;
+int secstat;	// status a envoyer a l'automate secu (-1 si absent)
 void init();	// pas de constructeur, utiliser init()
 };
 
@@ -253,7 +254,7 @@ string plot_dir;		// repertoire pour les fichiers bin pour plot courbes
 int comm_verbose;		// verbosite de la communication IPILOT
 string comm_log;		// fichier log de la communication IPILOT
 string auto_secu;		// parametres de l'automate-securite
-int magic_step;			// step special pour armement automate securite
+//int magic_step;			// step special pour armement automate securite
 // class variables
 static DTD_four dtd;		// DTD pour verification du fichier de config xml
 // methodes
@@ -266,7 +267,6 @@ four() : recette(this)		// la recette a besoin de savoir a quel four elle appart
   epod_flags[string("montee")]   = RAMPEN | MACEN;
   epod_flags[string("descente")] = RAMPEN | MICEN;
   comm_verbose = 1;
-  magic_step = -1;
   int i;				// initialisation de ppod[], une commodite pour
   for	( i = 0; i < QVAN; i++ )	// traiter les podgets collectivement
 	ppod.push_back( &vanne[i] );

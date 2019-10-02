@@ -35,7 +35,7 @@
 	</step>
 	
 	
-<step n="21" duree="300" deldg="120" titre="stabilisation temp. a 420 ARMER SECURITE" >
+<step n="21" duree="300" deldg="120" titre="stabilisation temp. a 420" >
 	du gaz pour la convection, on verifie la pression pas trop forte
 	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Ar tube" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
 	<vanne n="Reg. vide" />20 mn 
@@ -86,7 +86,7 @@
 	<mfc n="O2" SV="0.0 %" />
 </step>
 
-<step n="26" duree="120" deldg="60" titre="Regu vide + admission oxygene ARMER SECURITE" >
+<step n="26" duree="120" deldg="60" titre="Regu vide + admission oxygene ARMER SECURITE" secustat="1" >
 	<vanne n="Pre Pomp" /> <vanne n="V. Vide" /> <vanne n="Bal. pmp" /> <vanne n="Ferm. Purges" />
 	<vanne n="SiH4 ev." /> <vanne n="purge SiH4" />
 	<vanne n="O2 tube" />  <vanne n="Reg. vide" />

@@ -21,13 +21,13 @@
 /* il faut intercepter le delete event pour que si l'utilisateur
    ferme la fenetre on revienne sans engendrer de destroy signal.
    A cet effet ce callback doit rendre TRUE ( gtk_main_quit() ne le fait pas)
- */  
+ */
 static gint delete_call( GtkWidget *widget,
                   GdkEvent  *event, rviewstru * rtree )
 {
 rtree->selected = -1;
 gtk_main_quit();
-return (TRUE); 
+return (TRUE);
 }
 
 
@@ -57,7 +57,7 @@ if   ( gtk_tree_selection_get_selected( cursel, NULL, &iter ) )
      jmp_step( &iter, rtree );
 }
 
-// editer un step : 
+// editer un step :
 static void edit_step( GtkTreeIter * piter, rviewstru * rtree );
 
 static void edi_but_call( GtkWidget *widget, rviewstru * rtree )
@@ -109,9 +109,9 @@ rtree->selected = -1; gtk_main_quit();
 
 // une callbaque type data_func
 void step_data_call( GtkTreeViewColumn * tree_column,	// sert pas !
-                     GtkCellRenderer   * rendy, 
+                     GtkCellRenderer   * rendy,
                      GtkTreeModel      * tree_model,
-                     GtkTreeIter       * iter, 
+                     GtkTreeIter       * iter,
                      void              * glo )
 {
 lintype typ; int istep, ipod, ityp;
@@ -142,12 +142,12 @@ g_free( text );
 
 // une callbaque type data_func
 void data_data_call( GtkTreeViewColumn * tree_column,	// sert pas !
-                     GtkCellRenderer   * rendy, 
+                     GtkCellRenderer   * rendy,
                      GtkTreeModel      * tree_model,
-                     GtkTreeIter       * iter, 
+                     GtkTreeIter       * iter,
                      void              * vglo )
 {
-lintype typ; int istep, ipod, ival, ityp, pflags; epod * pepod; modget * fomod; 
+lintype typ; int istep, ipod, ival, ityp, pflags; epod * pepod; modget * fomod;
 char scale; ostringstream obuf;
 rviewstru * glo = (rviewstru *)vglo;
 const char * cellback="#C0C0C0";
@@ -178,8 +178,11 @@ switch (typ)
 		ival = glo->prec->step[istep].deldg;
 		if ( ival > 0 ) obuf << "  " << spBl << "délai de grâce = "
 				     << left << setw(2) << ival << sp0;
+		ival = glo->prec->step[istep].secstat;
+		if ( ival >= 0 ) obuf << "  " << spBlO << "arm. automate secu = "
+				     << left << setw(1) << ival << sp0;
 		obuf << "</tt>"; break;
-   case VANN :	obuf << "<tt>"; 
+   case VANN :	obuf << "<tt>";
 		ival = glo->prec->step[istep].vannes;
 		if ( ival > 0 )
 		   {
@@ -191,8 +194,8 @@ switch (typ)
 			}
 		   }
 		obuf << "</tt>"; break;
-   case MFC :	
-   case TEM :	
+   case MFC :
+   case TEM :
    case AUX :	switch (typ)
 		   {
 		   case MFC : pepod = &glo->prec->step[istep].mfc[ipod];
@@ -368,7 +371,7 @@ while ( retval )
     {
     // recuperer les donnees dans les colonnes 0 et 1 du modele
     // (pairs of column number and value return locations, terminated by -1)
-    gtk_tree_model_get( GTK_TREE_MODEL( rtree->tmod ), founditer, 
+    gtk_tree_model_get( GTK_TREE_MODEL( rtree->tmod ), founditer,
                         0, &ityp, 1, &istep, -1 );
 
     typ = (lintype)ityp;
@@ -401,7 +404,7 @@ curcol = gtk_tree_view_column_new();
 gtk_tree_view_column_set_title( curcol, " Step " );
 gtk_tree_view_column_pack_start( curcol, renderer, TRUE );
 gtk_tree_view_column_set_cell_data_func( curcol, renderer,
-                                         step_data_call, 
+                                         step_data_call,
                                          (gpointer)glo, NULL );
 
 gtk_tree_view_column_set_resizable( curcol, TRUE );
@@ -415,7 +418,7 @@ curcol = gtk_tree_view_column_new();
 gtk_tree_view_column_set_title( curcol, " Data " );
 gtk_tree_view_column_pack_start( curcol, renderer, TRUE );
 gtk_tree_view_column_set_cell_data_func( curcol, renderer,
-                                         data_data_call, 
+                                         data_data_call,
                                          (gpointer)glo, NULL );
 
 gtk_tree_view_column_set_resizable( curcol, TRUE );
@@ -522,6 +525,7 @@ if ( flags & EDIT )
    gtk_signal_connect( GTK_OBJECT(curwidg), "clicked",
                        GTK_SIGNAL_FUNC( save_but_call ), (gpointer)rtree );
    gtk_box_pack_end( GTK_BOX( rtree->hbut ), curwidg, TRUE, TRUE, 0 );
+   gtk_widget_set_sensitive ( curwidg, false );	// pas encore implemente...
    rtree->bsav = curwidg;
    // simple bouton : edit
    curwidg = gtk_button_new_with_label (" Modifier step ");
@@ -559,7 +563,7 @@ if   ( selstep > 0 )
 	path = gtk_tree_model_get_path( (GtkTreeModel*)rtree->tmod, &curiter );
 	gtk_tree_view_expand_to_path( (GtkTreeView*)rtree->tste, path );
 	gtk_tree_view_scroll_to_cell((GtkTreeView*)rtree->tste, path, NULL,
-				      TRUE, 0.3, 0.3 ); 
+				      TRUE, 0.3, 0.3 );
 	gtk_tree_path_free( path );
 	}
      }
@@ -634,7 +638,7 @@ if   ( gtk_tree_selection_get_selected( cursel, NULL, &curiter ) )
      GtkTreePath * path = gtk_tree_model_get_path( (GtkTreeModel*)rtree->tmod, &curiter );
      gtk_tree_view_expand_to_path( (GtkTreeView*)rtree->tste, path );
      gtk_tree_view_scroll_to_cell( (GtkTreeView*)rtree->tste, path, NULL,
-				   TRUE, 0.3, 0.3 ); 
+				   TRUE, 0.3, 0.3 );
      gtk_tree_path_free( path );
      }
 }
@@ -644,13 +648,13 @@ static void bpau_check_call( GtkWidget *widget, rviewstru * rtree )
 {
 if   ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON( widget ) ) )
      {
-     gtk_widget_set_sensitive( rtree->smin, FALSE ); 
+     gtk_widget_set_sensitive( rtree->smin, FALSE );
      gtk_widget_set_sensitive( rtree->ssec, FALSE );
      gtk_spin_button_set_value( GTK_SPIN_BUTTON(rtree->smin), 0 );
      gtk_spin_button_set_value( GTK_SPIN_BUTTON(rtree->ssec), 0 );
      }
 else {
-     gtk_widget_set_sensitive( rtree->smin, TRUE ); 
+     gtk_widget_set_sensitive( rtree->smin, TRUE );
      gtk_widget_set_sensitive( rtree->ssec, TRUE );
      }
 }
@@ -779,7 +783,7 @@ curlabel = gtk_label_new( NULL );
 lbuf = g_strdup_printf( "%s <b>%s</b>", typnam, master->name.c_str() );
 gtk_label_set_markup( GTK_LABEL(curlabel), lbuf );
 g_free( lbuf );
-curwidg = gtk_frame_new( NULL ); 
+curwidg = gtk_frame_new( NULL );
 gtk_frame_set_label_widget( GTK_FRAME(curwidg), curlabel );
 curmod->xmod = curwidg;
 
@@ -818,7 +822,7 @@ else {
 	default  : fs = 5.0; lbuf = g_strdup_printf( "V" );
 	}
      }
- 
+
 // spin bouton
 curadj = (GtkAdjustment *) gtk_adjustment_new ( 0.0, 0.0, fs, fs/50.0, fs/5.0, 0 );
 curwidg = gtk_spin_button_new( curadj, 0, 0 );
@@ -843,12 +847,12 @@ curmod->hfla = curwidg;
 
 // combo box
 curwidg = gtk_combo_box_new_text();
-gtk_combo_box_append_text( GTK_COMBO_BOX(curwidg), "Stable" );  
-gtk_combo_box_append_text( GTK_COMBO_BOX(curwidg), "Détection seuil bas" );  
-gtk_combo_box_append_text( GTK_COMBO_BOX(curwidg), "Détection seuil haut" );  
-gtk_combo_box_append_text( GTK_COMBO_BOX(curwidg), "Détection min et max" );  
-gtk_combo_box_append_text( GTK_COMBO_BOX(curwidg), "Rampe montante" );  
-gtk_combo_box_append_text( GTK_COMBO_BOX(curwidg), "Rampe descendante" );  
+gtk_combo_box_append_text( GTK_COMBO_BOX(curwidg), "Stable" );
+gtk_combo_box_append_text( GTK_COMBO_BOX(curwidg), "Détection seuil bas" );
+gtk_combo_box_append_text( GTK_COMBO_BOX(curwidg), "Détection seuil haut" );
+gtk_combo_box_append_text( GTK_COMBO_BOX(curwidg), "Détection min et max" );
+gtk_combo_box_append_text( GTK_COMBO_BOX(curwidg), "Rampe montante" );
+gtk_combo_box_append_text( GTK_COMBO_BOX(curwidg), "Rampe descendante" );
 gtk_signal_connect( GTK_OBJECT(curwidg), "changed",
                     GTK_SIGNAL_FUNC( modget_flags_call ), (gpointer)curmod );
 gtk_box_pack_start( GTK_BOX( curmod->hfla ), curwidg, FALSE, FALSE, 10 );
@@ -943,7 +947,7 @@ GtkWidget *curwidg;
 GtkAdjustment *curadj;
 int i; char * lbuf; string * curnam;
 
-// scrolled window 
+// scrolled window
 curwidg = gtk_scrolled_window_new( NULL, NULL );
 gtk_scrolled_window_set_shadow_type( GTK_SCROLLED_WINDOW(curwidg),
 				     GTK_SHADOW_IN);
@@ -1020,7 +1024,7 @@ gtk_box_pack_start( GTK_BOX( rtree->hdur ), curwidg, FALSE, FALSE, 0 );
 rtree->ssec = curwidg;
 
 curwidg = gtk_label_new( NULL );
-gtk_label_set_markup( GTK_LABEL(curwidg), 
+gtk_label_set_markup( GTK_LABEL(curwidg),
   "  <span background=\"#FFFFFF\" foreground=\"#000000\" weight=\"bold\" >Délai de grâce</span>");
 gtk_box_pack_start( GTK_BOX( rtree->hdur ), curwidg, FALSE, FALSE, 0 );
 
@@ -1075,7 +1079,7 @@ rtree->vaux = curwidg;
 
 
 // un cadre
-curwidg = gtk_frame_new( "Vannes"  ); 
+curwidg = gtk_frame_new( "Vannes"  );
 gtk_box_pack_start( GTK_BOX( rtree->vaux ), curwidg, FALSE, FALSE, 10 );
 rtree->xvan = curwidg;
 
@@ -1105,7 +1109,7 @@ for ( i = 0; i < QVAN; i++ )
     rtree->bvan[i] = curwidg;
     }
 
-// auxiliaires 
+// auxiliaires
 curwidg = mkmodgui( AUX, 0, rtree );
 if ( curwidg )
    gtk_box_pack_start( GTK_BOX( rtree->vaux ), curwidg, FALSE, FALSE, 10 );
@@ -1171,7 +1175,7 @@ for ( i = 0; i < QTEM; i++ )
 static void mod2gui( lintype typ, int ipod, int istep, rviewstru * rtree )
 {
 int ival, flagi, pflags;
-epod * pepod; modget * master; modgui * curmod; char scale; 
+epod * pepod; modget * master; modgui * curmod; char scale;
 
 switch (typ)
    {
@@ -1309,14 +1313,14 @@ ival = pstep->duree;
 if   ( ival <= 0 )
      {
      gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( rtree->bpau ), TRUE );
-     gtk_widget_set_sensitive( rtree->smin, FALSE ); 
+     gtk_widget_set_sensitive( rtree->smin, FALSE );
      gtk_widget_set_sensitive( rtree->ssec, FALSE );
      gtk_spin_button_set_value( GTK_SPIN_BUTTON(rtree->smin), 0 );
      gtk_spin_button_set_value( GTK_SPIN_BUTTON(rtree->ssec), 0 );
      }
 else {
      gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( rtree->bpau ), FALSE );
-     gtk_widget_set_sensitive( rtree->smin, TRUE ); 
+     gtk_widget_set_sensitive( rtree->smin, TRUE );
      gtk_widget_set_sensitive( rtree->ssec, TRUE );
      gtk_spin_button_set_value( GTK_SPIN_BUTTON(rtree->smin), ival / 60 );
      gtk_spin_button_set_value( GTK_SPIN_BUTTON(rtree->ssec), ival % 60 );
@@ -1368,7 +1372,7 @@ static void gui2mod( lintype typ, int ipod, int istep, rviewstru * rtree )
 {
 int ival, flagi; double dval;
 int echomod = 1;	// echo des modifs vers stdout
-epod * pepod; modget * master; modgui * curmod; char scale; 
+epod * pepod; modget * master; modgui * curmod; char scale;
 
 switch (typ)
    {
@@ -1499,7 +1503,7 @@ g_free( lbuf );
 if ( echomod ) if ( rtree->modcnt ) printf("\n");
 }
 
-// passer en edition de step : 
+// passer en edition de step :
 static void edit_step( GtkTreeIter * piter, rviewstru * rtree )
 {
 gtk_tree_model_get( (GtkTreeModel *)(rtree->tmod), piter, 1, &rtree->selected, -1 );

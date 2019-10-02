@@ -120,7 +120,7 @@ for    ( ivan = 0; ivan < QVAN; ivan++ )
             else gtk_entry_set_text( GTK_ENTRY(glo->evan[ivan]), "0" );
        }
 
-// affichage MFCs 
+// affichage MFCs
 for ( imfc = 0; imfc < QMFC; imfc++ )
     {
     if   ( glo->ptube->mfc[imfc].name[0] == '-' )
@@ -155,7 +155,7 @@ for ( imfc = 0; imfc < QMFC; imfc++ )
          }
     }
 
-// affichage temperatures 
+// affichage temperatures
 
 for    ( item = 0; item < QTEM; item++ )
        {
@@ -249,7 +249,7 @@ if ( ( glo->status.flags & MANU ) && ( glo->show.txt_temp ) )
 	     gasp("valeur TEMP illegale %g", val );
 	  ival = glo->ptube->tem[item].uiu2pcu( val, 'd' );
           set_temp( item, ival );
-	  if ( (glo->show.uniform_temp ) && ( item == 1 ) ) // copier milieu sur les bouts 
+	  if ( (glo->show.uniform_temp ) && ( item == 1 ) ) // copier milieu sur les bouts
 	     {
 	     gtk_spin_button_set_value( (GtkSpinButton *)glo->stem[0], val );
 	     gtk_spin_button_set_value( (GtkSpinButton *)glo->stem[2], val );
@@ -430,11 +430,9 @@ glo->bpl1 = curwidg;
 
 if ( glo->show.auto_secu )
    {
-   char lbuf[40]; int n;
+   char lbuf[40];
    // un cadre
-   n = snprintf( lbuf, 40, "Automate sécurité" );
-   if ( ( glo->ptube->magic_step > 0 ) && ( n < 40 ) )
-      snprintf( lbuf+n, 40-n, " (auto-arm step=%d)", glo->ptube->magic_step );
+   snprintf( lbuf, 40, "Automate sécurité" );
    curwidg = gtk_frame_new( lbuf );
    gtk_box_pack_start( GTK_BOX(glo->vmisc), curwidg, FALSE, FALSE, 0 );
    glo->fsec = curwidg;
