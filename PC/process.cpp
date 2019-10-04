@@ -131,6 +131,7 @@ while ( ( status = fourxml.step() ) )
 	   pix_dir = elem->attr[string("pixdir")];
 	   plot_dir = elem->attr[string("plotdir")];
 	   xml_ver = elem->attr[string("version")];
+	   text_editor = elem->attr[string("text_editor")];
 	   }
 	break;
     case 2 :
@@ -618,6 +619,7 @@ while ( ( status = recxml.step() ) )
 stat = 0;
 }
 
+// verifier la coherence du contenu de la recette
 void recipe::check()
 {
 int istep, ipod, igo;
@@ -695,6 +697,7 @@ for ( istep = 1; istep < 256; istep ++ )
     }
 }
 
+// comprimer la recette en format automate
 void recipe::make_pack()
 {
 int istep, i, ipod; epod * pepod;
@@ -872,6 +875,81 @@ while ( adr < packlen )
 dump = odum.str();
 }
 
+// recodage de la recette en xml
+void recipe::make_xml()
+{
+int istep, i, vv, cnt, ipod; epod * pepod;
+FILE * xfil = stdout;
+// <recette four="5" titre="depot LTO v7 - - tolerance fuite N2 reg. vide" >
+fprintf( xfil, "<recette four=\"%d\" titre=\"%s\" >\n", ptube->ifou, titre.c_str() );
+
+qstep = 0;
+for	( istep = 1; istep < 256; istep ++ )
+	{
+	if	( step[istep].existe )
+		{
+		// <step n="26" duree="120" deldg="60" titre="Regu vide" secustat="1" >
+		fprintf( xfil, "<step n=\"%d\" ", istep );
+		if	( step[istep].deldg > 0 )
+			fprintf( xfil, "deldg=\"%d\" ", step[istep].deldg );
+		if	( step[istep].duree > 0 )
+			fprintf( xfil, "duree=\"%d\" ", step[istep].duree );
+		fprintf( xfil, "titre=\"%s\" ", step[istep].titre.c_str() );
+		if	( step[istep].secstat >= 0 )
+			fprintf( xfil, "secustat=\"%d\" ", step[istep].secstat );
+		if	( step[istep].stogo >= 0 )
+			fprintf( xfil, "saut=\"%d\" ", step[istep].stogo );
+		fprintf( xfil, ">\n" );
+		vv = step[istep].vannes; cnt = 0;
+		for	( i = 0; i < 16; i++ )
+			{
+			if	( vv & 1 )
+				{
+				fprintf( xfil, "<vanne n=\"%s\" /> ", ptube->vanne[i].name.c_str() );
+				if	( ++cnt >= 4 )
+					{ cnt = 0; fprintf( xfil, "\n" ); }
+				}
+			vv >>= 1;
+			}
+		if	(cnt)
+			fprintf( xfil, "\n" );
+		for	( i = 0; i < (QMFC+QTEM+1); i++ )
+			{
+			ipod = i;
+			if	( ipod < QMFC )
+				pepod = &step[istep].mfc[ipod];
+			else	{
+				ipod -= QMFC;
+				if	( ipod < QTEM )
+					pepod = &step[istep].tem[ipod];
+				else	pepod = &step[istep].fre;
+				}
+			/*
+			if	( pepod->SV >=0 )
+				{
+				Encode pepod->SV;
+				}
+			if	( pepod->SVmi >=0 )
+				{
+				Encode pepod->SVmi;
+				}
+			if	( pepod->SVma >=0 )
+				{
+				Encode pepod->SVma;
+				}
+			if	( pepod->flags >= 0 )
+				{
+				Encode pepod->flags;
+				Encode pepod->stogo;
+				} */
+			}	// for i
+		fprintf( xfil, "</step>\n" );
+		qstep++;
+		}	// if existe
+	} // for istep
+fprintf( xfil, "</recette>\n" );
+}
+
 // methodes du step "etape" ------------------------------------- //
 
 /* ATTENTION : initialisation recette avant lecture XML
@@ -887,9 +965,7 @@ dump = odum.str();
 	  l'automate mettra toujours zero (depuis Frevo 7.9b).
 N.B. ici -1, c'est -1 sur 32 bits soit 0xffffffff, la valeur 0xffff est legale
 pour certains parametres (par exemple duree)
-
  */
-
 
 void etape::init()
 {

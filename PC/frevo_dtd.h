@@ -12,6 +12,7 @@ DTD_four() {
   e.attrib["xmldir"] = 1;
   e.attrib["pixdir"] = 1;
   e.attrib["plotdir"] = 1;
+  e.attrib["text_editor"] = 1;
   elem["frevo"] = e;
   e.attrib.clear();
 

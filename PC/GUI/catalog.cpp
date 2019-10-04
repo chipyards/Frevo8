@@ -151,16 +151,14 @@ if   ( gtk_tree_selection_get_selected( cursel, NULL, &iter ) )
      string cmd;
      #ifdef WIN32
      #define SLASH '\\'
-     cmd = "c:\\appli\\wscite\\SciTE.exe " + cat->ptube->xml_dir + SLASH
-	   + cat->ptube->reclist[i].filename;
      #else
      #define SLASH '/'
-     cmd = "kwrite " + cat->ptube->xml_dir + SLASH
-	   + cat->ptube->reclist[i].filename;
      #endif
+     cmd = cat->ptube->text_editor + string(" ") + cat->ptube->xml_dir + SLASH
+	   + cat->ptube->reclist[i].filename;
      system( cmd.c_str() );
 
-     /* au retour de l'editeur : un petit dump dans stdout... *
+     /* au retour de l'editeur : un petit dump dans stdout... */
      recipe tmprec( cat->ptube );
      tmprec.filename = cat->ptube->reclist[i].filename;
      tmprec.load_xml();
@@ -170,9 +168,9 @@ if   ( gtk_tree_selection_get_selected( cursel, NULL, &iter ) )
 	  {
 	  tmprec.make_pack();
 	  tmprec.dump_pack();
-	  cout << tmprec.dump;
+	  puts( tmprec.dump.c_str() ); fflush(stdout);
 	  }
-     else cout << tmprec.errmess << endl;
+     else { puts( tmprec.errmess.c_str() ); fflush(stdout); }
      //*/
      gtk_main_quit();	// pour eviter que la fenetre catalogue reste cachee mais bloquante
      }

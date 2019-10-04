@@ -102,6 +102,7 @@ void load_xml( string fullpath );
 void check();
 void make_pack();
 void dump_pack();
+void make_xml();
 private :
 recipe() {};	// constructeur volontairement rendu inutilisable
 void errtxt( const char * txt );	// fomattage de message d'erreur
@@ -251,6 +252,7 @@ string xml_ver;			// version lue dans fichier fours.xml
 string xml_dir;			// repertoire pour les recettes XML
 string pix_dir;			// repertoire pour les fichiers image pour GUI
 string plot_dir;		// repertoire pour les fichiers bin pour plot courbes
+string text_editor;		// editeur de texte local
 int comm_verbose;		// verbosite de la communication IPILOT
 string comm_log;		// fichier log de la communication IPILOT
 string auto_secu;		// parametres de l'automate-securite

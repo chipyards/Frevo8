@@ -63,9 +63,9 @@ if ( plofil == NULL )
 // sauter la recette jusqu'au delimiteur 0x7F
 do {
    c = getc( plofil );
-   if ( c == EOF ) 
+   if ( c == EOF )
       { errmess = "fin de fichier prematuree"; return;  }
-   if ( c == 0 ) 
+   if ( c == 0 )
       { errmess = "caractere incorrect dans zone recette"; return;  }
    } while ( c != 0x7F );
 
@@ -139,7 +139,7 @@ for ( i = 0; i < steps.size(); i++ )
     {
     odum << "step " << setfill(' ') << setw(3) << steps[i].istep << " " << setw(5) << steps[i].duree << "s ";
     odum << " \"" << recette.step[steps[i].istep].titre << "\"";
-    odum << endl;  
+    odum << endl;
     }
 resume = odum.str();
 }
@@ -199,7 +199,7 @@ void plot_text_view( glostru * glo, const char *plofilname, const char * resume 
    if ( namelen > 1019 ) namelen = 1019;
    strncpy( plotxtname, plofilname, namelen );
    if ( namelen > 4 ) namelen -= 4;
-   strcpy( plotxtname + namelen, ".txt" ); 
+   strcpy( plotxtname + namelen, ".txt" );
 
    printf("ouverture lecture %s\n", plofilname );
    plofil = fopen( plofilname, "rb" );
@@ -257,8 +257,8 @@ void plot_text_view( glostru * glo, const char *plofilname, const char * resume 
 		{
 		unpack_status( &sf, plobuf + PLOBUF_HEAD + 30*sec );
 		fprintf( plotxt, "%3d", sf.step );
-		fprintf( plotxt, ( sf.flags & PAUSE )?"P":" ");	
-		fprintf( plotxt, ( sf.flags & MANU )?"M":" ");	
+		fprintf( plotxt, ( sf.flags & PAUSE )?"P":" ");
+		fprintf( plotxt, ( sf.flags & MANU )?"M":" ");
 		fprintf( plotxt, ( sf.flags & ROOT )?"R":" ");
 		fprintf( plotxt, "%4ds ", sf.chrono );
 		fprintf( plotxt, "%7.1fHz ", KF * (double)sf.frequ );
@@ -289,11 +289,7 @@ void plot_text_view( glostru * glo, const char *plofilname, const char * resume 
       printf("_fini\n");
 
       string cmd;
-      #ifdef WIN32
-      cmd = "c:\\appli\\wscite\\SciTE.exe " + string(plotxtname);
-      #else
-      cmd = "gedit " + string(plotxtname);
-      #endif
+      cmd = glo->ptube->text_editor + string(" ") + string(plotxtname);
       system( cmd.c_str() );
       }
 

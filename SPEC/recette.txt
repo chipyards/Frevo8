@@ -138,6 +138,8 @@ RECETTE XML
 	- un step sans duree specifiee se mettra en pause de lui-meme, jusqu'a action
 	  manuelle "Cont". Alors le step suivant (implicite ou explicite) sera execute.
 	- le delai de grace pour les checks prend une valeur 0 par defaut s'il est omis
+	- l'attribut secu_stat (version 8.3) ordonne le changement d'état de l'automate
+	  sécurité au début du step
 
 - Valeurs de consigne "SV", "SVmi", "SVma", "SVinc", "SVdec"
 	- une valeur decimale eventuellement fractionnaire

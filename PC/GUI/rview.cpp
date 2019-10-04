@@ -71,18 +71,18 @@ if   ( gtk_tree_selection_get_selected( cursel, NULL, &iter ) )
 // sauver la recette
 static void save_but_call( GtkWidget *widget, rviewstru * rtree )
 {
-// pour le moment on fait un dump vers stdout
 rtree->prec->check();
-if ( rtree->prec->stat > -2 )
-   rtree->prec->make_pack();
+if	( rtree->prec->stat > -2 )
+	rtree->prec->make_pack();
 
-if   ( rtree->prec->stat < -1 )
-     { printf( "%s\n", rtree->prec->errmess.c_str() ); }
-else {
-     rtree->prec->dump_pack();
-     puts( rtree->prec->dump.c_str() );
-     }
-
+if	( rtree->prec->stat < -1 )
+	{ printf( "%s\n", rtree->prec->errmess.c_str() ); }
+else	{
+	rtree->prec->make_xml();
+	// rtree->prec->dump_pack();
+	// puts( rtree->prec->dump.c_str() );
+	fflush(stdout);
+	}
 }
 
 // double clic
@@ -492,8 +492,8 @@ curwidg = gtk_scrolled_window_new( NULL, NULL );
 gtk_scrolled_window_set_shadow_type( GTK_SCROLLED_WINDOW(curwidg),
 				     GTK_SHADOW_IN);
 gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW(curwidg),
-                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-gtk_widget_set_usize( curwidg, 900, 500 );
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+gtk_widget_set_usize( curwidg, 900, 710 );
 gtk_box_pack_start( GTK_BOX( rtree->vmain ), curwidg, TRUE, TRUE, 0 );
 rtree->wlis = curwidg;
 
@@ -525,7 +525,6 @@ if ( flags & EDIT )
    gtk_signal_connect( GTK_OBJECT(curwidg), "clicked",
                        GTK_SIGNAL_FUNC( save_but_call ), (gpointer)rtree );
    gtk_box_pack_end( GTK_BOX( rtree->hbut ), curwidg, TRUE, TRUE, 0 );
-   gtk_widget_set_sensitive ( curwidg, false );	// pas encore implemente...
    rtree->bsav = curwidg;
    // simple bouton : edit
    curwidg = gtk_button_new_with_label (" Modifier step ");
@@ -952,7 +951,7 @@ curwidg = gtk_scrolled_window_new( NULL, NULL );
 gtk_scrolled_window_set_shadow_type( GTK_SCROLLED_WINDOW(curwidg),
 				     GTK_SHADOW_IN);
 gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW(curwidg),
-                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 gtk_widget_set_usize( curwidg, 1100, 600 );
 gtk_box_pack_start( GTK_BOX( rtree->vmain ), curwidg, TRUE, TRUE, 0 );
 rtree->wstep = curwidg;
@@ -1500,7 +1499,8 @@ else lbuf = g_strdup_printf( "RECETTE : <b>%s</b>", rtree->prec->titre.c_str() )
 gtk_label_set_markup( GTK_LABEL( rtree->lmain ), lbuf );
 g_free( lbuf );
 
-if ( echomod ) if ( rtree->modcnt ) printf("\n");
+if ( ( echomod ) && ( rtree->modcnt ) )
+   { printf("\n"); fflush(stdout); }
 }
 
 // passer en edition de step :
