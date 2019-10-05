@@ -78,9 +78,21 @@ if	( rtree->prec->stat > -2 )
 if	( rtree->prec->stat < -1 )
 	{ printf( "%s\n", rtree->prec->errmess.c_str() ); }
 else	{
-	rtree->prec->make_xml();
-	// rtree->prec->dump_pack();
-	// puts( rtree->prec->dump.c_str() );
+	string fullpath = rtree->ptube->xml_dir + char(SLASH) + string("saved_") + rtree->prec->filename;
+	FILE * xfil = fopen( fullpath.c_str(), "w" );
+	if	( xfil == NULL ) xfil = stdout;
+	else	printf("saving %s\n", fullpath.c_str() );
+	rtree->prec->make_xml( xfil );
+	fclose( xfil );
+		{
+		fullpath = rtree->ptube->xml_dir + char(SLASH) + string("dumped_") + rtree->prec->filename + string(".txt");
+		FILE * dfil = fopen( fullpath.c_str(), "w" );
+		if	( dfil == NULL ) dfil = stdout;
+		else	printf("saving %s\n", fullpath.c_str() );
+		rtree->prec->dump_pack();
+		fputs( rtree->prec->dump.c_str(), dfil );
+		fclose( dfil );
+		}
 	fflush(stdout);
 	}
 }
@@ -107,7 +119,7 @@ rtree->selected = -1; gtk_main_quit();
 
 /** ======================== tree call backs ======================= */
 
-// une callbaque type data_func
+// une callback type data_func
 void step_data_call( GtkTreeViewColumn * tree_column,	// sert pas !
                      GtkCellRenderer   * rendy,
                      GtkTreeModel      * tree_model,
@@ -140,7 +152,7 @@ g_object_set( rendy, "cell-background", cellback,
 g_free( text );
 }
 
-// une callbaque type data_func
+// une callback type data_func
 void data_data_call( GtkTreeViewColumn * tree_column,	// sert pas !
                      GtkCellRenderer   * rendy,
                      GtkTreeModel      * tree_model,

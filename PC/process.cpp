@@ -876,14 +876,10 @@ dump = odum.str();
 }
 
 // recodage de la recette en xml
-void recipe::make_xml()
+void recipe::make_xml( FILE * xfil )
 {
-int istep, i, vv, cnt, ipod; epod * pepod;
-FILE * xfil = stdout;
-// <recette four="5" titre="depot LTO v7 - - tolerance fuite N2 reg. vide" >
+int istep, i, vv, cnt; epod * pepod; modget * pemod;
 fprintf( xfil, "<recette four=\"%d\" titre=\"%s\" >\n", ptube->ifou, titre.c_str() );
-
-qstep = 0;
 for	( istep = 1; istep < 256; istep ++ )
 	{
 	if	( step[istep].existe )
@@ -913,41 +909,69 @@ for	( istep = 1; istep < 256; istep ++ )
 			}
 		if	(cnt)
 			fprintf( xfil, "\n" );
-		for	( i = 0; i < (QMFC+QTEM+1); i++ )
+		for	( i = 0; i < QMFC; i++ )
 			{
-			ipod = i;
-			if	( ipod < QMFC )
-				pepod = &step[istep].mfc[ipod];
-			else	{
-				ipod -= QMFC;
-				if	( ipod < QTEM )
-					pepod = &step[istep].tem[ipod];
-				else	pepod = &step[istep].fre;
-				}
-			/*
-			if	( pepod->SV >=0 )
-				{
-				Encode pepod->SV;
-				}
-			if	( pepod->SVmi >=0 )
-				{
-				Encode pepod->SVmi;
-				}
-			if	( pepod->SVma >=0 )
-				{
-				Encode pepod->SVma;
-				}
-			if	( pepod->flags >= 0 )
-				{
-				Encode pepod->flags;
-				Encode pepod->stogo;
-				} */
+			pepod = &step[istep].mfc[i];
+			pemod = &ptube->mfc[i];
+			podget2xml( xfil, pepod, pemod, "mfc", 'u' );
 			}	// for i
+		for	( i = 0; i < QTEM; i++ )
+			{
+			pepod = &step[istep].tem[i];
+			pemod = &ptube->tem[i];
+			podget2xml( xfil, pepod, pemod, "tem", 'd' );
+			}	// for i
+		pepod = &step[istep].fre;
+		pemod = &ptube->fre;
+		podget2xml( xfil, pepod, pemod, "fre", 'f' );
 		fprintf( xfil, "</step>\n" );
-		qstep++;
 		}	// if existe
 	} // for istep
 fprintf( xfil, "</recette>\n" );
+}
+
+// recodage d'un podget en xml
+void recipe::podget2xml( FILE * xfil, epod * pepod, modget * pemod, const char * prefix, char type )
+{
+if	(!( ( pepod->SV >=0 ) || ( pepod->SVmi >=0 ) || ( pepod->SVma >=0 ) || ( pepod->flags >= 0 ) ) )
+	return;	// nothing to do
+fprintf( xfil, "\t<%s n=\"%s\" ", prefix, pemod->name.c_str() );
+if	( pepod->SV >=0 )
+	fprintf( xfil, "SV=\"%g %c\" ", pemod->pcu2uiu( pepod->SV, type ), type );
+if	( pepod->flags > 0 )
+	{
+	const char * SVmi_alias = "SVmi";
+	const char * SVma_alias = "SVma";
+	if	( ( ( pepod->flags & RAMPEN ) == 0 ) && ( pepod->flags & (MICEN|MACEN) ) )
+		{
+		fprintf( xfil, "check=\"" );
+		if	( pepod->flags & MICEN )
+			fprintf( xfil, "min" );
+		if	( pepod->flags & MACEN )
+			fprintf( xfil, "max" );
+		fprintf( xfil, "\" " );
+		}
+	if	( pepod->flags & RAMPEN )
+		{
+		if	( pepod->flags & MACEN )
+			{
+			SVmi_alias = "SVinc";
+			fprintf( xfil, "rampe=\"montee\" " );
+			}
+		if	( pepod->flags & MICEN )
+			{
+			SVma_alias = "SVdec";
+			fprintf( xfil, "rampe=\"descente\" " );
+			}
+		}
+	if	( pepod->SVmi >=0 )
+		fprintf( xfil, "%s=\"%g %c\" ", SVmi_alias, pemod->pcu2uiu( pepod->SVmi, type ), type );
+	if	( pepod->SVma >=0 )
+		fprintf( xfil, "%s=\"%g %c\" ", SVma_alias, pemod->pcu2uiu( pepod->SVma, type ), type );
+	if	( pepod->stogo >= 0 )
+		fprintf( xfil, "saut=\"%d\" ", pepod->stogo );
+	}
+fprintf( xfil, "/>\n" );
 }
 
 // methodes du step "etape" ------------------------------------- //

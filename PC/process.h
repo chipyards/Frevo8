@@ -67,6 +67,7 @@ void init();	// pas de constructeur, utiliser init()
 
 #define QPACK (3*(1+255*(3+8*4)))	// plus gros pack possible
 class four;		// decrite plus loin
+class modget;		// decrite plus loin
 
 // base class : un resume-bilan de la recette
 class recipe_summary {
@@ -102,8 +103,9 @@ void load_xml( string fullpath );
 void check();
 void make_pack();
 void dump_pack();
-void make_xml();
+void make_xml( FILE * xfil );
 private :
+void podget2xml( FILE *, epod * pepod, modget * pemod, const char * prefix, char type );
 recipe() {};	// constructeur volontairement rendu inutilisable
 void errtxt( const char * txt );	// fomattage de message d'erreur
 };
