@@ -18,7 +18,7 @@ using namespace std;
 #include "modpop2.h"
 #include "../../ipilot.h"
 #include "../fpilot.h"
-#include "../xmlpb.h"
+#include "../xmlpe.h"
 #include "../frevo_dtd.h"
 #include "../process.h"
 #include "glostru.h"

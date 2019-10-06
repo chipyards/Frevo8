@@ -10,7 +10,7 @@
 
 #include "modpop2.h"
 #include "../../version.h"
-#include "../xmlpb.h"
+#include "../xmlpe.h"
 #include "../frevo_dtd.h"
 #include "../process.h"
 #include "../dirlist.h"
@@ -85,7 +85,7 @@ else	{
 	rtree->prec->make_xml( xfil );
 	fclose( xfil );
 		{
-		fullpath = rtree->ptube->xml_dir + char(SLASH) + string("dumped_") + rtree->prec->filename + string(".txt");
+		fullpath = rtree->ptube->xml_dir + char(SLASH) + string("DUMP") + char(SLASH) + rtree->prec->filename + string(".txt");
 		FILE * dfil = fopen( fullpath.c_str(), "w" );
 		if	( dfil == NULL ) dfil = stdout;
 		else	printf("saving %s\n", fullpath.c_str() );

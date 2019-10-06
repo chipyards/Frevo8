@@ -60,7 +60,7 @@
 		<Unit filename="../../fpilot.c" />
 		<Unit filename="../../crc32.c" />
 		<Unit filename="../../process.cpp" /> 
-		<Unit filename="../../xmlpb.cpp" />
+		<Unit filename="../../xmlpe.cpp" />
 		<Unit filename="../../dirlist.cpp" />
 		<Unit filename="../modpop2.c" />
 		<Unit filename="../modadj.c" />

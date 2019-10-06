@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 #include "../../version.h"
-#include "../xmlpb.h"
+#include "../xmlpe.h"
 #include "../frevo_dtd.h"
 #include "../process.h"
 #include "catalog.h"

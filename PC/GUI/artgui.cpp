@@ -13,7 +13,7 @@
 #include "modadj.h"
 #include "../../ipilot.h"
 #include "../fpilot.h"
-#include "../xmlpb.h"
+#include "../xmlpe.h"
 #include "../frevo_dtd.h"
 #include "../process.h"
 #include "../dirlist.h"

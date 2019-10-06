@@ -1,10 +1,10 @@
 INCS= `pkg-config --cflags gtk+-2.0`
 
 OBJS=  i2c_udp_mast.o dialu.o diali.o fpilot.o \
-       crc32.o process.o xmlpb.o dirlist.o modpop2.o modadj.o catalog.o rview.o textgui.o artgui.o plot.o appli.o
+       crc32.o process.o xmlpe.o dirlist.o modpop2.o modadj.o catalog.o rview.o textgui.o artgui.o plot.o appli.o
 
 HEADERS=  ../UDP/i2c_udp_mast.h ../UDP/dialu.h ../diali.h ../fpilot.h \
-          ../crc32.h ../process.h ../xmlpb.h ../dirlist.h modpop2.h modadj.h catalog.h rview.h glostru.h textgui.h artgui.h plot.h
+          ../crc32.h ../process.h ../xmlpe.h ../dirlist.h modpop2.h modadj.h catalog.h rview.h glostru.h textgui.h artgui.h plot.h
 
 # cibles
 
@@ -32,8 +32,8 @@ crc32.o : ../crc32.c ${HEADERS}
 process.o : ../process.cpp  ${HEADERS}
 	g++ -Wall -c -O3 ../process.cpp
 
-xmlpb.o : ../xmlpb.cpp ${HEADERS}
-	g++ -Wall -Wno-misleading-indentation -c -O3 ../xmlpb.cpp
+xmlpe.o : ../xmlpe.cpp ${HEADERS}
+	g++ -Wall -Wno-misleading-indentation -c -O3 ../xmlpe.cpp
 
 dirlist.o : ../dirlist.cpp  ${HEADERS}
 	g++ -Wall -Wno-unused-result -c -O3 ../dirlist.cpp

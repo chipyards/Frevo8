@@ -14,7 +14,7 @@
 
 using namespace std;
 
-#include "xmlpb.h"
+#include "xmlpe.h"
 #include "frevo_dtd.h"
 #include "process.h"
 #include "dirlist.h"
@@ -42,12 +42,13 @@ int ipod;
 int status; xelem * elem;
 int bonfour = 0;
 
-while ( ( status = fourxml.step() ) )
+while ( ( status = fourxml.step() ) != 9 )
   {
   elem = &fourxml.stac.back();
   switch( status )
     {
     case 1 :
+    case 3 :
 	if ( bonfour == 1 )
 	   {
 	   // printf("~~~> %s\n", elem->tag.c_str() );
@@ -459,19 +460,21 @@ if ( !(recxml.is) )
 // parsing
 int status; xelem * elem; string s;
 /* status :
-   0 si EOF
-   1 creation d'un nouvel element (tous attributs inclus, contenu exclu)
-     accessible au sommet de la pile (recxml.stac)
-   2 fin de l'element courant (encore accessible au sommet de la pile,
-     mais en instance d'etre depile)
-  <0 si erreur
+   1 nouvel element : fin de start-tag (tous attributs inclus, contenu exclu)
+     accessible au sommet de la pile (this->stac)
+   2 fin de end-tag de l'element courant
+     (encore accessible au sommet de la pile, mais en instance d'etre depile)
+   3 fin d'empty element tag (tous attributs inclus) accessible au sommet de la pile
+   9 EOF
+   <0 si erreur
  */
-while ( ( status = recxml.step() ) )
+while ( ( status = recxml.step() ) != 9 )
   {
   elem = &recxml.stac.back(); errlin = recxml.curlin + 1;
   switch( status )
     {
     case 1 :
+    case 3 :
 	if ( recxml.stac.size() == 1 )
 	   {
 	   if ( elem->tag != string("recette") )

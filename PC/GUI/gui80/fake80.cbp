@@ -52,19 +52,27 @@
 			<Add library="pango-1.0" />
 			<Add directory="F:/Appli/msys64/mingw32/lib" />
 		</Linker>
-		<Unit filename="../../fpilot_fake.c" />
-		<Unit filename="../../crc32.c" />
-		<Unit filename="../../process.cpp" /> 
-		<Unit filename="../../xmlpb.cpp" />
+		<Unit filename="../../crc32.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="../../dirlist.cpp" />
-		<Unit filename="../modpop2.c" />
-		<Unit filename="../modadj.c" />
-		<Unit filename="../catalog.cpp" />
-		<Unit filename="../rview.cpp" />
-		<Unit filename="../textgui.cpp" /> 
-		<Unit filename="../artgui.cpp" /> 
-		<Unit filename="../plot.cpp" /> 
+		<Unit filename="../../fpilot_fake.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../process.cpp" />
+		<Unit filename="../../xmlpe.cpp" />
 		<Unit filename="../appli.cpp" />
+		<Unit filename="../artgui.cpp" />
+		<Unit filename="../catalog.cpp" />
+		<Unit filename="../modadj.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../modpop2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../plot.cpp" />
+		<Unit filename="../rview.cpp" />
+		<Unit filename="../textgui.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
