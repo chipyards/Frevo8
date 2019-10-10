@@ -980,7 +980,7 @@ curmod->ejmp = curwidg;
 return curmod->xmod;
 }
 
-// creation GUI step (1 seule fois SVP)
+// creation GUI step (1 seule fois SVP - cette fonction cree les widgets mais ne les peuple pas)
 void mkstepgui( rviewstru * rtree )
 {
 GtkWidget *curwidg;
@@ -1186,6 +1186,16 @@ for ( i = 0; i < QTEM; i++ )
        gtk_box_pack_start( GTK_BOX( rtree->vtem ), curwidg, FALSE, FALSE, 10 );
     }
 
+// 4eme tab : texte
+// creer
+curwidg = gtk_text_view_new();
+
+gtk_container_set_border_width( GTK_CONTAINER( curwidg ), 8 );
+gtk_notebook_append_page( GTK_NOTEBOOK(rtree->nstep), curwidg,
+			  gtk_label_new(" Commentaire ") );
+rtree->tinner = curwidg;
+rtree->binner = gtk_text_view_get_buffer( GTK_TEXT_VIEW(curwidg) );
+
 
 // simple bouton dans la barre de boutons commune
    curwidg = gtk_button_new_with_label (" |< ");
@@ -1335,12 +1345,35 @@ if ( pflags )
 static void step2gui( int istep, rviewstru * rtree )
 {
 char * lbuf; int i, ival;
+// tout visible d'abord
+gtk_widget_show_all( rtree->vstep );
+
+if	( istep == 0 )
+	{
+	gtk_label_set_text( GTK_LABEL(rtree->lstep), "Intitulé de la recette : " );
+	gtk_entry_set_text( GTK_ENTRY( rtree->estep ), rtree->prec->titre.c_str() );
+	// le texte commentaire
+	gtk_text_buffer_set_text( rtree->binner, rtree->prec->inner.c_str(), -1 );
+	// cacher tout le reste
+	gtk_widget_hide( rtree->hdur );
+	gtk_widget_hide( rtree->bpau );	// pause initiale
+	gtk_widget_hide( rtree->smin );	// duree
+	gtk_widget_hide( rtree->ssec );
+	gtk_widget_hide( rtree->sddg );	// delai de grace
+	gtk_widget_hide( rtree->ssui );	// step suivant
+	gtk_widget_hide( rtree->esui );	// son intitule
+	gtk_widget_hide( rtree->xvan );		// vannes
+	gtk_widget_hide( rtree->vmfc );	// GUI edition MFCs
+	gtk_widget_hide( rtree->vtem );	// GUI edition TEMs
+	gtk_widget_hide( rtree->vaux );	// GUI edition AUX
+
+	return;
+	}
+
 etape * pstep = &rtree->prec->step[istep];
 if ( ! pstep->existe )
    return;
 
-// tout visible d'abord
-gtk_widget_show_all( rtree->vstep );
 
 lbuf = g_strdup_printf( "Edition STEP <b>%d</b> : ", istep );
 gtk_label_set_markup( GTK_LABEL(rtree->lstep), lbuf );
@@ -1382,6 +1415,9 @@ if   ( rtree->prec->step[ival].existe )
 else if   ( ival == 0 )
           gtk_entry_set_text( GTK_ENTRY( rtree->esui ), "-- repos --" );
      else gtk_entry_set_text( GTK_ENTRY( rtree->esui ), "???" );
+
+// le texte commentaire
+gtk_text_buffer_set_text( rtree->binner, pstep->inner.c_str(), -1 );
 
 // Les vannes
 ival = pstep->vannes;

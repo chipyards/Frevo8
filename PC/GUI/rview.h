@@ -62,11 +62,12 @@ GtkWidget *         tvan;
 GtkWidget *           bvan[QVAN];
 GtkWidget *     vmfc;	// GUI edition MFCs
 modgui            ymfc[QMFC];		// MFCs
-GtkWidget *     vtem;	// GUI edition MFCs
+GtkWidget *     vtem;	// GUI edition TEMs
 modgui            ytem[QTEM];		// temperatures
-GtkWidget *     vaux;	// GUI edition MFCs
+GtkWidget *     vaux;	// GUI edition AUX
 modgui            yaux;		// auxiliaires
-
+GtkWidget *     tinner;	// texte commentaire
+GtkTextBuffer *	  binner;	// text buffer
 
 GtkTreeStore * tmod;	// modele pour l'arbre
 four * ptube;

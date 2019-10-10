@@ -915,6 +915,8 @@ void recipe::make_xml( FILE * xfil )
 {
 int istep, i, vv, cnt; epod * pepod; modget * pemod;
 fprintf( xfil, "<recette four=\"%d\" titre=\"%s\" >\n", ptube->ifou, titre.c_str() );
+if	( inner.size() )
+	fprintf( xfil, "%s\n", inner.c_str() );
 for	( istep = 1; istep < 256; istep ++ )
 	{
 	if	( step[istep].existe )
@@ -931,6 +933,8 @@ for	( istep = 1; istep < 256; istep ++ )
 		if	( step[istep].stogo >= 0 )
 			fprintf( xfil, "saut=\"%d\" ", step[istep].stogo );
 		fprintf( xfil, ">\n" );
+		if	( step[istep].inner.size() )
+			fprintf( xfil, "%s\n", step[istep].inner.c_str() );
 		vv = step[istep].vannes; cnt = 0;
 		for	( i = 0; i < 16; i++ )
 			{
