@@ -45,6 +45,7 @@ epod mfc[QMFC];	// etat des MFC
 epod tem[QTEM];	// etat des regus de temperature
 epod fre;	// frequencemetre
 string titre;
+string inner;	// texte insere dans l'element
 int secstat;	// status a envoyer a l'automate secu (-1 si absent)
 void init();	// pas de constructeur, utiliser init()
 };
@@ -88,6 +89,7 @@ four * ptube;	// four destinataire ou proprietaire de la recette
 int errlin;	// numero de ligne pour message d'erreur
 etape step[256];
 unsigned char pack[QPACK];
+string inner;	// texte insere dans l'element
 string dump;
 string logname;		// nom de fichier court du log en cours
 // class variables

@@ -1,7 +1,8 @@
 /* visualisation recette en detail */
 
+// type de ligne dans le treeview, interprete par step_data_call() et data_data_call()
 typedef enum {
-STEP, SPAR, VANN, MFC, TEM, AUX
+STEP, SPAR, INNR, VANN, MFC, TEM, AUX
 } lintype;
 
 // structure de gui pour un modget (mfc ou tem)

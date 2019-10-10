@@ -29,6 +29,31 @@ four tube;	// exportable !
 DTD_four      four::dtd;
 DTD_recette recipe::dtd;
 
+// fonction utilitaire
+
+// trimme lignes vides et white space en debut de chaque ligne
+string string_trim( string sin )
+{
+string sout; unsigned int len, i, i0, i1, e;
+len = sin.size(); e = 0;
+for	( i = 0; i < len; ++i )
+	{
+	switch	(e)
+		{
+		case 0:	if	( sin[i] > ' ' )
+				{ e = 1; i0 = i; }
+			break;
+		case 1: if	( ( sin[i] == 10 ) || ( sin[i] == 13 ) )
+				{
+				e = 0; i1 = i;
+				if	( sout.size() )		// un retour a la ligne si ce n'est pas la 1ere fois
+					sout += char(10);
+				sout += sin.substr( i0, i1-i0 );
+				}
+		}
+	}
+return sout;
+}
 
 // methodes du tube 'four' ------------------------------------- //
 void four::load_xml( const char * fourpath )
@@ -610,6 +635,13 @@ while ( ( status = recxml.step() ) != 9 )
 	   }
 	break;
     case 2 :
+	if	( elem->inner.size() )
+		{
+		if	( elem->tag == string("step") )
+			{ step[istep].inner = string_trim(elem->inner.c_str()); }
+		else if	( elem->tag == string("recette") )
+			{ inner = string_trim(elem->inner.c_str()); }
+		}
 	break;
     case -1983 : { errtxt("element non supporte"); return; }
 	break;

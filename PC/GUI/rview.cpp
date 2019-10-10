@@ -119,7 +119,15 @@ rtree->selected = -1; gtk_main_quit();
 
 /** ======================== tree call backs ======================= */
 
-// une callback type data_func
+// N.B. le treeview a 2 colonnes :
+//	Step : numero de step, ou titre de ligne
+//	Data : nom du step, ou parametre d'un podget
+// le model a 3 colonne, sans correspondance stricte avec celles du display
+//	ityp : type de ligne selon enum lintype
+//	istep : numero de step (1 a 255) ou 0 pour INNR de la recette entiere
+//	ipod : numero de podget (s'il y a lieu)
+
+// une callback type data_func pour la premiere colonne du display
 void step_data_call( GtkTreeViewColumn * tree_column,	// sert pas !
                      GtkCellRenderer   * rendy,
                      GtkTreeModel      * tree_model,
@@ -138,6 +146,8 @@ switch (typ)
    case STEP :	if ( istep >= 100 ) cellback="#FFC080"; else cellback="#C0FFC0";
 				    text = g_strdup_printf( "STEP %3d", istep ); break;
    case SPAR :	cellback="#FFFFFF"; text = g_strdup_printf( " " ); break;
+   case INNR :	if ( istep == 0 )   cellback="#FFFFE0"; else cellback="#FFFFFF";
+				    text = g_strdup_printf( " " ); break;
    case VANN :	cellback="#FFFFFF"; text = g_strdup_printf( "Vannes" ); break;
    case MFC :	cellback="#FFFFFF"; text = g_strdup_printf( "MFC %d", ipod ); break;
    case TEM :	cellback="#FFFFFF"; text = g_strdup_printf( "Reg. T. %d", ipod ); break;
@@ -193,6 +203,11 @@ switch (typ)
 		ival = glo->prec->step[istep].secstat;
 		if ( ival >= 0 ) obuf << "  " << spBlO << "arm. automate secu = "
 				     << left << setw(1) << ival << sp0;
+		obuf << "</tt>"; break;
+   case INNR :	cellback="#FFFFE0"; obuf << "<tt>";
+		if	( istep > 0 )
+			obuf << glo->prec->step[istep].inner;
+		else	obuf << glo->prec->inner;
 		obuf << "</tt>"; break;
    case VANN :	obuf << "<tt>";
 		ival = glo->prec->step[istep].vannes;
@@ -300,6 +315,7 @@ g_object_set( rendy, "cell-background", cellback,
 
 /** ========================= constr. et manip database ===================== */
 
+// creation du modele des lignes (3 colonnes)
 GtkTreeStore * makestore( rviewstru * glo )
 {
 GtkTreeStore *mymod;
@@ -312,6 +328,12 @@ etape * pstep; epod * pepod;
 // type d'element (enum lintype) | numero step | numero podget
 mymod = gtk_tree_store_new( 3, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT );
 
+if	( glo->prec->inner.size() )
+	{
+	curiter = &parent_iter;
+	gtk_tree_store_append( mymod, curiter, NULL );
+	gtk_tree_store_set( mymod, curiter, 0, INNR, 1, 0, -1 );
+	}
 // boucle des steps
 for ( istep = 1; istep < 256; istep++ )
     {
@@ -326,6 +348,13 @@ for ( istep = 1; istep < 256; istep++ )
 	curiter = &child_iter;
 	gtk_tree_store_append( mymod, curiter, &parent_iter );
 	gtk_tree_store_set( mymod, curiter, 0, SPAR, 1, istep, -1 );
+	// le texte descriptif (inner)
+	if	( pstep->inner.size() )
+		{
+		curiter = &child_iter;
+		gtk_tree_store_append( mymod, curiter, &parent_iter );
+		gtk_tree_store_set( mymod, curiter, 0, INNR, 1, istep, -1 );
+		}
 	// les vannes
 	curiter = &child_iter;
 	gtk_tree_store_append( mymod, curiter, &parent_iter );
