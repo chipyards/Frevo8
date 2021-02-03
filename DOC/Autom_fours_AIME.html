@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>automatisation des fours AIME</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+h2 { margin-top: 35px; margin-bottom: 22px; color: blue; font-family:"Open Sans","DejaVu Sans",sans-serif;
+     font-weight: 300; font-style: normal; font-size: 200%; }
+h3 { margin-top: 25px; margin-bottom: 20px; color: blue; font-family:"Open Sans","DejaVu Sans",sans-serif;
+     font-weight: 300; font-style: normal; font-size: 120%; }
+li { margin-top: 4px; margin-bottom: 10px; }
+.large { margin: 0 auto; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;
+width: 880px; padding-left: 10px; padding-right: 8px; background-color:white; font-family: "Arial",sans-serif;}
+
+</style>
+</head>
+<body text="#000000" bgcolor="#DDDDDD" link="#000099" vlink="#990099" alink="#000099">
+
+
+<div class="large">
+
+<h2>Résumé technique de l'automatisation des fours AIME</h2>
+rev.1.1 JL Noullet 2021-01<br><br> 
+
+
+Ce document concerne la prestation d'automatisation de fours effectuée par Chipyards SARL entre 2006 et 2010.<br>
+N.B. Chipyards n'est pas intervenu sur les organe fluidiques (tuyauteries, vannes, contrôleurs de débit massique,
+pompes, jauges de pression) qui sont maintenus par le personnel AIME, ni sur les organes de puissance
+pour la chauffe (transformateurs, variateurs à thyristors, résistances, thermocouples).<br>
+
+<h2>Matériel d'automatisation</h2>
+
+<h3>L'équipement de base pour chaque four se compose de :</h3>
+
+<ul><li>Une carte <b>automate de process</b> modèle SBC18 (fabr. Chipyards) qui comporte les éléments interchangeables suivants :
+<ul><li>2 microcontrôleurs PIC18F452 (fabr. Microchip)</li>
+<li>1 module port Ethernet ASIX (fabr. EDTP)</li>
+<li>2 à 5 modules DAC AD5321 (fabr. Analog Devices)</li>
+</ul></li>
+<li>Une <b>alimentation</b> 35W -15/+15 Volts modèle TXL 035-1515D (fabr. Traco)<br>
+Alimente les processeurs de la carte SBC18 et les contrôleurs de débit massique via la carte SBC18</li>
+<li>Une <b>alimentation</b> 35W 24 Volts modèle TXL 035-24 (fabr. Traco)<br>
+Alimente les électrovannes via la carte SBC18, et sur option un convertisseur DC-DC pour le module V/F et l'automate sécurité</li>
+<li>3 <b>régulateurs de température</b> PID pour sonde thermocouple modèle E5AN (Fabr. Omron)<br>
+Ces régulateurs on été modifiés pour une sortie 12V directe (sans relais)</li>
+</ul>
+
+<h3>Equipement complémentaire pour les fours <b>LPCVD</b> et <b>ExTorch (Oxyde Humide)</b> :</h3>
+
+<ul><li>Une carte <b>automate de sécurité</b> modèle SBC24s (fabr. Chipyards), équipée d'un microcontrôleur PIC24FJ64GA002
+(fabr. Microchip)</li>
+<li>Une carte <b>convertisseur V/F</b> modèle VF52a ou équivalent (fabr. Chipyards), cette carte conditionne le signal analogique
+ de la jauge de pression Baratron (four LPCVD) ou du capteur de flamme (four ExTorch)</li>
+<li>Un <b>détecteur de flamme</b> optique (four ExTorch)(fabr. Chipyards)</li>
+</ul>
+Le rôle de l'automate sécurité est de couper la source de <b>gaz à risque</b> (SiH4 ou H2) en cas d'anomalie (montée de pression
+ou perte de flamme).<br>
+L'automate process gère également cette coupure, il s'agit donc d'une <b>sécurité redondante</b>.
+
+<h2>Canaux de communication</h2>
+
+<h3>L'<b>automate de process</b> SBC18 communique avec :</h3>
+
+<ul><li>un <b>PC superviseur</b> via le réseau Ethernet (protocole UDP)</li>
+<li>les 3 <b>régulateurs de température</b> via un bus RS485</li>
+<li>les <b>électrovannes</b> en 24V DC (max. 16 vannes)</li>
+<li>les <b>régulateurs de débit</b> massique (Mass Flow Controllers) en analogique 5V (1 commande et 1 retour) (max 5 régulateurs)</li>
+<li>le <b>capteur optionnel</b> en boucle de courant V/F opto-isolée (jauge Baratron ou capteur de flamme)</li>
+<li>l'<b>automate sécurité</b> optionnel en bus série UART opto-isolé</li>
+<li>un <b>panneau de signalisation</b> à LEDs comportant aussi un avertisseur sonore (buzzer)(sur certains bâtis),
+en parallèle avec les électrovannes</li>
+</ul>
+
+<h3>L'<b>automate de sécurité</b> SBC18 communique avec :</h3>
+<ul><li>le <b>capteur optionnel</b> en boucle de courant V/F opto-isolée (jauge Baratron ou capteur de flamme)</li>
+<li>une <b>électrovanne</b>, via un relais en série avec la sortie de la carte SBC18</li>
+<li>un <b>capteur auxiliaire</b> (flow switch pour le balayage de la pompe à vide)</li>
+<li>l'<b>automate process</b> via un bus série UART opto-isolé</li>
+</ul>
+
+<h2>Programmes et données</h2>
+Tous les programmes ont été développés en <b>langage C et C++</b>, le code source est fourni à l'AIME.<br>
+Le code source, les exécutables pour micro-contrôleurs, des exemples de données et la documentation (y compris ce document) sont sauvegardés sur le dépôt GIT public :<br>
+<a href="https://github.com/chipyards/frevo8">https://github.com/chipyards/frevo8</a>
+ 
+<ul><li>Les programmes pour les <b>microcontrôleurs</b> sont compilés avec l'outil <b>MPLAB</b> fourni par Microchip.</li>
+<li>Les programmes pour le <b>PC superviseur</b> sont compilés avec le compilateur <b>GCC</b> (projet GNU open-source)
+et la bibliothèque <b>GTK2</b> (open-source).</li>
+</ul>
+<b>N.B.</b> Aucun équipement spécifique n'est nécessaire au niveau des PC superviseurs, et les programmes sont compatibles avec les
+systèmes d'exploitation Linux et Windows (la distribution <b>Linux ubuntu 18.04 LTS</b> a été installée dans la salle blanche).<br><br>
+Les fichiers de <b>configuration</b> (1 pour tous les fours) et les <b>recettes de process</b> sont codés en format <b>XML</b>.<br>
+&nbsp;<br>
+</div>
+</body></html>
